@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title>
         
-        my first post · sk600&#39;s Studio
+        java内存区域与内存溢出异常 · sk600&#39;s Studio
         
     </title>
     <link rel="icon" href= /assets/touxian.png>
@@ -93,7 +93,7 @@
                 <a href="/" >sk600&#39;s Studio.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">my first post</a>
+                <a href="#" class="post-name">java内存区域与内存溢出异常</a>
             </div>
     </div>
     
@@ -114,7 +114,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            my first post
+            java内存区域与内存溢出异常
             <!-- 404 -->
             
         </h1>
@@ -132,14 +132,18 @@
             
                 <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 随想>随想</a>
+        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = jvm>jvm</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 《深入理解Java虚拟机》>《深入理解Java虚拟机》</a>
     
 </div>
             
             <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
             <div class="post-intro-meta">
                 <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                <span class="post-intro-time">2018/01/03</span>
+                <span class="post-intro-time">2018/01/04</span>
                 <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                     <span class="iconfont-archer">&#xe604;</span>
                     <span id="busuanzi_value_page_pv"></span>
@@ -222,26 +226,35 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="呃～想不出什么标题"><a href="#呃～想不出什么标题" class="headerlink" title="呃～想不出什么标题"></a>呃～想不出什么标题</h1><blockquote>
-<p>markdown好久没有使用了，今天就当熟悉语法好了。</p>
-</blockquote>
-<h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="原来的博客在新浪博客"><a href="#原来的博客在新浪博客" class="headerlink" title="原来的博客在新浪博客"></a>原来的博客在新浪博客</h3><p><code>Hello World</code></p>
-<blockquote>
-<p>这是用github page的第一次，呃，以后博客就迁到这里了。</p>
-</blockquote>
-<p><img src="/images/屏幕.png" alt="截图"></p>
-
+        <h1 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h1><h2 id="程序计数器-Program-Counter-Register"><a href="#程序计数器-Program-Counter-Register" class="headerlink" title="程序计数器(Program Counter Register)"></a>程序计数器(Program Counter Register)</h2><p>可以当作是当前线程所执行的字节码的行号指示器，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令（分支、跳转、循环、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成）。<br>java虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的，在任何一个确定的时刻，一个处理器（多核处理器来说是指一个内核）都只会执行一个线程中的指令。因此每个线程都需要一个程序计数器来保证线程切换后能够恢复到指定的位置，每个线程的独立用用各自的程序计数器（“线程私有”的内存）。<br>对于java方法，计数器记录的是正在执行的虚拟机字节码指令地址；如果是<a href="http://blog.csdn.net/wike163/article/details/6635321" target="_blank" rel="noopener">native方法</a>，计数器的值为空。<strong>此内存区域是唯一一个在Java虚拟机规范中没有规定任何OutOfMemoryError情况的区域。</strong></p>
+<h2 id="Java虚拟机栈-Java-Virtual-Machine-Stacks"><a href="#Java虚拟机栈-Java-Virtual-Machine-Stacks" class="headerlink" title="Java虚拟机栈(Java Virtual Machine Stacks)"></a>Java虚拟机栈(Java Virtual Machine Stacks)</h2><p>Java虚拟机栈也是线程私有的，它的生命周期与线程的生命周期相同。描述的是方法的内存模型：每一个方法在执行的同时都有一个栈帧（Stack Frame），它存有局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用到执行完毕都是一个栈帧入虚拟机栈到出栈的过程。<br>人们习惯上将虚拟机内存划分为堆内存和栈内存，其中的栈内存指的就是Java虚拟机栈，或者更具体一点，指的就是局部变量表。局部变量表存储有8种基本数据类型以及对象引用（reference类型并不是对象，而是对象的内存地址其实位置、句柄或者相关地址），也包含returnAddress类型（指向具体一跳字节码指令的地址）。局部变量表的空间是在编译时就完成分配，当进入一个方法时，这个栈帧中需要分配多少内存空间给局部变量表是完全确定的，并且在整个方法执行期间是不能改变的。<br>在Java虚拟机规范中规定了两种异常状况：</p>
+<ul>
+<li>线程所请求的栈的深度超过Java虚拟机栈的深度，会抛出StackOverflowError异常。</li>
+<li>当Java虚拟机栈可以动态扩展时，如果可请求内存不能满足线程所申请的大小，那么会抛出OutOfMemoryError异常。</li>
+</ul>
+<h2 id="本地方法栈（Native-Method-Stacks）"><a href="#本地方法栈（Native-Method-Stacks）" class="headerlink" title="本地方法栈（Native Method Stacks）"></a>本地方法栈（Native Method Stacks）</h2><p>本地方法栈与Java虚拟机栈基本类似，只不过后者是为了Java方法服务，后者是为了Native方法服务的，所抛出异常类型和情况与后者相似。</p>
+<h2 id="Java堆（Java-Heap）"><a href="#Java堆（Java-Heap）" class="headerlink" title="Java堆（Java Heap）"></a>Java堆（Java Heap）</h2><p>Java堆就是用来存放对象实例的，是Java虚拟机管理的内存中最大的一块，是所有线程共享的内存区域，也同样是Java垃圾收集器主要管理的部分。在虚拟机启动时创建，原本所有的对象分配都是在堆中完成，但是随着一些技术的发展，这样的说法也并不是很绝对了。<br>Java堆只要保持逻辑上连续即可，物理上可以分开，并且也可以支持扩展的，但是当堆不能完成对象实例的分配，并且也无法进行扩展时就会抛出OutOfMemoryErro异常。</p>
+<h2 id="方法区（Method-Area）"><a href="#方法区（Method-Area）" class="headerlink" title="方法区（Method Area）"></a>方法区（Method Area）</h2><p>方法区也是所有线程共享的内存区域，用于存储已被虚拟机家在的类信息、常量、静态变量、即使编译器编译后的代码等。虽然Java虚拟机规范把方法区描述为堆的一个逻辑部分，但是他有一个别名叫做“非堆”（Non-Heap）。<br>与Java堆类似，同样不需要连续的物理内存，只需要逻辑连续即可，并且也可以进行扩展，同时可以选择不进行垃圾收集。在方法区无法满足内存分配要求时，抛出OutOfMemoryError异常。</p>
+<h2 id="运行时常量池（Runtime-Constant-Pool）"><a href="#运行时常量池（Runtime-Constant-Pool）" class="headerlink" title="运行时常量池（Runtime Constant Pool）"></a>运行时常量池（Runtime Constant Pool）</h2><p>运行时常量池时方法区的一部分。Class文件除了有类的版本、字段、方法、接口等描述外，还有一个很重要的常量池（Constant Pool Table），里面存放了编译期间生成的各种<a href="http://blog.csdn.net/u010850285/article/details/44152157" target="_blank" rel="noopener">字面量</a>和<a href="http://blog.csdn.net/u014656992/article/details/51107127" target="_blank" rel="noopener">符号引用</a>（一些符号引用翻译后的直接引用也会被放到运行时常量池中），这部分内容将在类加载后进入方法区的运行时常量池中。<br><strong><em> 运行时常量池相对于Class文件常量池特殊的一点是具备动态性，前者不止可以存放在编译时得到的常量，运行期间产生的新常量（<a href="http://www.importnew.com/21836.html" target="_blank" rel="noopener">String的intern（）</a>） </em></strong><br>运行时常量池无法再申请到内存时也会抛出OutOfMemory异常。</p>
+<h2 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h2><h1 id="hotspot-虚拟机对象探秘"><a href="#hotspot-虚拟机对象探秘" class="headerlink" title="hotspot 虚拟机对象探秘"></a>hotspot 虚拟机对象探秘</h1><h2 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h2><h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2><h2 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h2><h1 id="OutOfMemoryError异常"><a href="#OutOfMemoryError异常" class="headerlink" title="OutOfMemoryError异常"></a>OutOfMemoryError异常</h1><h2 id="Java堆溢出"><a href="#Java堆溢出" class="headerlink" title="Java堆溢出"></a>Java堆溢出</h2><h2 id="虚拟机栈和本地方法栈溢出"><a href="#虚拟机栈和本地方法栈溢出" class="headerlink" title="虚拟机栈和本地方法栈溢出"></a>虚拟机栈和本地方法栈溢出</h2><h2 id="方法区和运行时常量池溢出"><a href="#方法区和运行时常量池溢出" class="headerlink" title="方法区和运行时常量池溢出"></a>方法区和运行时常量池溢出</h2><h2 id="本机直接内存溢出"><a href="#本机直接内存溢出" class="headerlink" title="本机直接内存溢出"></a>本机直接内存溢出</h2>
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
         
             <li class="next">
-                <a href= "/2018/01/03/java-基础（1）/" title= java 基础（1） >
+                <a href= "/2018/01/04/String-intern-方法/" title= String intern()方法 >
                     <span>Next Post</span>
-                    <span>java 基础（1）</span>
+                    <span>String intern()方法</span>
                 </a>
             </li>
         
+        
+            <li class="previous">
+                <a href= "/2018/01/03/贝贝网实习面试（1）/" title= 贝贝网实习面试（1） >
+                    <span>Previous Post</span>
+                    <span>贝贝网实习面试（1）</span>
+                </a>
+            </li>
         
     </ul>
     <!-- 评论插件 -->
@@ -309,7 +322,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#呃～想不出什么标题"><span class="toc-number">1.</span> <span class="toc-text">呃～想不出什么标题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#二级标题"><span class="toc-number">1.1.</span> <span class="toc-text">二级标题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原来的博客在新浪博客"><span class="toc-number">1.1.1.</span> <span class="toc-text">原来的博客在新浪博客</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#运行时数据区域"><span class="toc-number">1.</span> <span class="toc-text">运行时数据区域</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#程序计数器-Program-Counter-Register"><span class="toc-number">1.1.</span> <span class="toc-text">程序计数器(Program Counter Register)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java虚拟机栈-Java-Virtual-Machine-Stacks"><span class="toc-number">1.2.</span> <span class="toc-text">Java虚拟机栈(Java Virtual Machine Stacks)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地方法栈（Native-Method-Stacks）"><span class="toc-number">1.3.</span> <span class="toc-text">本地方法栈（Native Method Stacks）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java堆（Java-Heap）"><span class="toc-number">1.4.</span> <span class="toc-text">Java堆（Java Heap）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法区（Method-Area）"><span class="toc-number">1.5.</span> <span class="toc-text">方法区（Method Area）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行时常量池（Runtime-Constant-Pool）"><span class="toc-number">1.6.</span> <span class="toc-text">运行时常量池（Runtime Constant Pool）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#直接内存"><span class="toc-number">1.7.</span> <span class="toc-text">直接内存</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hotspot-虚拟机对象探秘"><span class="toc-number">2.</span> <span class="toc-text">hotspot 虚拟机对象探秘</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#对象的创建"><span class="toc-number">2.1.</span> <span class="toc-text">对象的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象的内存布局"><span class="toc-number">2.2.</span> <span class="toc-text">对象的内存布局</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象的访问定位"><span class="toc-number">2.3.</span> <span class="toc-text">对象的访问定位</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OutOfMemoryError异常"><span class="toc-number">3.</span> <span class="toc-text">OutOfMemoryError异常</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java堆溢出"><span class="toc-number">3.1.</span> <span class="toc-text">Java堆溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟机栈和本地方法栈溢出"><span class="toc-number">3.2.</span> <span class="toc-text">虚拟机栈和本地方法栈溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法区和运行时常量池溢出"><span class="toc-number">3.3.</span> <span class="toc-text">方法区和运行时常量池溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本机直接内存溢出"><span class="toc-number">3.4.</span> <span class="toc-text">本机直接内存溢出</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>

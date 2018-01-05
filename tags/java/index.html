@@ -179,6 +179,71 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/01/04/String-intern-方法/" >
+                
+                    <span>String intern()方法</span>
+            </a>
+            <a class="content-show-full" href = "/2018/01/04/String-intern-方法/" >
+                <div class="abstract-content">
+                    参考文章
+
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = String>String</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = tip>tip</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/04</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/01/04/java内存区域与内存溢出异常/" >
+                
+                    <span>java内存区域与内存溢出异常</span>
+            </a>
+            <a class="content-show-full" href = "/2018/01/04/java内存区域与内存溢出异常/" >
+                <div class="abstract-content">
+                    运行时数据区域程序计数器(Program Counter Register)可以当作是当前线程所执行的字节码的行号指示器，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令（分支、跳转、循环、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成）。java虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的，在任何一个确定的时刻，一个处理器（多核处理器来说是指一个内核）都只会执行一个线程中的指令。因此每个线程都需要一个程序计数器来保证线程切换后能够恢复到指定的位置，每个线程的独立用用各自的程序计数器（“线程私有”的内存）。对于java方法，计数器...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = jvm>jvm</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 《深入理解Java虚拟机》>《深入理解Java虚拟机》</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/04</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/01/03/java-基础（1）/" >
                 
                     <span>java 基础（1）</span>
@@ -190,9 +255,15 @@
 整型——4种
 浮点型——2种
 字符类型——1种
-真值——1种整数浮点数charunicode with charboolean变量变量初始化常量运算符数学函数与常量数值类型之间的转换强制类型转换结合赋值和运算符自增与自减运算符关系和boolean运算符位运算符符号与运算符级别枚举类型字符串
-
-
+真值——1种整数4种整数
+int 4字节 -20亿～20亿
+short 2字节 
+byte 1字节 -128～127
+long 8字节 使用L做后缀（尽量不要使用l，因为与1很难区分）注意：java没有任何无符号的整型进制表示
+16进制使用0x或0X做前缀。eg：0xCAFE。
+8进制使用0做前缀（8进制容易混淆，尽量不要使用8进制常数）。eg：010——8。
+2进制使用0b或0B做前缀（java 7开始）。eg：0b1001——9。
+java7开始，可以为数字字面量加下划线（这些...
                 </div>
             </a>
             <div class="abstract-post-meta">
@@ -303,7 +374,23 @@
     
     
     
-    <div class="total-archive"> Total : 3 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 5 </div>
     
     <div class="post-archive">
     
@@ -312,6 +399,16 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/04</span><a class="archive-post-title" href= "/2018/01/04/String-intern-方法/" >String intern()方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/04</span><a class="archive-post-title" href= "/2018/01/04/java内存区域与内存溢出异常/" >java内存区域与内存溢出异常</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -333,7 +430,15 @@
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name"><a href= "#">String</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">java</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">tip</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">基础</a></span>
     
