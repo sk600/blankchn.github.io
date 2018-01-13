@@ -234,9 +234,25 @@
 </ul>
 <h2 id="本地方法栈（Native-Method-Stacks）"><a href="#本地方法栈（Native-Method-Stacks）" class="headerlink" title="本地方法栈（Native Method Stacks）"></a>本地方法栈（Native Method Stacks）</h2><p>本地方法栈与Java虚拟机栈基本类似，只不过后者是为了Java方法服务，后者是为了Native方法服务的，所抛出异常类型和情况与后者相似。</p>
 <h2 id="Java堆（Java-Heap）"><a href="#Java堆（Java-Heap）" class="headerlink" title="Java堆（Java Heap）"></a>Java堆（Java Heap）</h2><p>Java堆就是用来存放对象实例的，是Java虚拟机管理的内存中最大的一块，是所有线程共享的内存区域，也同样是Java垃圾收集器主要管理的部分。在虚拟机启动时创建，原本所有的对象分配都是在堆中完成，但是随着一些技术的发展，这样的说法也并不是很绝对了。<br>Java堆只要保持逻辑上连续即可，物理上可以分开，并且也可以支持扩展的，但是当堆不能完成对象实例的分配，并且也无法进行扩展时就会抛出OutOfMemoryErro异常。</p>
-<h2 id="方法区（Method-Area）"><a href="#方法区（Method-Area）" class="headerlink" title="方法区（Method Area）"></a>方法区（Method Area）</h2><p>方法区也是所有线程共享的内存区域，用于存储已被虚拟机家在的类信息、常量、静态变量、即使编译器编译后的代码等。虽然Java虚拟机规范把方法区描述为堆的一个逻辑部分，但是他有一个别名叫做“非堆”（Non-Heap）。<br>与Java堆类似，同样不需要连续的物理内存，只需要逻辑连续即可，并且也可以进行扩展，同时可以选择不进行垃圾收集。在方法区无法满足内存分配要求时，抛出OutOfMemoryError异常。</p>
+<h2 id="方法区（Method-Area）"><a href="#方法区（Method-Area）" class="headerlink" title="方法区（Method Area）"></a>方法区（Method Area）</h2><p>方法区也是所有线程共享的内存区域，用于存储已被虚拟机加载的类信息、常量、静态变量、及时编译器编译后的代码等。虽然Java虚拟机规范把方法区描述为堆的一个逻辑部分，但是他有一个别名叫做“非堆”（Non-Heap）。<br>与Java堆类似，同样不需要连续的物理内存，只需要逻辑连续即可，并且也可以进行扩展，同时可以选择不进行垃圾收集。在方法区无法满足内存分配要求时，抛出OutOfMemoryError异常。</p>
 <h2 id="运行时常量池（Runtime-Constant-Pool）"><a href="#运行时常量池（Runtime-Constant-Pool）" class="headerlink" title="运行时常量池（Runtime Constant Pool）"></a>运行时常量池（Runtime Constant Pool）</h2><p>运行时常量池时方法区的一部分。Class文件除了有类的版本、字段、方法、接口等描述外，还有一个很重要的常量池（Constant Pool Table），里面存放了编译期间生成的各种<a href="http://blog.csdn.net/u010850285/article/details/44152157" target="_blank" rel="noopener">字面量</a>和<a href="http://blog.csdn.net/u014656992/article/details/51107127" target="_blank" rel="noopener">符号引用</a>（一些符号引用翻译后的直接引用也会被放到运行时常量池中），这部分内容将在类加载后进入方法区的运行时常量池中。<br><strong><em> 运行时常量池相对于Class文件常量池特殊的一点是具备动态性，前者不止可以存放在编译时得到的常量，运行期间产生的新常量（<a href="http://www.importnew.com/21836.html" target="_blank" rel="noopener">String的intern（）</a>） </em></strong><br>运行时常量池无法再申请到内存时也会抛出OutOfMemory异常。</p>
-<h2 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h2><h1 id="hotspot-虚拟机对象探秘"><a href="#hotspot-虚拟机对象探秘" class="headerlink" title="hotspot 虚拟机对象探秘"></a>hotspot 虚拟机对象探秘</h1><h2 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h2><h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2><h2 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h2><h1 id="OutOfMemoryError异常"><a href="#OutOfMemoryError异常" class="headerlink" title="OutOfMemoryError异常"></a>OutOfMemoryError异常</h1><h2 id="Java堆溢出"><a href="#Java堆溢出" class="headerlink" title="Java堆溢出"></a>Java堆溢出</h2><h2 id="虚拟机栈和本地方法栈溢出"><a href="#虚拟机栈和本地方法栈溢出" class="headerlink" title="虚拟机栈和本地方法栈溢出"></a>虚拟机栈和本地方法栈溢出</h2><h2 id="方法区和运行时常量池溢出"><a href="#方法区和运行时常量池溢出" class="headerlink" title="方法区和运行时常量池溢出"></a>方法区和运行时常量池溢出</h2><h2 id="本机直接内存溢出"><a href="#本机直接内存溢出" class="headerlink" title="本机直接内存溢出"></a>本机直接内存溢出</h2>
+<h2 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h2><p>直接内存并不是运行时数据区的一部分，也不是java虚拟机规范中的一部分，但是却常常用到。随着NIO的出现，引入了管道（channel）和缓冲区（Buffer）的I／O方式，可以使用Native函数库直接分配堆外内存，然后通过Java堆中的DirectByteBuffer对象引用这块内存进行操作。<br>经常会出现在配置-Xmx参数信息时，忽略直接内存，导致各个内存区域的内存总和大于实际内存总和，导致动态扩展时出现OutOfMemoryError异常。</p>
+<h1 id="hotspot-虚拟机对象探秘"><a href="#hotspot-虚拟机对象探秘" class="headerlink" title="hotspot 虚拟机对象探秘"></a>hotspot 虚拟机对象探秘</h1><h2 id="对象的创建（普通对象）"><a href="#对象的创建（普通对象）" class="headerlink" title="对象的创建（普通对象）"></a>对象的创建（普通对象）</h2><ul>
+<li><p>类加载检查</p>
+<p>  当遇到一个new指令时，Java虚拟机首先检查在常量池中是否能够定位到这个类的符号引用，并检查这个类的符号引用是否已被加载、解析和初始化。如果没有，那么需要进行类加载。</p>
+</li>
+<li><p>分配内存</p>
+<p>  <strong>对象所需要的内存空间是在类加载后就已经确定的</strong><br>  堆的内存分配分为两种方式，一种是在java堆内存规整的时候，使用“指针碰撞”（Bump the Pointer），即在维护一个指针，指针指向未分配和已分配的边界，当新分配内存后，指针向后移动；另一种方式在java堆内存不规整的时候，使用“空闲列表”（Free List）的方式，就是通过维护一个列表来记录哪些内存是空闲可用的。<br>  但是不管采用哪种分配方式，都需要考虑<strong>并发</strong>的情况。有两种方案处理此种问题，一种是对分配内存空间进行同步处理；另一种是把内存分配的动作按照线程划分在不同的空间之中进行，即每一个线程预先分配一小块内存，称为本地线程分配缓冲（Thread Local Allocation Buffer，TLAB），只有在TLAB用完后，再分配新的TLAB的时候才进行同步锁定。（是否使用TLAB，可以使用<strong>-XX:+/-UseTLAB</strong>）<br>  内存分配完后，虚拟机需要将分配到的内存空间都初始化为零值（不包括对象头）这样是对象在即使没有被赋值也能被使用（使用TLAB可以把这个过程提前到TLAB分配时进行）。</p>
+</li>
+<li><p>对对象进行设置</p>
+<p>  内存分配后就是对对象进行设置，例如这个对象是哪个类的对象、如何才能找到类的元数据信息、对象的哈希码、对象的GC分代年龄等信息。这些信息存放在对象头中。</p>
+</li>
+<li><p>后续处理</p>
+<p>  从虚拟机的角度看，执行到上一步的过程后，对象的初始化工作已经完成，但从JAVA程序的视角看，对象的创建才刚刚开始，<init>方法还没有执行，所有的字段还为零，所以还需要<init>方法，使得对象按照程序猿的医院进行初始化，这样一个对象才完全产生出来。</init></init></p>
+<h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2><p>对象分为三个部分，对象头（Header）、实例数据（Instance Data）、对齐补充（Padding）。<br>对象头分为两部分，一部分是用来存储运行时数据的，另一部分是类型指针（通过这个指针确定该对象指向哪个类）。<strong>如果对象是一个数组，那么还需要增加数组长度（原本虚拟机可以通过对象的元数据知道对象的大小，但是数组不行）</strong><br>实例数据就是存储对象的字段的数据，无论是自身的，还是父类的，都会存储下来。<br>对齐数据就是用来进行对齐占位的，因为有的虚拟机会要求对象的起始地址是8的整数倍之类的，所以需要对没有标齐位置的空间进行占位。</p>
+<h2 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h2><h1 id="OutOfMemoryError异常"><a href="#OutOfMemoryError异常" class="headerlink" title="OutOfMemoryError异常"></a>OutOfMemoryError异常</h1><h2 id="Java堆溢出"><a href="#Java堆溢出" class="headerlink" title="Java堆溢出"></a>Java堆溢出</h2><h2 id="虚拟机栈和本地方法栈溢出"><a href="#虚拟机栈和本地方法栈溢出" class="headerlink" title="虚拟机栈和本地方法栈溢出"></a>虚拟机栈和本地方法栈溢出</h2><h2 id="方法区和运行时常量池溢出"><a href="#方法区和运行时常量池溢出" class="headerlink" title="方法区和运行时常量池溢出"></a>方法区和运行时常量池溢出</h2><h2 id="本机直接内存溢出"><a href="#本机直接内存溢出" class="headerlink" title="本机直接内存溢出"></a>本机直接内存溢出</h2></li>
+</ul>
+
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
@@ -322,7 +338,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#运行时数据区域"><span class="toc-number">1.</span> <span class="toc-text">运行时数据区域</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#程序计数器-Program-Counter-Register"><span class="toc-number">1.1.</span> <span class="toc-text">程序计数器(Program Counter Register)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java虚拟机栈-Java-Virtual-Machine-Stacks"><span class="toc-number">1.2.</span> <span class="toc-text">Java虚拟机栈(Java Virtual Machine Stacks)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地方法栈（Native-Method-Stacks）"><span class="toc-number">1.3.</span> <span class="toc-text">本地方法栈（Native Method Stacks）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java堆（Java-Heap）"><span class="toc-number">1.4.</span> <span class="toc-text">Java堆（Java Heap）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法区（Method-Area）"><span class="toc-number">1.5.</span> <span class="toc-text">方法区（Method Area）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行时常量池（Runtime-Constant-Pool）"><span class="toc-number">1.6.</span> <span class="toc-text">运行时常量池（Runtime Constant Pool）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#直接内存"><span class="toc-number">1.7.</span> <span class="toc-text">直接内存</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hotspot-虚拟机对象探秘"><span class="toc-number">2.</span> <span class="toc-text">hotspot 虚拟机对象探秘</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#对象的创建"><span class="toc-number">2.1.</span> <span class="toc-text">对象的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象的内存布局"><span class="toc-number">2.2.</span> <span class="toc-text">对象的内存布局</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象的访问定位"><span class="toc-number">2.3.</span> <span class="toc-text">对象的访问定位</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OutOfMemoryError异常"><span class="toc-number">3.</span> <span class="toc-text">OutOfMemoryError异常</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java堆溢出"><span class="toc-number">3.1.</span> <span class="toc-text">Java堆溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟机栈和本地方法栈溢出"><span class="toc-number">3.2.</span> <span class="toc-text">虚拟机栈和本地方法栈溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法区和运行时常量池溢出"><span class="toc-number">3.3.</span> <span class="toc-text">方法区和运行时常量池溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本机直接内存溢出"><span class="toc-number">3.4.</span> <span class="toc-text">本机直接内存溢出</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#运行时数据区域"><span class="toc-number">1.</span> <span class="toc-text">运行时数据区域</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#程序计数器-Program-Counter-Register"><span class="toc-number">1.1.</span> <span class="toc-text">程序计数器(Program Counter Register)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java虚拟机栈-Java-Virtual-Machine-Stacks"><span class="toc-number">1.2.</span> <span class="toc-text">Java虚拟机栈(Java Virtual Machine Stacks)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地方法栈（Native-Method-Stacks）"><span class="toc-number">1.3.</span> <span class="toc-text">本地方法栈（Native Method Stacks）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java堆（Java-Heap）"><span class="toc-number">1.4.</span> <span class="toc-text">Java堆（Java Heap）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法区（Method-Area）"><span class="toc-number">1.5.</span> <span class="toc-text">方法区（Method Area）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行时常量池（Runtime-Constant-Pool）"><span class="toc-number">1.6.</span> <span class="toc-text">运行时常量池（Runtime Constant Pool）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#直接内存"><span class="toc-number">1.7.</span> <span class="toc-text">直接内存</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hotspot-虚拟机对象探秘"><span class="toc-number">2.</span> <span class="toc-text">hotspot 虚拟机对象探秘</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#对象的创建（普通对象）"><span class="toc-number">2.1.</span> <span class="toc-text">对象的创建（普通对象）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象的内存布局"><span class="toc-number">2.2.</span> <span class="toc-text">对象的内存布局</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象的访问定位"><span class="toc-number">2.3.</span> <span class="toc-text">对象的访问定位</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OutOfMemoryError异常"><span class="toc-number">3.</span> <span class="toc-text">OutOfMemoryError异常</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java堆溢出"><span class="toc-number">3.1.</span> <span class="toc-text">Java堆溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟机栈和本地方法栈溢出"><span class="toc-number">3.2.</span> <span class="toc-text">虚拟机栈和本地方法栈溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法区和运行时常量池溢出"><span class="toc-number">3.3.</span> <span class="toc-text">方法区和运行时常量池溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本机直接内存溢出"><span class="toc-number">3.4.</span> <span class="toc-text">本机直接内存溢出</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
@@ -336,6 +352,8 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
     
     
     
@@ -425,13 +443,13 @@
     
         <span class="sidebar-tag-name"><a href= "#">tip</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">基础</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">随想</a></span>
     
