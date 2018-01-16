@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title>
         
-        sk600&#39;s Studio
+        重走android（1）活动启动模式 · sk600&#39;s Studio
         
     </title>
     <link rel="icon" href= /assets/touxian.png>
@@ -79,6 +79,8 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
@@ -86,27 +88,75 @@
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
     
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >sk600&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">重走android（1）活动启动模式</a>
+            </div>
+    </div>
+    
     <a class="home-link" href=/>sk600's Studio.</a>
 </header>
     <div class="wrapper">
         <div class="site-intro">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(http://oumn0o088.bkt.clouddn.com/post-bg.jpg)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
+            重走android（1）活动启动模式
+            <!-- 404 -->
+            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
+    
+</div>
+            
+            <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/01/16</span>
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe604;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">
+                        &#xe601;
+                    </span>
+                    <span class="bdsharebuttonbox">
+                        <a href="#" class="bds_more shareText" data-cmd="more">Share</a>
+                    </span>
+                </span>
+            </div>
         
     </div>
 </div>
@@ -174,55 +224,47 @@
             }
         </script>
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/03/java-基础（1）/" >
-                
-                    <span>java 基础（1）</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/03/java-基础（1）/" >
-                <div class="abstract-content">
-                    数据类型总结java是强类型语言，基本数据类型一共有8种
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="activity的启动模式"><a href="#activity的启动模式" class="headerlink" title="activity的启动模式"></a>activity的启动模式</h1><p>activity启动模式分为4种，分别是standard,singleTop,singleTask,singleInstance.<br>众所周知，android的activity是存在于返回栈中，前三种对应的是同一个返回栈，而另一个是在另外的返回栈中。</p>
+<h2 id="standard启动模式"><a href="#standard启动模式" class="headerlink" title="standard启动模式"></a>standard启动模式</h2><p>standard启动模式是默认的启动模式，就是不管你启动几次，都会创建几次活动，并将创建的活动置于栈顶，这样，可能同一个活动多次被创建。</p>
+<h2 id="singleTop启动模式"><a href="#singleTop启动模式" class="headerlink" title="singleTop启动模式"></a>singleTop启动模式</h2><p>singleTop启动模式是指如果被启动的活动位于栈顶的话直接调用栈顶的活动，如果不在栈顶，那么直接启动新的活动。</p>
+<h2 id="singleTask启动模式"><a href="#singleTask启动模式" class="headerlink" title="singleTask启动模式"></a>singleTask启动模式</h2><p>singleTask启动模式是为了让一个活动在一个栈中只存在一个，首先启动活动时，系统会检查栈中有没有活动，如果没有活动的话，那么直接创建一个，如果已经有了，那么直接将所有该activity之前的活动出栈，然后该活动位于栈顶，直接调用即可。（我观察的顺序是先调用的activity调用restart（），然后出栈的activity调用destroy（））。</p>
+<h2 id="singleInstance启动模式"><a href="#singleInstance启动模式" class="headerlink" title="singleInstance启动模式"></a>singleInstance启动模式</h2><p>这种启动模式是最复杂的，考虑这样的应用场景，如果其他的应用想要使用你的activity，那么如果这个activity与其他activity位于同一栈中，那么会可能与自身的应用的栈产生冲突（比如我原本在栈中从下到上是a、b、c，可是你的调用让d位于c之上，这样与我所期望的产生冲突），那么就把它放在另外的返回栈中，这样它就不会影响其他活动的返回调用了。如果两个栈，一个里面从下到上为a、b，使用了singleInstance的c活动位于另一个栈中（启动的顺序是a-&gt;c-&gt;b)，那么如果此时在b活动中，按返回键，先退回到a，然后退回到c，然后退出应用，这也好理解，就是ab位于一个栈，这个栈中清了，那么就该清另外的栈了。</p>
 
-整型——4种
-浮点型——2种
-字符类型——1种
-真值——1种整数4种整数
-int 4字节 -20亿～20亿
-short 2字节 
-byte 1字节 -128～127
-long 8字节 使用L做后缀（尽量不要使用l，因为与1很难区分）注意：java没有任何无符号的整型进制表示
-16进制使用0x或0X做前缀。eg：0xCAFE。
-8进制使用0做前缀（8进制容易混淆，尽量不要使用8进制常数）。eg：010——8。
-2进制使用0b或0B做前缀（java 7开始）。eg：0b1001——9。
-java7开始，可以为数字字面量加下划线（这些...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+            <li class="next">
+                <a href= "/2018/01/16/重走android（0）前言/" title= 重走android（0）前言 >
+                    <span>Next Post</span>
+                    <span>重走android（0）前言</span>
+                </a>
+            </li>
+        
+        
+            <li class="previous">
+                <a href= "/2018/01/04/String-intern-方法/" title= String intern()方法 >
+                    <span>Previous Post</span>
+                    <span>String intern()方法</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
-        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 基础>基础</a>
+    <!--PC版-->
+
+    <!--PC版-->
+
+
     
-        <a class="post-tag" href="javascript:void(0);" data-href = java核心技术卷1（10版）>java核心技术卷1（10版）</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/03</span>
-                </div>
-            </div>
-        </article>
-    
-    <!-- paginator  -->
-    
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -270,6 +312,13 @@ java7开始，可以为数字字面量加下划线（这些...
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#activity的启动模式"><span class="toc-number">1.</span> <span class="toc-text">activity的启动模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#standard启动模式"><span class="toc-number">1.1.</span> <span class="toc-text">standard启动模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#singleTop启动模式"><span class="toc-number">1.2.</span> <span class="toc-text">singleTop启动模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#singleTask启动模式"><span class="toc-number">1.3.</span> <span class="toc-text">singleTask启动模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#singleInstance启动模式"><span class="toc-number">1.4.</span> <span class="toc-text">singleInstance启动模式</span></a></li></ol></li></ol>
+    </div>
     
     <div class="back-top">&#xe639;</div>
     <div class="sidebar">

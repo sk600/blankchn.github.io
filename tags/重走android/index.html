@@ -179,26 +179,21 @@
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/03/java-基础（1）/" >
+            <a class="abstract-title" href = "/2018/01/16/重走android（0）前言/" >
                 
-                    <span>java 基础（1）</span>
+                    <span>重走android（0）前言</span>
             </a>
-            <a class="content-show-full" href = "/2018/01/03/java-基础（1）/" >
+            <a class="content-show-full" href = "/2018/01/16/重走android（0）前言/" >
                 <div class="abstract-content">
-                    数据类型总结java是强类型语言，基本数据类型一共有8种
-
-整型——4种
-浮点型——2种
-字符类型——1种
-真值——1种整数4种整数
-int 4字节 -20亿～20亿
-short 2字节 
-byte 1字节 -128～127
-long 8字节 使用L做后缀（尽量不要使用l，因为与1很难区分）注意：java没有任何无符号的整型进制表示
-16进制使用0x或0X做前缀。eg：0xCAFE。
-8进制使用0做前缀（8进制容易混淆，尽量不要使用8进制常数）。eg：010——8。
-2进制使用0b或0B做前缀（java 7开始）。eg：0b1001——9。
-java7开始，可以为数字字面量加下划线（这些...
+                    重走android路隔了好久了，虽然项目做的很多，但是android基础感觉有些松了。。。现在非常有必要重新走一遍android的所有基础，我会跟着第一行代码并且加上我自己规划的路线，整理一下android的基础知识，包括：
+* android四大组件
+* 基本android布局、控件以及自定义View
+* android动画（**这里面着重点在属性动画，包括会解析一些炫酷的动画以及我自己封装的一些动画**）
+* Fragment
+* android内部广播机制
+* android数据存储（**主要是SQLite和SharedPreferences**）
+* 内容提供器
+* 常用开源框架...
                 </div>
             </a>
             <div class="abstract-post-meta">
@@ -208,15 +203,52 @@ java7开始，可以为数字字面量加下划线（这些...
     
         <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 基础>基础</a>
+        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-href = java核心技术卷1（10版）>java核心技术卷1（10版）</a>
+        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 感想>感想</a>
     
 </div>
                 
                 <!-- date  -->
                 <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/03</span>
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/16</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/01/16/重走android（1）活动启动模式/" >
+                
+                    <span>重走android（1）活动启动模式</span>
+            </a>
+            <a class="content-show-full" href = "/2018/01/16/重走android（1）活动启动模式/" >
+                <div class="abstract-content">
+                    activity的启动模式activity启动模式分为4种，分别是standard,singleTop,singleTask,singleInstance.众所周知，android的activity是存在于返回栈中，前三种对应的是同一个返回栈，而另一个是在另外的返回栈中。
+standard启动模式standard启动模式是默认的启动模式，就是不管你启动几次，都会创建几次活动，并将创建的活动置于栈顶，这样，可能同一个活动多次被创建。
+singleTop启动模式singleTop启动模式是指如果被启动的活动位于栈顶的话直接调用栈顶的活动，如果不在栈顶，那么直接启动新的活动。
+singleTa...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/16</span>
                 </div>
             </div>
         </article>
