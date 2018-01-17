@@ -179,6 +179,39 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/01/17/重走android（5）广播实践/" >
+                
+                    <span>重走android（5）广播实践</span>
+            </a>
+            <a class="content-show-full" href = "/2018/01/17/重走android（5）广播实践/" >
+                <div class="abstract-content">
+                    广播实践动态注册动态注册，就是自定义一个BroadcastReceiver，在onReceive方法中写出自己的逻辑，然后在需要注册的地方声明一个IntentFilter，添加相应的action，然后使用registerReceiver方法，填入receiver和intentfilter即可完成注册。注意在不用receiver时候要取消注册。
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455package com.blank.www.b...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/17</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/01/17/重走android（3）广播/" >
                 
                     <span>重走android（3）广播</span>
@@ -195,8 +228,10 @@ app可能同时存在有多个进程，比如定位进程、主进程等等，�
 
 广播种类
 Normal Broadcast: Context.sendBroadcast.
-System Broadcast: Context.sendOrderedBroadcast.
-Local Broadcast: 只在app内传播...
+
+标准广播，这种广播是完全异步的，所有接受者几乎都是在同一时间接受到广播的，因此也是没有顺序的，所以广播是无法截断的
+
+Ordered Broad...
                 </div>
             </a>
             <div class="abstract-post-meta">
@@ -649,7 +684,69 @@ java7开始，可以为数字字面量加下划线（这些...
     
     
     
-    <div class="total-archive"> Total : 12 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 14 </div>
     
     <div class="post-archive">
     
@@ -658,6 +755,16 @@ java7开始，可以为数字字面量加下划线（这些...
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
+        </li>
     
     
         <li class="archive-post-item">

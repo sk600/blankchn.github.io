@@ -236,7 +236,13 @@
 </ul>
 <h2 id="广播种类"><a href="#广播种类" class="headerlink" title="广播种类"></a>广播种类</h2><ul>
 <li>Normal Broadcast: Context.sendBroadcast.</li>
-<li>System Broadcast: Context.sendOrderedBroadcast.</li>
+</ul>
+<p>标准广播，这种广播是<strong>完全异步</strong>的，所有接受者几乎都是在同一时间接受到广播的，因此也是没有顺序的，所以广播是<strong>无法截断</strong>的</p>
+<ul>
+<li>Ordered Broadcast: Context.sendOrderedBroadcast.</li>
+</ul>
+<p>有序广播，这种广播时有顺序的，同一时间<strong>只有一个</strong>广播接受者接受到广播，并且只有当前接受者的逻辑之行完毕后才能向后传递，既然有先后顺序，所以这种广播是有优先级的，优先级高的接受者先接受广播，并且可以截断广播阻止先后传播。</p>
+<ul>
 <li>Local Broadcast: 只在app内传播。</li>
 </ul>
 <h2 id="Broadcast-Receiver"><a href="#Broadcast-Receiver" class="headerlink" title="Broadcast Receiver"></a>Broadcast Receiver</h2><h3 id="静态注册"><a href="#静态注册" class="headerlink" title="静态注册"></a>静态注册</h3><p>静态注册，即在manifest文件中进行注册，注册后，这个receiver一直运行，即使activity死掉、甚至进程死掉后，还是能够接收到广播，即使这样，静态注册不够灵活。</p>
@@ -467,7 +473,69 @@
     
     
     
-    <div class="total-archive"> Total : 12 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 14 </div>
     
     <div class="post-archive">
     
@@ -476,6 +544,16 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
+        </li>
     
     
         <li class="archive-post-item">
