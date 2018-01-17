@@ -248,7 +248,7 @@
 <li>AMS根据广播查找符合相应条件（IntentFilter／Permission等）的BroadcastReceiver，并将广播发送到对应的消息循环队列中。</li>
 <li>消息循环执行拿到此广播，回调BroadcastReceiver的onReceive（）方法。</li>
 </ol>
-<h2 id="LocalBroadcast"><a href="#LocalBroadcast" class="headerlink" title="LocalBroadcast"></a>LocalBroadcast</h2><p>本地广播就是一种只在app内部传播消息的广播，比起全局广播，其传递消息的效率更高，安全性更好（不用担心内部数据泄漏等等），使用这种广播也无法接受到其他app对你发送的<strong>该</strong>广播，所以不会因为广播引起安全漏洞的问题。<br>LocalBroadcastManager之所以能够实现高效和app内部通信，主要是因为其消息传递使用了Handler，其发送消息主要是通过Handler的sendMessage，这样就不同于Binder机制，Handler效率比Binder快，而且</p>
+<h2 id="LocalBroadcastManager"><a href="#LocalBroadcastManager" class="headerlink" title="LocalBroadcastManager"></a>LocalBroadcastManager</h2><p>本地广播就是一种只在app内部传播消息的广播，比起全局广播，其传递消息的效率更高，安全性更好（不用担心内部数据泄漏等等），使用这种广播也无法接受到其他app对你发送的<strong>该</strong>广播，所以不会因为广播引起安全漏洞的问题。<br>LocalBroadcastManager之所以能够实现高效和app内部通信，主要是因为其消息传递使用了Handler，其发送消息主要是通过Handler的sendMessage，这样就不同于Binder机制，Handler效率比Binder快，而且只能用于app内部。<br>其主要靠两个HashMap（mReceivers和mActions）和一个ArrayList（mPendingBroadcasts）。这些在<a href="https://sk600.github.io/2018/01/17/%E9%87%8D%E8%B5%B0android%EF%BC%884%EF%BC%89LocalBroadcastManager%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" target="_blank" rel="noopener">源码解析</a>在这里。</p>
 
     </article>
     <!-- 前后页  -->
@@ -335,7 +335,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#广播"><span class="toc-number">1.</span> <span class="toc-text">广播</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#应用场景"><span class="toc-number">1.1.</span> <span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#广播种类"><span class="toc-number">1.2.</span> <span class="toc-text">广播种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broadcast-Receiver"><span class="toc-number">1.3.</span> <span class="toc-text">Broadcast Receiver</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#静态注册"><span class="toc-number">1.3.1.</span> <span class="toc-text">静态注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态注册"><span class="toc-number">1.3.2.</span> <span class="toc-text">动态注册</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#广播内部实现机制"><span class="toc-number">1.4.</span> <span class="toc-text">广播内部实现机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LocalBroadcast"><span class="toc-number">1.5.</span> <span class="toc-text">LocalBroadcast</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#广播"><span class="toc-number">1.</span> <span class="toc-text">广播</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#应用场景"><span class="toc-number">1.1.</span> <span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#广播种类"><span class="toc-number">1.2.</span> <span class="toc-text">广播种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broadcast-Receiver"><span class="toc-number">1.3.</span> <span class="toc-text">Broadcast Receiver</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#静态注册"><span class="toc-number">1.3.1.</span> <span class="toc-text">静态注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态注册"><span class="toc-number">1.3.2.</span> <span class="toc-text">动态注册</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#广播内部实现机制"><span class="toc-number">1.4.</span> <span class="toc-text">广播内部实现机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LocalBroadcastManager"><span class="toc-number">1.5.</span> <span class="toc-text">LocalBroadcastManager</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
@@ -349,8 +349,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
     
     
     
