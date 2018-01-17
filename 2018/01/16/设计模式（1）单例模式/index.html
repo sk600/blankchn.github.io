@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title>
         
-        java 基础（1） · sk600&#39;s Studio
+        设计模式（1）单例模式 · sk600&#39;s Studio
         
     </title>
     <link rel="icon" href= /assets/touxian.png>
@@ -93,7 +93,7 @@
                 <a href="/" >sk600&#39;s Studio.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">java 基础（1）</a>
+                <a href="#" class="post-name">设计模式（1）单例模式</a>
             </div>
     </div>
     
@@ -114,7 +114,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            java 基础（1）
+            设计模式（1）单例模式
             <!-- 404 -->
             
         </h1>
@@ -134,16 +134,14 @@
     
         <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 基础>基础</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = java核心技术卷1（10版）>java核心技术卷1（10版）</a>
+        <a class="post-tag" href="javascript:void(0);" data-href = 设计模式>设计模式</a>
     
 </div>
             
             <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
             <div class="post-intro-meta">
                 <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                <span class="post-intro-time">2018/01/03</span>
+                <span class="post-intro-time">2018/01/16</span>
                 <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                     <span class="iconfont-archer">&#xe604;</span>
                     <span id="busuanzi_value_page_pv"></span>
@@ -226,40 +224,22 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="数据类型总结"><a href="#数据类型总结" class="headerlink" title="数据类型总结"></a>数据类型总结</h1><p>java是强类型语言，基本数据类型一共有8种</p>
-<ul>
-<li>整型——4种</li>
-<li>浮点型——2种</li>
-<li>字符类型——1种</li>
-<li>真值——1种<h2 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h2><h3 id="4种整数"><a href="#4种整数" class="headerlink" title="4种整数"></a>4种整数</h3></li>
-<li>int 4字节 -20亿～20亿</li>
-<li>short 2字节 </li>
-<li>byte 1字节 -128～127</li>
-<li>long 8字节 使用L做后缀（尽量不要使用l，因为与1很难区分）<br><code>注意：java没有任何无符号的整型</code><h3 id="进制表示"><a href="#进制表示" class="headerlink" title="进制表示"></a>进制表示</h3></li>
-<li>16进制使用0x或0X做前缀。eg：0xCAFE。</li>
-<li>8进制使用0做前缀（8进制容易混淆，尽量不要使用8进制常数）。eg：010——8。</li>
-<li>2进制使用0b或0B做前缀（java 7开始）。eg：0b1001——9。</li>
-<li>java7开始，可以为数字字面量加下划线（这些下划线只是为了让人易读，编译器会自动去除这些下划线）。eg：1_00_000。<h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><h3 id="2种浮点数"><a href="#2种浮点数" class="headerlink" title="2种浮点数"></a>2种浮点数</h3></li>
-<li>float 4字节 后缀必须加F或f。</li>
-<li>double 8字节 后缀可以加D或d，也可以不加。<br><code>16进制可以表示浮点数，0.125=2^(-3)可以表示成0x1.0p-3，p表示指数而不是e。尾数采用16进制，指数采用10进制。指数的技术是2，而不是10</code><h2 id="char"><a href="#char" class="headerlink" title="char"></a>char</h2><h2 id="unicode-with-char"><a href="#unicode-with-char" class="headerlink" title="unicode with char"></a>unicode with char</h2><h2 id="boolean"><a href="#boolean" class="headerlink" title="boolean"></a>boolean</h2><h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><h2 id="变量初始化"><a href="#变量初始化" class="headerlink" title="变量初始化"></a>变量初始化</h2><h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><h1 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h1><h2 id="数学函数与常量"><a href="#数学函数与常量" class="headerlink" title="数学函数与常量"></a>数学函数与常量</h2><h2 id="数值类型之间的转换"><a href="#数值类型之间的转换" class="headerlink" title="数值类型之间的转换"></a>数值类型之间的转换</h2><h2 id="强制类型转换"><a href="#强制类型转换" class="headerlink" title="强制类型转换"></a>强制类型转换</h2><h2 id="结合赋值和运算符"><a href="#结合赋值和运算符" class="headerlink" title="结合赋值和运算符"></a>结合赋值和运算符</h2><h2 id="自增与自减运算符"><a href="#自增与自减运算符" class="headerlink" title="自增与自减运算符"></a>自增与自减运算符</h2><h2 id="关系和boolean运算符"><a href="#关系和boolean运算符" class="headerlink" title="关系和boolean运算符"></a>关系和boolean运算符</h2><h2 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h2><h2 id="符号与运算符级别"><a href="#符号与运算符级别" class="headerlink" title="符号与运算符级别"></a>符号与运算符级别</h2><h2 id="枚举类型"><a href="#枚举类型" class="headerlink" title="枚举类型"></a>枚举类型</h2><h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1></li>
-</ul>
+        <h1 id="设计模式之单例模式"><a href="#设计模式之单例模式" class="headerlink" title="设计模式之单例模式"></a>设计模式之单例模式</h1><p>在开发中有很多情况下需要使对象只保持一个，比如说一些配置文件、工具类、线程池等等，这些东西如果有多个可能导致结果不一致、资源浪费等等，所以就有了单例模式。</p>
+<p>单例模式总的特点就是构造方法私有，有一个私有静态实例，只能通过公共静态方法获得实例，但是根据实例的初始化时间分为饿汉模式和懒汉模式。</p>
+<h2 id="饿汉模式"><a href="#饿汉模式" class="headerlink" title="饿汉模式"></a>饿汉模式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class HungrySingleton &#123;</span><br><span class="line"></span><br><span class="line">	private static HungrySingleton instance = new HungrySingleton();</span><br><span class="line"></span><br><span class="line">	private HungrySingleton()&#123;&#125;</span><br><span class="line"></span><br><span class="line">	public static HungrySingleton getInstance()&#123;</span><br><span class="line">		return instance;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>饿汉模式就是指实例是在类加载时进行初始化，虚拟机在类加载时会将类的常量加载到方法区中，这样在加载的时候就会讲instance实例化，因为这样相比懒汉模式要急，所以叫饿汉模式。</p>
+<h2 id="懒汉模式"><a href="#懒汉模式" class="headerlink" title="懒汉模式"></a>懒汉模式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class LazySingleton &#123;</span><br><span class="line"></span><br><span class="line">	private static LazySingleton instance = null;</span><br><span class="line"></span><br><span class="line">	private LazySingleton() &#123;&#125;</span><br><span class="line"></span><br><span class="line">	public static LazySingleton getInstance()&#123;</span><br><span class="line">		if(instance == null)&#123;</span><br><span class="line">			instance = new LazySingleton();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		return instance;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>懒汉模式就是实例化实在第一次调用的时候，因为这样调用时比饿汉模式慢，所以叫懒汉模式。</p>
 
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
         
-            <li class="next">
-                <a href= "/2018/01/03/贝贝网实习面试（1）/" title= 贝贝网实习面试（1） >
-                    <span>Next Post</span>
-                    <span>贝贝网实习面试（1）</span>
-                </a>
-            </li>
-        
         
             <li class="previous">
-                <a href= "/2018/01/03/my-first-post/" title= my first post >
+                <a href= "/2018/01/16/启动activity随想/" title= 启动activity随想 >
                     <span>Previous Post</span>
-                    <span>my first post</span>
+                    <span>启动activity随想</span>
                 </a>
             </li>
         
@@ -329,7 +309,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据类型总结"><span class="toc-number">1.</span> <span class="toc-text">数据类型总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#整数"><span class="toc-number">1.1.</span> <span class="toc-text">整数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4种整数"><span class="toc-number">1.1.1.</span> <span class="toc-text">4种整数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进制表示"><span class="toc-number">1.1.2.</span> <span class="toc-text">进制表示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浮点数"><span class="toc-number">1.2.</span> <span class="toc-text">浮点数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2种浮点数"><span class="toc-number">1.2.1.</span> <span class="toc-text">2种浮点数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#char"><span class="toc-number">1.3.</span> <span class="toc-text">char</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#unicode-with-char"><span class="toc-number">1.4.</span> <span class="toc-text">unicode with char</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#boolean"><span class="toc-number">1.5.</span> <span class="toc-text">boolean</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#变量"><span class="toc-number">2.</span> <span class="toc-text">变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#变量初始化"><span class="toc-number">2.1.</span> <span class="toc-text">变量初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常量"><span class="toc-number">2.2.</span> <span class="toc-text">常量</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#运算符"><span class="toc-number">3.</span> <span class="toc-text">运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数学函数与常量"><span class="toc-number">3.1.</span> <span class="toc-text">数学函数与常量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数值类型之间的转换"><span class="toc-number">3.2.</span> <span class="toc-text">数值类型之间的转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#强制类型转换"><span class="toc-number">3.3.</span> <span class="toc-text">强制类型转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结合赋值和运算符"><span class="toc-number">3.4.</span> <span class="toc-text">结合赋值和运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自增与自减运算符"><span class="toc-number">3.5.</span> <span class="toc-text">自增与自减运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关系和boolean运算符"><span class="toc-number">3.6.</span> <span class="toc-text">关系和boolean运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#位运算符"><span class="toc-number">3.7.</span> <span class="toc-text">位运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#符号与运算符级别"><span class="toc-number">3.8.</span> <span class="toc-text">符号与运算符级别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#枚举类型"><span class="toc-number">3.9.</span> <span class="toc-text">枚举类型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#字符串"><span class="toc-number">4.</span> <span class="toc-text">字符串</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#设计模式之单例模式"><span class="toc-number">1.</span> <span class="toc-text">设计模式之单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#饿汉模式"><span class="toc-number">1.1.</span> <span class="toc-text">饿汉模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#懒汉模式"><span class="toc-number">1.2.</span> <span class="toc-text">懒汉模式</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
