@@ -179,6 +179,42 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/01/22/重走android（8）IntentService/" >
+                
+                    <span>重走android（8）IntentService</span>
+            </a>
+            <a class="content-show-full" href = "/2018/01/22/重走android（8）IntentService/" >
+                <div class="abstract-content">
+                    IntentService浅析IntentService其实就是Service，披上了HandlerThread外衣的Service。在之前的博客上我也写到，service是不能执行耗时操作的，原因就是service是在主线程的，执行耗时任务会严重影响UI绘制，严重的话可能导致ANR，当时也说过一个解决办法就是开一个子线程就好了，那么Android就为我们提供了一个解决方案，IntentService，它结合HandlerThread，将我们需要后台执行的任务防盗HandlerThread执行就好了，下面看一下我写的Demo：
+MyIntentService
+12345678910111...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 源码>源码</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/22</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/01/22/重走android（7）HandlerThread/" >
                 
                     <span>重走android（7）HandlerThread</span>
@@ -464,48 +500,6 @@ Ordered Broad...
             </div>
         </article>
     
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/16/重走android（0）前言/" >
-                
-                    <span>重走android（0）前言</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/16/重走android（0）前言/" >
-                <div class="abstract-content">
-                    重走android路隔了好久了，虽然项目做的很多，但是android基础感觉有些松了。。。现在非常有必要重新走一遍android的所有基础，我会跟着第一行代码并且加上我自己规划的路线，整理一下android的基础知识，包括：
-* android四大组件
-* 基本android布局、控件以及自定义View
-* android动画（**这里面着重点在属性动画，包括会解析一些炫酷的动画以及我自己封装的一些动画**）
-* Fragment
-* android内部广播机制
-* android数据存储（**主要是SQLite和SharedPreferences**）
-* 内容提供器
-* 常用开源框架...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 感想>感想</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/16</span>
-                </div>
-            </div>
-        </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
@@ -762,24 +756,7 @@ Ordered Broad...
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <div class="total-archive"> Total : 16 </div>
+    <div class="total-archive"> Total : 17 </div>
     
     <div class="post-archive">
     
@@ -788,6 +765,11 @@ Ordered Broad...
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2018/01/22/重走android（8）IntentService/" >重走android（8）IntentService</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -884,13 +866,17 @@ Ordered Broad...
     
         <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">随想</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">activity</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">面试</a></span>
     
@@ -899,10 +885,6 @@ Ordered Broad...
         <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">感想</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">源码</a></span>
     

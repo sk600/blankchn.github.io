@@ -179,6 +179,42 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/01/22/重走android（8）IntentService/" >
+                
+                    <span>重走android（8）IntentService</span>
+            </a>
+            <a class="content-show-full" href = "/2018/01/22/重走android（8）IntentService/" >
+                <div class="abstract-content">
+                    IntentService浅析IntentService其实就是Service，披上了HandlerThread外衣的Service。在之前的博客上我也写到，service是不能执行耗时操作的，原因就是service是在主线程的，执行耗时任务会严重影响UI绘制，严重的话可能导致ANR，当时也说过一个解决办法就是开一个子线程就好了，那么Android就为我们提供了一个解决方案，IntentService，它结合HandlerThread，将我们需要后台执行的任务防盗HandlerThread执行就好了，下面看一下我写的Demo：
+MyIntentService
+12345678910111...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 源码>源码</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/22</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/01/22/重走android（7）HandlerThread/" >
                 
                     <span>重走android（7）HandlerThread</span>
@@ -497,38 +533,6 @@ singleTa...
             </div>
         </article>
     
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/04/java内存区域与内存溢出异常/" >
-                
-                    <span>java内存区域与内存溢出异常</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/04/java内存区域与内存溢出异常/" >
-                <div class="abstract-content">
-                    运行时数据区域程序计数器(Program Counter Register)可以当作是当前线程所执行的字节码的行号指示器，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令（分支、跳转、循环、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成）。java虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的，在任何一个确定的时刻，一个处理器（多核处理器来说是指一个内核）都只会执行一个线程中的指令。因此每个线程都需要一个程序计数器来保证线程切换后能够恢复到指定的位置，每个线程的独立用用各自的程序计数器（“线程私有”的内存）。对于java方法，计数器...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = jvm>jvm</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 《深入理解Java虚拟机》>《深入理解Java虚拟机》</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/04</span>
-                </div>
-            </div>
-        </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
@@ -785,24 +789,7 @@ singleTa...
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <div class="total-archive"> Total : 16 </div>
+    <div class="total-archive"> Total : 17 </div>
     
     <div class="post-archive">
     
@@ -811,6 +798,11 @@ singleTa...
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2018/01/22/重走android（8）IntentService/" >重走android（8）IntentService</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -907,13 +899,17 @@ singleTa...
     
         <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">随想</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">activity</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">面试</a></span>
     
@@ -922,10 +918,6 @@ singleTa...
         <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">感想</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">源码</a></span>
     
