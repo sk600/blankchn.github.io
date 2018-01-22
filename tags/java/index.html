@@ -179,6 +179,41 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/01/22/重走android（7）HandlerThread/" >
+                
+                    <span>重走android（7）HandlerThread</span>
+            </a>
+            <a class="content-show-full" href = "/2018/01/22/重走android（7）HandlerThread/" >
+                <div class="abstract-content">
+                    HandlerThread解析（源码）浅析HandlerThread其实是android针对于子线程接受其他线程消息基于Handler机制封装的一套框架，主要原理就是在HandlerThread里面有一个自身的Handler，然后依靠这个handler从其他线程发送消息，然后HandlerThread的Looper接受消息然后取出，再交给Handler处理就好了，其实就是把主线程的Handler那一套拿到子线程而已，下面看看我们举的例子：
+123456789101112131415161718192021222324252627282930313233343536373839404142...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 源码>源码</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/22</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/01/20/重走android（6）Handler-MessageQueue-Looper/" >
                 
                     <span>重走android（6）Handler,MessageQueue,Looper</span>
@@ -494,52 +529,11 @@ singleTa...
             </div>
         </article>
     
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/03/java-基础（1）/" >
-                
-                    <span>java 基础（1）</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/03/java-基础（1）/" >
-                <div class="abstract-content">
-                    数据类型总结java是强类型语言，基本数据类型一共有8种
-
-整型——4种
-浮点型——2种
-字符类型——1种
-真值——1种整数4种整数
-int 4字节 -20亿～20亿
-short 2字节 
-byte 1字节 -128～127
-long 8字节 使用L做后缀（尽量不要使用l，因为与1很难区分）注意：java没有任何无符号的整型进制表示
-16进制使用0x或0X做前缀。eg：0xCAFE。
-8进制使用0做前缀（8进制容易混淆，尽量不要使用8进制常数）。eg：010——8。
-2进制使用0b或0B做前缀（java 7开始）。eg：0b1001——9。
-java7开始，可以为数字字面量加下划线（这些...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 基础>基础</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = java核心技术卷1（10版）>java核心技术卷1（10版）</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/03</span>
-                </div>
-            </div>
-        </article>
-    
     <!-- paginator  -->
+    
+    <nav class="page-nav">
+        <span class="page-number current">1</span><a class="page-number" href="/tags/java/page/2/">2</a><a class="extend next" rel="next" href="/tags/java/page/2/">#NEXT</a>
+    </nav>
     
 </main>
             <!-- profile -->
@@ -789,7 +783,26 @@ java7开始，可以为数字字面量加下划线（这些...
     
     
     
-    <div class="total-archive"> Total : 15 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 16 </div>
     
     <div class="post-archive">
     
@@ -801,12 +814,12 @@ java7开始，可以为数字字面量加下划线（这些...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/20</span><a class="archive-post-title" href= "/2018/01/20/重走android（6）Handler-MessageQueue-Looper/" >重走android（6）Handler,MessageQueue,Looper</a>
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2018/01/22/重走android（7）HandlerThread/" >重走android（7）HandlerThread</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+            <span class="archive-post-date">01/20</span><a class="archive-post-title" href= "/2018/01/20/重走android（6）Handler-MessageQueue-Looper/" >重走android（6）Handler,MessageQueue,Looper</a>
         </li>
     
     
@@ -821,6 +834,11 @@ java7开始，可以为数字字面量加下划线（这些...
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（3）广播/" >重走android（3）广播</a>
         </li>
     
@@ -831,12 +849,12 @@ java7开始，可以为数字字面量加下划线（这些...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
         </li>
     
     
@@ -891,11 +909,11 @@ java7开始，可以为数字字面量加下划线（这些...
     
         <span class="sidebar-tag-name"><a href= "#">随想</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">activity</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">面试</a></span>
     
