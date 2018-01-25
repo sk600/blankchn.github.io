@@ -179,21 +179,16 @@
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/16/重走android（0）前言/" >
+            <a class="abstract-title" href = "/2018/01/16/重走android（1）活动启动模式/" >
                 
-                    <span>重走android（0）前言</span>
+                    <span>重走android（1）活动启动模式</span>
             </a>
-            <a class="content-show-full" href = "/2018/01/16/重走android（0）前言/" >
+            <a class="content-show-full" href = "/2018/01/16/重走android（1）活动启动模式/" >
                 <div class="abstract-content">
-                    重走android路隔了好久了，虽然项目做的很多，但是android基础感觉有些松了。。。现在非常有必要重新走一遍android的所有基础，我会跟着第一行代码并且加上我自己规划的路线，整理一下android的基础知识，包括：
-* android四大组件
-* 基本android布局、控件以及自定义View
-* android动画（**这里面着重点在属性动画，包括会解析一些炫酷的动画以及我自己封装的一些动画**）
-* Fragment
-* android内部广播机制
-* android数据存储（**主要是SQLite和SharedPreferences**）
-* 内容提供器
-* 常用开源框架...
+                    activity的启动模式activity启动模式分为4种，分别是standard,singleTop,singleTask,singleInstance.众所周知，android的activity是存在于返回栈中，前三种对应的是同一个返回栈，而另一个是在另外的返回栈中。
+standard启动模式standard启动模式是默认的启动模式，就是不管你启动几次，都会创建几次活动，并将创建的活动置于栈顶，这样，可能同一个活动多次被创建。
+singleTop启动模式singleTop启动模式是指如果被启动的活动位于栈顶的话直接调用栈顶的活动，如果不在栈顶，那么直接启动新的活动。
+singleTa...
                 </div>
             </a>
             <div class="abstract-post-meta">
@@ -207,8 +202,6 @@
     
         <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 感想>感想</a>
-    
 </div>
                 
                 <!-- date  -->
@@ -218,7 +211,45 @@
             </div>
         </article>
     
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/01/03/贝贝网实习面试（1）/" >
+                
+                    <span>贝贝网实习面试（1）</span>
+            </a>
+            <a class="content-show-full" href = "/2018/01/03/贝贝网实习面试（1）/" >
+                <div class="abstract-content">
+                    贝贝网android面试一面（电面）由于找的是实习生，所以这次的面试不是很难，但是收获很大。
+第一问：项目经验由于大学中做过很多项目，所以简历中项目经验较足，面试官问我所有项目中自己最为熟悉的项目，面试官并没有详细询问运用的技术点，而是主要问我在其中所起到的作用，如何协调，技术方面带过了一句“客户端怎么又没有存储token之类的？”
+第二问：设计模式面试官问了刚刚项目中所运用的设计模式，又问了单例模式和适配器模式，单例模式我理解还是不深（以往都是自己在摸索，没有正式公司级项目经验，所以理解的有些歪了）。适配器模式用android中listview和recycleview用到的适配器举例，...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 面试>面试</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 工作>工作</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/03</span>
+                </div>
+            </div>
+        </article>
+    
     <!-- paginator  -->
+    
+    <nav class="page-nav">
+        <a class="extend prev" rel="prev" href="/tags/android/">#PREV</a><a class="page-number" href="/tags/android/">1</a><span class="page-number current">2</span>
+    </nav>
     
 </main>
             <!-- profile -->

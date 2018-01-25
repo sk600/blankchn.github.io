@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title>
         
-        sk600&#39;s Studio
+        重走android（9）View绘制流程 · sk600&#39;s Studio
         
     </title>
     <link rel="icon" href= /assets/touxian.png>
@@ -79,6 +79,8 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
@@ -86,27 +88,77 @@
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
     
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >sk600&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">重走android（9）View绘制流程</a>
+            </div>
+    </div>
+    
     <a class="home-link" href=/>sk600's Studio.</a>
 </header>
     <div class="wrapper">
         <div class="site-intro">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(http://oumn0o088.bkt.clouddn.com/post-bg.jpg)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
+            重走android（9）View绘制流程
+            <!-- 404 -->
+            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 源码>源码</a>
+    
+</div>
+            
+            <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/01/23</span>
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe604;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">
+                        &#xe601;
+                    </span>
+                    <span class="bdsharebuttonbox">
+                        <a href="#" class="bds_more shareText" data-cmd="more">Share</a>
+                    </span>
+                </span>
+            </div>
         
     </div>
 </div>
@@ -174,52 +226,43 @@
             }
         </script>
         <div class="container container-unloaded">
-            <main class="main index-page">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="View绘制流程"><a href="#View绘制流程" class="headerlink" title="View绘制流程"></a>View绘制流程</h1><p>android的View绘制流程分为三个步骤，measure、layout、draw，measure是用来测量大小，layout是用来处理位置，draw是用来绘制，下面我们从源码的角度上仔细看看。</p>
+<h2 id="measure"><a href="#measure" class="headerlink" title="measure"></a>measure</h2>
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+            <li class="next">
+                <a href= "/2018/01/25/重走android（10）ListView-RecycleBin机制/" title= 重走android（10）ListView RecycleBin机制 >
+                    <span>Next Post</span>
+                    <span>重走android（10）ListView RecycleBin机制</span>
+                </a>
+            </li>
+        
+        
+            <li class="previous">
+                <a href= "/2018/01/22/设计模式（2）工厂模式/" title= 设计模式（2）工厂模式 >
+                    <span>Previous Post</span>
+                    <span>设计模式（2）工厂模式</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
     
+    <!--PC版-->
+
+    <!--PC版-->
+
+
     
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/16/重走android（0）前言/" >
-                
-                    <span>重走android（0）前言</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/16/重走android（0）前言/" >
-                <div class="abstract-content">
-                    重走android路隔了好久了，虽然项目做的很多，但是android基础感觉有些松了。。。现在非常有必要重新走一遍android的所有基础，我会跟着第一行代码并且加上我自己规划的路线，整理一下android的基础知识，包括：
-* android四大组件
-* 基本android布局、控件以及自定义View
-* android动画（**这里面着重点在属性动画，包括会解析一些炫酷的动画以及我自己封装的一些动画**）
-* Fragment
-* android内部广播机制
-* android数据存储（**主要是SQLite和SharedPreferences**）
-* 内容提供器
-* 常用开源框架...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 感想>感想</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/16</span>
-                </div>
-            </div>
-        </article>
-    
-    <!-- paginator  -->
-    
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -267,6 +310,13 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#View绘制流程"><span class="toc-number">1.</span> <span class="toc-text">View绘制流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#measure"><span class="toc-number">1.1.</span> <span class="toc-text">measure</span></a></li></ol></li></ol>
+    </div>
     
     <div class="back-top">&#xe639;</div>
     <div class="sidebar">

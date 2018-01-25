@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>
+        
+        重走android（10）ListView RecycleBin机制 · sk600&#39;s Studio
+        
+    </title>
+    <link rel="icon" href= /assets/touxian.png>
+    <!-- TODO: 在font-face加载完毕后改变字体  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js"></script>
+    <!-- 提前加载place holder  -->
+    <style type="text/css">
+        @font-face {
+            font-family: 'Oswald-Regular';
+            src: url(/font/Oswald-Regular.ttf);
+        }
+    </style>
+    <style type="text/css">
+        .site-intro {
+            position: relative;
+            width: 100%;
+            height: 50vh;
+            overflow: hidden;
+            box-shadow: -0.1rem 0 0.5rem 0 rgba(0, 0, 0, 0.5);
+        }
+        .site-intro-placeholder {
+            position: absolute;
+            z-index: -2;
+            top: 0;
+            left: 0px;
+            width: calc(100% + 300px);
+            height: 100%;
+            background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+            background-position: center center;
+            transform: translate3d(-226px, 0, 0);
+            animation: gradient-move 2.5s ease-out 0s 1;
+        }
+        @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+    <link rel="stylesheet" href = /css/style.css?v=20171227 />
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?true";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+    <!-- 谷歌统计  -->
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'true', 'auto');
+        ga('send', 'pageview');
+    </script>
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >sk600&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">重走android（10）ListView RecycleBin机制</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>sk600's Studio.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(http://oumn0o088.bkt.clouddn.com/post-bg.jpg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            重走android（10）ListView RecycleBin机制
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 源码>源码</a>
+    
+</div>
+            
+            <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/01/25</span>
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe604;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">
+                        &#xe601;
+                    </span>
+                    <span class="bdsharebuttonbox">
+                        <a href="#" class="bds_more shareText" data-cmd="more">Share</a>
+                    </span>
+                </span>
+            </div>
+        
+    </div>
+</div>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <script>
+            var browser = {
+                    versions: function () {
+                        var u = window.navigator.userAgent;
+                        return {
+                            userAgent: u,
+                            trident: u.indexOf('Trident') > -1, //IE内核
+                            presto: u.indexOf('Presto') > -1, //opera内核
+                            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                            mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+                            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                            iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+                            iPad: u.indexOf('iPad') > -1, //是否为iPad
+                            webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+                            weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+                            uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+                        };
+                    }()
+                }
+
+            function fontLoaded(){
+                console.log('font loaded');
+                if (document.getElementsByClassName('site-intro-meta')) {
+                    document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+                    document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+                    var postIntroTags = document.getElementsByClassName('post-intro-tags')[0],
+                        postIntroMeat = document.getElementsByClassName('post-intro-meta')[0];
+                        if (postIntroTags) {
+                            postIntroTags.classList.add('post-fade-in');
+                        }
+                        if (postIntroMeat) {
+                            postIntroMeat.classList.add('post-fade-in');
+                        }
+                    }
+                }
+                
+            console.log("userAgent:" + browser.versions.userAgent);
+            // UC不支持跨域，所以直接显示
+            if (browser.versions.uc) {
+                console.log("UCBrowser");
+                fontLoaded();
+            } else {
+                WebFont.load({
+                    custom: {
+                        families: ['Oswald-Regular']
+                    },
+                    loading: function () {  //所有字体开始加载
+                        // console.log('loading');
+                    },
+                    active: function () {  //所有字体已渲染
+                        fontLoaded();
+                    },
+                    inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+                        console.log('inactive: timeout');
+                        fontLoaded();
+                    },
+                    timeout: 7000 // Set the timeout to two seconds
+                });
+            }
+        </script>
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="ListView的RecycleBin机制"><a href="#ListView的RecycleBin机制" class="headerlink" title="ListView的RecycleBin机制"></a>ListView的RecycleBin机制</h1><p>listview在recycleview出来之前，运用的非常广泛，是一个现实list数据的非常有用的view。listview为了避免因为渲染过多的子视图导致oom，采用了recycleBin机制，下面就从源码的角度研究一下recyclebin机制。</p>
+<h2 id="ListView的使用"><a href="#ListView的使用" class="headerlink" title="ListView的使用"></a>ListView的使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">package com.blank.www.bookrelearn;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.support.v7.app.AppCompatActivity;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.view.LayoutInflater;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.view.ViewGroup;</span><br><span class="line">import android.widget.BaseAdapter;</span><br><span class="line">import android.widget.ListView;</span><br><span class="line">import android.widget.TextView;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line"></span><br><span class="line">public class ListViewActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">	private ArrayList&lt;HashMap&lt;String, Integer&gt;&gt; dataList = new ArrayList&lt;&gt;();</span><br><span class="line">	private ListView listView;</span><br><span class="line">	private MyAdapter myAdapter;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">		super.onCreate(savedInstanceState);</span><br><span class="line">		listView = new ListView(this);</span><br><span class="line">		setContentView(listView);</span><br><span class="line"></span><br><span class="line">		initData();</span><br><span class="line">		initView();</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	private void initView() &#123;</span><br><span class="line">		myAdapter = new MyAdapter(this);</span><br><span class="line">		listView.setAdapter(myAdapter);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	private void initData() &#123;</span><br><span class="line">		for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">			HashMap map = new HashMap();</span><br><span class="line">			map.put(&quot;param1&quot;, i);</span><br><span class="line">			map.put(&quot;param2&quot;, i + 1);</span><br><span class="line">			dataList.add(map);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	class MyAdapter extends BaseAdapter &#123;</span><br><span class="line"></span><br><span class="line">		private Context context;</span><br><span class="line"></span><br><span class="line">		public MyAdapter(Context context) &#123;</span><br><span class="line">			this.context = context;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		@Override</span><br><span class="line">		public int getCount() &#123;</span><br><span class="line">			return dataList.size();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		@Override</span><br><span class="line">		public Object getItem(int position) &#123;</span><br><span class="line">			return null;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		@Override</span><br><span class="line">		public long getItemId(int position) &#123;</span><br><span class="line">			return 0;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		class ViewHolder &#123;</span><br><span class="line">			private TextView txt1, txt2;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		@Override</span><br><span class="line">		public View getView(int position, View convertView, ViewGroup parent) &#123;</span><br><span class="line">			ViewHolder viewHolder = null;</span><br><span class="line">			if (convertView == null) &#123;</span><br><span class="line">				convertView = LayoutInflater.from(context).inflate(R.layout.listview_activity_listview, null);</span><br><span class="line">				TextView txt1 = convertView.findViewById(R.id.txt_activity_listview_1);</span><br><span class="line">				TextView txt2 = convertView.findViewById(R.id.txt_activity_listview_2);</span><br><span class="line">				viewHolder = new ViewHolder();</span><br><span class="line">				viewHolder.txt1 = txt1;</span><br><span class="line">				viewHolder.txt2 = txt2;</span><br><span class="line">				convertView.setTag(viewHolder);</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				viewHolder = (ViewHolder) convertView.getTag();</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			viewHolder.txt1.setText(dataList.get(position).get(&quot;param1&quot;) + &quot;&quot;);</span><br><span class="line">			viewHolder.txt2.setText(dataList.get(position).get(&quot;param2&quot;) + &quot;&quot;);</span><br><span class="line">			return convertView;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>很简单，使用了一个自定义的Adapter，这个Adapter最关键的方法就是getView（），这个方法是什么时候调用呢，又是怎么与recyclebin机制结合在一起的？</p>
+<h2 id="ListView类的不同"><a href="#ListView类的不同" class="headerlink" title="ListView类的不同"></a>ListView类的不同</h2><p>listview是超类AbsListView的子类，而AbsListView又是AdapterView的子类。AdapterView不同于以往的ViewGroup，它不允许使用addView（使用会抛出异常），那么它是如何完成子视图的绘制呢，还记得子View的绘制过程吗，measure-&gt;layout-&gt;draw，它就是在layout这个过程里完成子View绘制，并且因为layout方法不允许子类重写，所以这个过程严格说是在onLayout（）方法中完成。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * This method is not supported and throws an UnsupportedOperationException when called.</span><br><span class="line"> *</span><br><span class="line"> * @param child Ignored.</span><br><span class="line"> *</span><br><span class="line"> * @throws UnsupportedOperationException Every time this method is invoked.</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public void addView(View child) &#123;</span><br><span class="line">    throw new UnsupportedOperationException(&quot;addView(View) is not supported in AdapterView&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="recyclebin解析"><a href="#recyclebin解析" class="headerlink" title="recyclebin解析"></a>recyclebin解析</h2><h3 id="总体思路"><a href="#总体思路" class="headerlink" title="总体思路"></a>总体思路</h3><p>首先总体说一下思路，recyclebin就是相当于回收站，为了避免oom，减少多次inflate（很耗时），那就需要将inflate后的view多次利用：</p>
+<ol>
+<li>将child view放到recyclebin中。</li>
+<li>将listview的child view清空。</li>
+<li>根据条件从recyclebin中找到能够满足复用条件的view，取出复用。<h3 id="详细解释"><a href="#详细解释" class="headerlink" title="详细解释"></a>详细解释</h3>在介绍之前，先要了解一个类，RecycleBin，这个类就是RecycleBin的核心，看一下他的注释：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * The RecycleBin facilitates reuse of views across layouts. The RecycleBin has two levels of</span><br><span class="line"> * storage: ActiveViews and ScrapViews. ActiveViews are those views which were onscreen at the</span><br><span class="line"> * start of a layout. By construction, they are displaying current information. At the end of</span><br><span class="line"> * layout, all views in ActiveViews are demoted to ScrapViews. ScrapViews are old views that</span><br><span class="line"> * could potentially be used by the adapter to avoid allocating views unnecessarily.</span><br><span class="line"> *</span><br><span class="line"> * @see android.widget.AbsListView#setRecyclerListener(android.widget.AbsListView.RecyclerListener)</span><br><span class="line"> * @see android.widget.AbsListView.RecyclerListener</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+<p>意思就是这个类进行view的回收，有两个部分，一个是activeView，另一个是scrapView，前者是可视的显示在屏幕上的view，后者是已经不在屏幕中显示的（滑动出屏幕的部分）。<br>它的两个主要属性是mActiveViews和mScrapViews，前者用于存储所有正在显示的view，后者用于显示未在屏幕中显示的view。<br>好了，了解了这些，我们开始正式解析：</p>
+<p>一切的起点开始于AbsListview的onlayout（）方法，我们上关键代码：<br><code>layoutChildren();</code><br>这个方法会调用ListView的layoutChildren（）方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">// Pull all children into the RecycleBin.</span><br><span class="line">// These views will be reused if possible</span><br><span class="line">final int firstPosition = mFirstPosition;</span><br><span class="line">final RecycleBin recycleBin = mRecycler;</span><br><span class="line">if (dataChanged) &#123;</span><br><span class="line">    for (int i = 0; i &lt; childCount; i++) &#123;</span><br><span class="line">        recycleBin.addScrapView(getChildAt(i), firstPosition+i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    recycleBin.fillActiveViews(childCount, firstPosition);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Clear out old views</span><br><span class="line">detachAllViewsFromParent();</span><br><span class="line">recycleBin.removeSkippedScrap();</span><br><span class="line"></span><br><span class="line">switch (mLayoutMode) &#123;</span><br><span class="line">case LAYOUT_SET_SELECTION:</span><br><span class="line">    if (newSel != null) &#123;</span><br><span class="line">        sel = fillFromSelection(newSel.getTop(), childrenTop, childrenBottom);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        sel = fillFromMiddle(childrenTop, childrenBottom);</span><br><span class="line">    &#125;</span><br><span class="line">    break;</span><br><span class="line">case LAYOUT_SYNC:</span><br><span class="line">    sel = fillSpecific(mSyncPosition, mSpecificTop);</span><br><span class="line">    break;</span><br><span class="line">case LAYOUT_FORCE_BOTTOM:</span><br><span class="line">    sel = fillUp(mItemCount - 1, childrenBottom);</span><br><span class="line">    adjustViewsUpOrDown();</span><br><span class="line">    break;</span><br><span class="line">case LAYOUT_FORCE_TOP:</span><br><span class="line">    mFirstPosition = 0;</span><br><span class="line">    sel = fillFromTop(childrenTop);</span><br><span class="line">    adjustViewsUpOrDown();</span><br><span class="line">    break;</span><br><span class="line">case LAYOUT_SPECIFIC:</span><br><span class="line">    final int selectedPosition = reconcileSelectedPosition();</span><br><span class="line">    sel = fillSpecific(selectedPosition, mSpecificTop);</span><br><span class="line">    /**</span><br><span class="line">     * When ListView is resized, FocusSelector requests an async selection for the</span><br><span class="line">     * previously focused item to make sure it is still visible. If the item is not</span><br><span class="line">     * selectable, it won&apos;t regain focus so instead we call FocusSelector</span><br><span class="line">     * to directly request focus on the view after it is visible.</span><br><span class="line">     */</span><br><span class="line">    if (sel == null &amp;&amp; mFocusSelector != null) &#123;</span><br><span class="line">        final Runnable focusRunnable = mFocusSelector</span><br><span class="line">                .setupFocusIfValid(selectedPosition);</span><br><span class="line">        if (focusRunnable != null) &#123;</span><br><span class="line">            post(focusRunnable);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    break;</span><br><span class="line">case LAYOUT_MOVE_SELECTION:</span><br><span class="line">    sel = moveSelection(oldSel, newSel, delta, childrenTop, childrenBottom);</span><br><span class="line">    break;</span><br><span class="line">default:</span><br><span class="line">    if (childCount == 0) &#123;</span><br><span class="line">        if (!mStackFromBottom) &#123;</span><br><span class="line">            final int position = lookForSelectablePosition(0, true);</span><br><span class="line">            setSelectedPositionInt(position);</span><br><span class="line">            sel = fillFromTop(childrenTop);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            final int position = lookForSelectablePosition(mItemCount - 1, false);</span><br><span class="line">            setSelectedPositionInt(position);</span><br><span class="line">            sel = fillUp(mItemCount - 1, childrenBottom);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        if (mSelectedPosition &gt;= 0 &amp;&amp; mSelectedPosition &lt; mItemCount) &#123;</span><br><span class="line">            sel = fillSpecific(mSelectedPosition,</span><br><span class="line">                    oldSel == null ? childrenTop : oldSel.getTop());</span><br><span class="line">        &#125; else if (mFirstPosition &lt; mItemCount) &#123;</span><br><span class="line">            sel = fillSpecific(mFirstPosition,</span><br><span class="line">                    oldFirst == null ? childrenTop : oldFirst.getTop());</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            sel = fillSpecific(0, childrenTop);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先获取到判断数据是否更新，若更新，那就把所有的view放到mScrapViews中，如果没更新，那么就使用recycleBin.fillActiveViews()方法，将所有的active view放到mActiveViews中。<br>接下来运用detachAllViesFromParent()方法将所有的childview清空：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Detaches all views from the parent. Detaching a view should be followed</span><br><span class="line"> * either by a call to</span><br><span class="line"> * &#123;@link #attachViewToParent(View, int, android.view.ViewGroup.LayoutParams)&#125;</span><br><span class="line"> * or a call to &#123;@link #removeDetachedView(View, boolean)&#125;. Detachment should only be</span><br><span class="line"> * temporary; reattachment or removal should happen within the same drawing cycle as</span><br><span class="line"> * detachment. When a view is detached, its parent is null and cannot be retrieved by a</span><br><span class="line"> * call to &#123;@link #getChildAt(int)&#125;.</span><br><span class="line"> *</span><br><span class="line"> * @see #detachViewFromParent(View)</span><br><span class="line"> * @see #detachViewFromParent(int)</span><br><span class="line"> * @see #detachViewsFromParent(int, int)</span><br><span class="line"> * @see #attachViewToParent(View, int, android.view.ViewGroup.LayoutParams)</span><br><span class="line"> * @see #removeDetachedView(View, boolean)</span><br><span class="line"> */</span><br><span class="line">protected void detachAllViewsFromParent() &#123;</span><br><span class="line">    final int count = mChildrenCount;</span><br><span class="line">    if (count &lt;= 0) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    final View[] children = mChildren;</span><br><span class="line">    mChildrenCount = 0;</span><br><span class="line"></span><br><span class="line">    for (int i = count - 1; i &gt;= 0; i--) &#123;</span><br><span class="line">        children[i].mParent = null;</span><br><span class="line">        children[i] = null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将所有childview清空后，根据模式对child view进行增删，最终调用的都是fillDown、fillUp等方法，这几个方法类似，以fillDown举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Fills the list from pos down to the end of the list view.</span><br><span class="line"> *</span><br><span class="line"> * @param pos The first position to put in the list</span><br><span class="line"> *</span><br><span class="line"> * @param nextTop The location where the top of the item associated with pos</span><br><span class="line"> *        should be drawn</span><br><span class="line"> *</span><br><span class="line"> * @return The view that is currently selected, if it happens to be in the</span><br><span class="line"> *         range that we draw.</span><br><span class="line"> */</span><br><span class="line">private View fillDown(int pos, int nextTop) &#123;</span><br><span class="line">    View selectedView = null;</span><br><span class="line"></span><br><span class="line">    int end = (mBottom - mTop);</span><br><span class="line">    if ((mGroupFlags &amp; CLIP_TO_PADDING_MASK) == CLIP_TO_PADDING_MASK) &#123;</span><br><span class="line">        end -= mListPadding.bottom;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    while (nextTop &lt; end &amp;&amp; pos &lt; mItemCount) &#123;</span><br><span class="line">        // is this the selected item?</span><br><span class="line">        boolean selected = pos == mSelectedPosition;</span><br><span class="line">        View child = makeAndAddView(pos, nextTop, true, mListPadding.left, selected);</span><br><span class="line"></span><br><span class="line">        nextTop = child.getBottom() + mDividerHeight;</span><br><span class="line">        if (selected) &#123;</span><br><span class="line">            selectedView = child;</span><br><span class="line">        &#125;</span><br><span class="line">        pos++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    setVisibleRangeHint(mFirstPosition, mFirstPosition + getChildCount() - 1);</span><br><span class="line">    return selectedView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>fillDown就是从上到下绘制，方法参数中pos代表第一个要绘制的item在list中的位置，nextTop代表第一个item的顶部在listview中的相对位置。end代表listview的高度，循环的条件第一个nextTop &lt; end表示只有当这个item能够显示才能进行绘制，第二个条件pos &lt; mItemCount表示如果在该位置没有数据就不用绘制。<br>如果这些条件满足，通过makeAndAddView（）方法获取view，然后将child view的底部位置（加上分割线的高度）就是下一个item的顶部位置。<br>接下来看看makeAndAddView（）方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Obtains the view and adds it to our list of children. The view can be</span><br><span class="line"> * made fresh, converted from an unused view, or used as is if it was in</span><br><span class="line"> * the recycle bin.</span><br><span class="line"> *</span><br><span class="line"> * @param position logical position in the list</span><br><span class="line"> * @param y top or bottom edge of the view to add</span><br><span class="line"> * @param flow &#123;@code true&#125; to align top edge to y, &#123;@code false&#125; to align</span><br><span class="line"> *             bottom edge to y</span><br><span class="line"> * @param childrenLeft left edge where children should be positioned</span><br><span class="line"> * @param selected &#123;@code true&#125; if the position is selected, &#123;@code false&#125;</span><br><span class="line"> *                 otherwise</span><br><span class="line"> * @return the view that was added</span><br><span class="line"> */</span><br><span class="line">private View makeAndAddView(int position, int y, boolean flow, int childrenLeft,</span><br><span class="line">        boolean selected) &#123;</span><br><span class="line">    if (!mDataChanged) &#123;</span><br><span class="line">        // Try to use an existing view for this position.</span><br><span class="line">        final View activeView = mRecycler.getActiveView(position);</span><br><span class="line">        if (activeView != null) &#123;</span><br><span class="line">            // Found it. We&apos;re reusing an existing child, so it just needs</span><br><span class="line">            // to be positioned like a scrap view.</span><br><span class="line">            setupChild(activeView, position, y, flow, childrenLeft, selected, true);</span><br><span class="line">            return activeView;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Make a new view for this position, or convert an unused view if</span><br><span class="line">    // possible.</span><br><span class="line">    final View child = obtainView(position, mIsScrap);</span><br><span class="line"></span><br><span class="line">    // This needs to be positioned and measured.</span><br><span class="line">    setupChild(child, position, y, flow, childrenLeft, selected, mIsScrap[0]);</span><br><span class="line"></span><br><span class="line">    return child;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>他接受的几个参数，其中position表示item在list中的位置，y表示顶部或底部位置，当flow为true时，y表示顶部位置，反之为底部位置。方法体里面，如果数据没有更新，那么就从RecycleBin中根据position获取相应的activeView，如果获取到，那么这个view经过setupChild（）方法进行位置重新定位（比如原来在2位置，现在应该在1位置，那么这个方法就把它绘制在1位置），如果获取不到或者数据更新了，那么就使用obtainView（）方法获取view，同样将获取到的view经过setupChild（）方法进行重新定位。<br>那么obtainView（）方法是什么呢，由于这个方法比较多，截取关键部分：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// Check whether we have a transient state view. Attempt to re-bind the</span><br><span class="line">// data and discard the view if we fail.</span><br><span class="line">final View transientView = mRecycler.getTransientStateView(position);</span><br><span class="line">if (transientView != null) &#123;</span><br><span class="line">    final LayoutParams params = (LayoutParams) transientView.getLayoutParams();</span><br><span class="line"></span><br><span class="line">    // If the view type hasn&apos;t changed, attempt to re-bind the data.</span><br><span class="line">    if (params.viewType == mAdapter.getItemViewType(position)) &#123;</span><br><span class="line">        final View updatedView = mAdapter.getView(position, transientView, this);</span><br><span class="line"></span><br><span class="line">        // If we failed to re-bind the data, scrap the obtained view.</span><br><span class="line">        if (updatedView != transientView) &#123;</span><br><span class="line">            setItemViewLayoutParams(updatedView, position);</span><br><span class="line">            mRecycler.addScrapView(updatedView, position);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    outMetadata[0] = true;</span><br><span class="line"></span><br><span class="line">    // Finish the temporary detach started in addScrapView().</span><br><span class="line">    transientView.dispatchFinishTemporaryDetach();</span><br><span class="line">    return transientView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这部分就先从RecycleBin中获取transient state的view，首先了解什么是<br><a href="http://blog.csdn.net/qinjunni2014/article/details/45653747#t2" target="_blank" rel="noopener">transient state view</a>，简单的说呢，这个就是为了防止在listviwe动画绘制（或其他过程）过程中部分view的数据发生改变而对view设置的状态，设置了这个状态的view不会更改数据（不会更改数据，那么就首先获取它，如果获取不到，剩下的view不就可以改数据了吗，所以首先执行这段代码）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">final View scrapView = mRecycler.getScrapView(position);</span><br><span class="line">final View child = mAdapter.getView(position, scrapView, this);</span><br><span class="line">if (scrapView != null) &#123;</span><br><span class="line">    if (child != scrapView) &#123;</span><br><span class="line">        // Failed to re-bind the data, return scrap to the heap.</span><br><span class="line">        mRecycler.addScrapView(scrapView, position);</span><br><span class="line">    &#125; else if (child.isTemporarilyDetached()) &#123;</span><br><span class="line">        outMetadata[0] = true;</span><br><span class="line"></span><br><span class="line">        // Finish the temporary detach started in addScrapView().</span><br><span class="line">        child.dispatchFinishTemporaryDetach();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (mCacheColorHint != 0) &#123;</span><br><span class="line">    child.setDrawingCacheBackgroundColor(mCacheColorHint);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (child.getImportantForAccessibility() == IMPORTANT_FOR_ACCESSIBILITY_AUTO) &#123;</span><br><span class="line">    child.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_YES);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来，就会尝试从mScrapViews中获取数据了（想想，transient state view已经处理了，active view已经处理了，剩下的不就剩两种情况了吗，一种是存在mScrapViews中未显示的view，另一种是需要新建的view），将获取到的view传入<strong>adapter.getView()方法中，作为convertView</strong>，这个就是adapter的getView中convertView的由来，如果从scrapView能够获取到并且从getView（）中返回的view不是这个scrapView，那么证明这个scrapView是没用的，所以重新放入mScrapViews中，如果是的话，那么这个child就是最终的这个位置的child view，将mScrapViews中的这个view清除掉。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在绘制时，layoutChildren（）方法中将所有的active view根据数据是否更新放入recyclebin中相应的数据集中，清除listview的children，然后根据相应模式，进行child view的绘制，由fill*（）方法确定绘制哪些位置的child，然后调用makeAndView（）进行绘制，对于依旧显示的active view，直接从recyclebin中取出显示在相应位置，如果原来不是active view，那么就试图从recyclebin中的scrapview中取出进行回收使用。</p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+        
+            <li class="previous">
+                <a href= "/2018/01/23/重走android（9）View绘制流程/" title= 重走android（9）View绘制流程 >
+                    <span>Previous Post</span>
+                    <span>重走android（9）View绘制流程</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:13721100276@163.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/sk600" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">Theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+        <span id="busuanzi_container_site_pv">VISITOR VOLUME: <span id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ListView的RecycleBin机制"><span class="toc-number">1.</span> <span class="toc-text">ListView的RecycleBin机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ListView的使用"><span class="toc-number">1.1.</span> <span class="toc-text">ListView的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ListView类的不同"><span class="toc-number">1.2.</span> <span class="toc-text">ListView类的不同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#recyclebin解析"><span class="toc-number">1.3.</span> <span class="toc-text">recyclebin解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#总体思路"><span class="toc-number">1.3.1.</span> <span class="toc-text">总体思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#详细解释"><span class="toc-number">1.3.2.</span> <span class="toc-text">详细解释</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.4.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top">&#xe639;</div>
+    <div class="sidebar">
+    <div class="sidebar-header sidebar-header-show-archive">
+        <div class="sidebar-category">
+            <span class="sidebar-archive-link"><span class="iconfont-archer">&#xe67d;</span>Archive</span>
+            <span class="sidebar-tags-link"><span class="iconfont-archer">&#xe610;</span>Tag</span>
+        </div>
+    </div>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-archive">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 20 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/25</span><a class="archive-post-title" href= "/2018/01/25/重走android（10）ListView-RecycleBin机制/" >重走android（10）ListView RecycleBin机制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/23</span><a class="archive-post-title" href= "/2018/01/23/重走android（9）View绘制流程/" >重走android（9）View绘制流程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2018/01/22/设计模式（2）工厂模式/" >设计模式（2）工厂模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2018/01/22/重走android（8）IntentService/" >重走android（8）IntentService</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2018/01/22/重走android（7）HandlerThread/" >重走android（7）HandlerThread</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span><a class="archive-post-title" href= "/2018/01/20/重走android（6）Handler-MessageQueue-Looper/" >重走android（6）Handler,MessageQueue,Looper</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（3）广播/" >重走android（3）广播</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（2）服务/" >重走android（2）服务</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/重走android（0）前言/" >重走android（0）前言</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/重走android（1）活动启动模式/" >重走android（1）活动启动模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/04</span><a class="archive-post-title" href= "/2018/01/04/String-intern-方法/" >String intern()方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/04</span><a class="archive-post-title" href= "/2018/01/04/java内存区域与内存溢出异常/" >java内存区域与内存溢出异常</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/03</span><a class="archive-post-title" href= "/2018/01/03/贝贝网实习面试（1）/" >贝贝网实习面试（1）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/03</span><a class="archive-post-title" href= "/2018/01/03/java-基础（1）/" >java 基础（1）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/03</span><a class="archive-post-title" href= "/2018/01/03/my-first-post/" >my first post</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name"><a href= "#">String</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">java</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">tip</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">基础</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">随想</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">android</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">activity</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">面试</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">工作</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">感想</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">源码</a></span>
+    
+    </div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: false
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tag-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var jsInfo = {
+        root: '/'
+    }
+</script>
+    <!-- 不蒜子  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ统计  -->
+    
+    <div style="display: none">
+        <script src="https://s13.cnzz.com/z_stat.php?id=true&web_id=true" language="JavaScript"></script>
+        
+    </div>
+    </body>
+</html>
+
+

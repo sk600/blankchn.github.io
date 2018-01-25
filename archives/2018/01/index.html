@@ -179,6 +179,98 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/01/25/重走android（10）ListView-RecycleBin机制/" >
+                
+                    <span>重走android（10）ListView RecycleBin机制</span>
+            </a>
+            <a class="content-show-full" href = "/2018/01/25/重走android（10）ListView-RecycleBin机制/" >
+                <div class="abstract-content">
+                    ListView的RecycleBin机制listview在recycleview出来之前，运用的非常广泛，是一个现实list数据的非常有用的view。listview为了避免因为渲染过多的子视图导致oom，采用了recycleBin机制，下面就从源码的角度研究一下recyclebin机制。
+ListView的使用1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 源码>源码</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/25</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/01/23/重走android（9）View绘制流程/" >
+                
+                    <span>重走android（9）View绘制流程</span>
+            </a>
+            <a class="content-show-full" href = "/2018/01/23/重走android（9）View绘制流程/" >
+                <div class="abstract-content">
+                    View绘制流程android的View绘制流程分为三个步骤，measure、layout、draw，measure是用来测量大小，layout是用来处理位置，draw是用来绘制，下面我们从源码的角度上仔细看看。
+measure
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 源码>源码</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/23</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/01/22/设计模式（2）工厂模式/" >
+                
+                    <span>设计模式（2）工厂模式</span>
+            </a>
+            <a class="content-show-full" href = "/2018/01/22/设计模式（2）工厂模式/" >
+                <div class="abstract-content">
+                    
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/22</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/01/22/重走android（8）IntentService/" >
                 
                     <span>重走android（8）IntentService</span>
@@ -399,103 +491,6 @@ Ordered Broad...
                 <!-- date  -->
                 <div class="abstract-date">
                     <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/17</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/17/重走android（2）服务/" >
-                
-                    <span>重走android（2）服务</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/17/重走android（2）服务/" >
-                <div class="abstract-content">
-                    服务服务是android四大组件之一，是一个可以保持长时间运行而没有界面的应用组件，所以～可以在背后悄悄的干一些事情，hhhh。。。但是服务和线程是要做区分的，服务的存在当然依赖于线程，但是服务并不是区分于主线程的线程，而是在主线程中（与广播一样），既然是主线程，那么就注定了不能进行耗时操作。如果要进行耗时操作，那么就在service中启用另一个线程就行了（不在activity中启动线程就是activity死掉后无法找到线程实例，而保留在service中就可以解决啦）服务生命周期中，开始为onCreate方法（在onStartCommand方法和onBind方法之前），结束为onDest...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/17</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/16/设计模式（1）单例模式/" >
-                
-                    <span>设计模式（1）单例模式</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/16/设计模式（1）单例模式/" >
-                <div class="abstract-content">
-                    设计模式之单例模式在开发中有很多情况下需要使对象只保持一个，比如说一些配置文件、工具类、线程池等等，这些东西如果有多个可能导致结果不一致、资源浪费等等，所以就有了单例模式。
-单例模式总的特点就是构造方法私有，有一个私有静态实例，只能通过公共静态方法获得实例，但是根据实例的初始化时间分为饿汉模式和懒汉模式。
-饿汉模式1234567891011public class HungrySingleton &#123;	private static HungrySingleton instance = new HungrySingleton();	private HungrySingleton()...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 设计模式>设计模式</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/16</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/16/启动activity随想/" >
-                
-                    <span>启动activity随想</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/16/启动activity随想/" >
-                <div class="abstract-content">
-                    启动activity随想activity启动虽然可以直接使用startActivity()、startActivityForResult()，但是这样中间传递数据可能因为开发者不同而互相不明晰，所以为了保持调用时的清晰和简便，在被调用的活动中使用公共的静态方法，比如：采取这样的方式，调用既清晰又简单。
-
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 随想>随想</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = activity>activity</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/16</span>
                 </div>
             </div>
         </article>
@@ -756,7 +751,58 @@ Ordered Broad...
     
     
     
-    <div class="total-archive"> Total : 17 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 20 </div>
     
     <div class="post-archive">
     
@@ -765,6 +811,21 @@ Ordered Broad...
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/25</span><a class="archive-post-title" href= "/2018/01/25/重走android（10）ListView-RecycleBin机制/" >重走android（10）ListView RecycleBin机制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/23</span><a class="archive-post-title" href= "/2018/01/23/重走android（9）View绘制流程/" >重走android（9）View绘制流程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2018/01/22/设计模式（2）工厂模式/" >设计模式（2）工厂模式</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -808,12 +869,12 @@ Ordered Broad...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
         </li>
     
     
@@ -866,21 +927,21 @@ Ordered Broad...
     
         <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">随想</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">activity</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">面试</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">工作</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
     
