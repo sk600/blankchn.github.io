@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>
+        
+        重走android（11）OkHttp3源码解析（上） · sk600&#39;s Studio
+        
+    </title>
+    <link rel="icon" href= /assets/touxian.png>
+    <!-- TODO: 在font-face加载完毕后改变字体  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js"></script>
+    <!-- 提前加载place holder  -->
+    <style type="text/css">
+        @font-face {
+            font-family: 'Oswald-Regular';
+            src: url(/font/Oswald-Regular.ttf);
+        }
+    </style>
+    <style type="text/css">
+        .site-intro {
+            position: relative;
+            width: 100%;
+            height: 50vh;
+            overflow: hidden;
+            box-shadow: -0.1rem 0 0.5rem 0 rgba(0, 0, 0, 0.5);
+        }
+        .site-intro-placeholder {
+            position: absolute;
+            z-index: -2;
+            top: 0;
+            left: 0px;
+            width: calc(100% + 300px);
+            height: 100%;
+            background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+            background-position: center center;
+            transform: translate3d(-226px, 0, 0);
+            animation: gradient-move 2.5s ease-out 0s 1;
+        }
+        @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+    <link rel="stylesheet" href = /css/style.css?v=20171227 />
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?true";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+    <!-- 谷歌统计  -->
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'true', 'auto');
+        ga('send', 'pageview');
+    </script>
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >sk600&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">重走android（11）OkHttp3源码解析（上）</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>sk600's Studio.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(http://oumn0o088.bkt.clouddn.com/post-bg.jpg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            重走android（11）OkHttp3源码解析（上）
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 源码>源码</a>
+    
+</div>
+            
+            <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/01/30</span>
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe604;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">
+                        &#xe601;
+                    </span>
+                    <span class="bdsharebuttonbox">
+                        <a href="#" class="bds_more shareText" data-cmd="more">Share</a>
+                    </span>
+                </span>
+            </div>
+        
+    </div>
+</div>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <script>
+            var browser = {
+                    versions: function () {
+                        var u = window.navigator.userAgent;
+                        return {
+                            userAgent: u,
+                            trident: u.indexOf('Trident') > -1, //IE内核
+                            presto: u.indexOf('Presto') > -1, //opera内核
+                            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                            mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+                            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                            iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+                            iPad: u.indexOf('iPad') > -1, //是否为iPad
+                            webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+                            weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+                            uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+                        };
+                    }()
+                }
+
+            function fontLoaded(){
+                console.log('font loaded');
+                if (document.getElementsByClassName('site-intro-meta')) {
+                    document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+                    document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+                    var postIntroTags = document.getElementsByClassName('post-intro-tags')[0],
+                        postIntroMeat = document.getElementsByClassName('post-intro-meta')[0];
+                        if (postIntroTags) {
+                            postIntroTags.classList.add('post-fade-in');
+                        }
+                        if (postIntroMeat) {
+                            postIntroMeat.classList.add('post-fade-in');
+                        }
+                    }
+                }
+                
+            console.log("userAgent:" + browser.versions.userAgent);
+            // UC不支持跨域，所以直接显示
+            if (browser.versions.uc) {
+                console.log("UCBrowser");
+                fontLoaded();
+            } else {
+                WebFont.load({
+                    custom: {
+                        families: ['Oswald-Regular']
+                    },
+                    loading: function () {  //所有字体开始加载
+                        // console.log('loading');
+                    },
+                    active: function () {  //所有字体已渲染
+                        fontLoaded();
+                    },
+                    inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+                        console.log('inactive: timeout');
+                        fontLoaded();
+                    },
+                    timeout: 7000 // Set the timeout to two seconds
+                });
+            }
+        </script>
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="OkHttp3使用"><a href="#OkHttp3使用" class="headerlink" title="OkHttp3使用"></a>OkHttp3使用</h1><p>不论是同步请求还是异步请求，okhttp3使用的前面步骤都是完全相同的，使用下面代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">OkHttpClient client = new OkHttpClient.Builder().build();</span><br><span class="line">Request request = new Request.Builder().url(&quot;http://www.baidu.com&quot;)</span><br><span class="line">		.get().build();</span><br><span class="line">Call call = client.newCall(request);</span><br></pre></td></tr></table></figure>
+<p>对于同步请求使用下面代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">	Response response = call.execute();</span><br><span class="line">	Log.i(TAG, response.body().string());</span><br><span class="line">&#125; catch (IOException e) &#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于异步请求，使用下面代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">call.enqueue(new Callback() &#123;</span><br><span class="line">	@Override</span><br><span class="line">	public void onFailure(Call call, IOException e) &#123;</span><br><span class="line">		System.out.println(e.getMessage());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void onResponse(Call call, Response response) throws IOException &#123;</span><br><span class="line">		if (response.isSuccessful()) &#123;</span><br><span class="line">			Log.i(TAG, response.body().string());</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			Log.e(TAG, &quot;fail&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这就是基本使用步骤，下面进行源码解析。</p>
+<h1 id="OkHttp3-源码解析（1）"><a href="#OkHttp3-源码解析（1）" class="headerlink" title="OkHttp3 源码解析（1）"></a>OkHttp3 源码解析（1）</h1><p>这部分主要对okhttp的OkHttpClient、RealCall、Request、Dispatcher部分源码进行解析，拦截器在下篇进行解析。</p>
+<h2 id="OkHttpClient"><a href="#OkHttpClient" class="headerlink" title="OkHttpClient"></a>OkHttpClient</h2><p>OkHttpClient是使用的开端，它有两个构造方式，一种是通过构造方法new出来，另一种通过Builder构造出来（Builder在OkHttp3中广泛使用）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public Builder() &#123;</span><br><span class="line">  dispatcher = new Dispatcher();</span><br><span class="line">  protocols = DEFAULT_PROTOCOLS;</span><br><span class="line">  connectionSpecs = DEFAULT_CONNECTION_SPECS;</span><br><span class="line">  eventListenerFactory = EventListener.factory(EventListener.NONE);</span><br><span class="line">  proxySelector = ProxySelector.getDefault();</span><br><span class="line">  cookieJar = CookieJar.NO_COOKIES;</span><br><span class="line">  socketFactory = SocketFactory.getDefault();</span><br><span class="line">  hostnameVerifier = OkHostnameVerifier.INSTANCE;</span><br><span class="line">  certificatePinner = CertificatePinner.DEFAULT;</span><br><span class="line">  proxyAuthenticator = Authenticator.NONE;</span><br><span class="line">  authenticator = Authenticator.NONE;</span><br><span class="line">  connectionPool = new ConnectionPool();</span><br><span class="line">  dns = Dns.SYSTEM;</span><br><span class="line">  followSslRedirects = true;</span><br><span class="line">  followRedirects = true;</span><br><span class="line">  retryOnConnectionFailure = true;</span><br><span class="line">  connectTimeout = 10_000;</span><br><span class="line">  readTimeout = 10_000;</span><br><span class="line">  writeTimeout = 10_000;</span><br><span class="line">  pingInterval = 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到这个构造器就是对需要用到的初始化参数进行初始化，需要注意的两个参数dispatcher和connectionPool，前者是转发器，在同步请求中作用不是很大，但是主要管理异步请求在线程池中的运行，后者是连接池，okhttp将每一个请求都看作一个连接，当有同样的url可以进行复用或者保持长链接等操作。</p>
+<h2 id="Request"><a href="#Request" class="headerlink" title="Request"></a>Request</h2><p>初始化OkHttpClient后，就该构造Request了，这里面包括了对请求的封装，同样也使用Builder进行构造：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public Builder() &#123;</span><br><span class="line">  this.method = &quot;GET&quot;;</span><br><span class="line">  this.headers = new Headers.Builder();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是无参的构建方法，可以看到默认使用的是Get方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">final HttpUrl url;</span><br><span class="line">final String method;</span><br><span class="line">final Headers headers;</span><br><span class="line">final @Nullable RequestBody body;</span><br></pre></td></tr></table></figure>
+<p>这些事Request的主要属性，url就是请求url，method就是请求方法，heanders是请求头，body就是请求体。</p>
+<h2 id="RealCall"><a href="#RealCall" class="headerlink" title="RealCall"></a>RealCall</h2><p>Call对象其实就是对Request的二次封装，而它的子类RealCall就是Call的唯一子类，所有的动作其实都是在RealCall中完成的，首先看看OkHttpClient.newCall(Request)方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Prepares the &#123;@code request&#125; to be executed at some point in the future.</span><br><span class="line"> */</span><br><span class="line">@Override public Call newCall(Request request) &#123;</span><br><span class="line">  return RealCall.newRealCall(this, request, false /* for web socket */);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法就是调用RealCall.newRealCall()方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">static RealCall newRealCall(OkHttpClient client, Request originalRequest, boolean forWebSocket) &#123;</span><br><span class="line">  // Safely publish the Call instance to the EventListener.</span><br><span class="line">  RealCall call = new RealCall(client, originalRequest, forWebSocket);</span><br><span class="line">  call.eventListener = client.eventListenerFactory().create(call);</span><br><span class="line">  return call;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法就是完成两步，第一是封装一个RealCall对象，第二就是设置这个RealCall的eventListener，这个eventListener调用的是默认的eventListener实现，其实里面什么都没有，都采用超类中的方法（抽象类中的方法什么都没干）的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">EventListener：</span><br><span class="line">  public static final EventListener NONE = new EventListener() &#123;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">OkHttpClient.Builder:</span><br><span class="line">eventListenerFactory = EventListener.factory(EventListener.NONE);</span><br></pre></td></tr></table></figure>
+<p>这个就是默认的实现。</p>
+<h2 id="同步请求"><a href="#同步请求" class="headerlink" title="同步请求"></a>同步请求</h2><p>同步请求使用的是call.execute()方法，下面上源码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@Override public Response execute() throws IOException &#123;</span><br><span class="line">  synchronized (this) &#123;</span><br><span class="line">    if (executed) throw new IllegalStateException(&quot;Already Executed&quot;);</span><br><span class="line">    executed = true;</span><br><span class="line">  &#125;</span><br><span class="line">  captureCallStackTrace();</span><br><span class="line">  eventListener.callStart(this);</span><br><span class="line">  try &#123;</span><br><span class="line">    client.dispatcher().executed(this);</span><br><span class="line">    Response result = getResponseWithInterceptorChain();</span><br><span class="line">    if (result == null) throw new IOException(&quot;Canceled&quot;);</span><br><span class="line">    return result;</span><br><span class="line">  &#125; catch (IOException e) &#123;</span><br><span class="line">    eventListener.callFailed(this, e);</span><br><span class="line">    throw e;</span><br><span class="line">  &#125; finally &#123;</span><br><span class="line">    client.dispatcher().finished(this);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先判断这个call有没有被执行过，如果已经执行过，那么抛出异常，如果没有执行过呢，那就使用dispatcher.executed()方法，其实这个方法很简单，只是将这个call放到runningSyncs（也就是同步运行队列）中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/** Used by &#123;@code Call#execute&#125; to signal it is in-flight. */</span><br><span class="line">synchronized void executed(RealCall call) &#123;</span><br><span class="line">  runningSyncCalls.add(call);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当这个方法执行过后，在RealCall中使getResponseWithInterceptorChain（）方法获取response对象，这个方法会在下一篇中着重讲解，其作用就是使用拦截器链完成请求的发送和获取响应，在这里，这个流程相当于阻塞住这个线程，这也就是它是同步的体现，最后会使用dispatcher.finished()方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/** Used by &#123;@code Call#execute&#125; to signal completion. */</span><br><span class="line">void finished(RealCall call) &#123;</span><br><span class="line">  finished(runningSyncCalls, call, false);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private &lt;T&gt; void finished(Deque&lt;T&gt; calls, T call, boolean promoteCalls) &#123;</span><br><span class="line">  int runningCallsCount;</span><br><span class="line">  Runnable idleCallback;</span><br><span class="line">  synchronized (this) &#123;</span><br><span class="line">    if (!calls.remove(call)) throw new AssertionError(&quot;Call wasn&apos;t in-flight!&quot;);</span><br><span class="line">    if (promoteCalls) promoteCalls();</span><br><span class="line">    runningCallsCount = runningCallsCount();</span><br><span class="line">    idleCallback = this.idleCallback;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (runningCallsCount == 0 &amp;&amp; idleCallback != null) &#123;</span><br><span class="line">    idleCallback.run();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法在同步请求中就是为了将call从runningSyncCalls队列中移除，然后重新计算运行请求的数量（包括同步和异步）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public synchronized int runningCallsCount() &#123;</span><br><span class="line">  return runningAsyncCalls.size() + runningSyncCalls.size();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这就是计算请求数量的方法。<br>可以看到，同步的流程完全是在一个线程中执行的，没有新建工作线程，这里主要是RealCall中完成的，dispatcher起到作用不是很大。</p>
+<h2 id="异步请求"><a href="#异步请求" class="headerlink" title="异步请求"></a>异步请求</h2><p>异步请求是由call.enqueue()方法进行的，看源码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Override public void enqueue(Callback responseCallback) &#123;</span><br><span class="line">  synchronized (this) &#123;</span><br><span class="line">    if (executed) throw new IllegalStateException(&quot;Already Executed&quot;);</span><br><span class="line">    executed = true;</span><br><span class="line">  &#125;</span><br><span class="line">  captureCallStackTrace();</span><br><span class="line">  eventListener.callStart(this);</span><br><span class="line">  client.dispatcher().enqueue(new AsyncCall(responseCallback));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>和同步类似，这里也是先判断是否执行，如果没有执行呢，那就使用dispatcher.enqueue(AsyncCall)方法，到此为止，RealCall的enqueue（）方法就算完成了，其他所有过程都转交给dispatcher完成，这里首先有一个AsyncCall类，简单了解一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">final class AsyncCall extends NamedRunnable &#123;</span><br><span class="line">  private final Callback responseCallback;</span><br><span class="line"></span><br><span class="line">  AsyncCall(Callback responseCallback) &#123;</span><br><span class="line">    super(&quot;OkHttp %s&quot;, redactedUrl());</span><br><span class="line">    this.responseCallback = responseCallback;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  @Override protected void execute() &#123;</span><br><span class="line">    boolean signalledCallback = false;</span><br><span class="line">    try &#123;</span><br><span class="line">      Response response = getResponseWithInterceptorChain();</span><br><span class="line">      if (retryAndFollowUpInterceptor.isCanceled()) &#123;</span><br><span class="line">        signalledCallback = true;</span><br><span class="line">        responseCallback.onFailure(RealCall.this, new IOException(&quot;Canceled&quot;));</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        signalledCallback = true;</span><br><span class="line">        responseCallback.onResponse(RealCall.this, response);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; catch (IOException e) &#123;</span><br><span class="line">      if (signalledCallback) &#123;</span><br><span class="line">        // Do not signal the callback twice!</span><br><span class="line">        Platform.get().log(INFO, &quot;Callback failure for &quot; + toLoggableString(), e);</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        eventListener.callFailed(RealCall.this, e);</span><br><span class="line">        responseCallback.onFailure(RealCall.this, e);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">      client.dispatcher().finished(this);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里只列举主要方法，这个NamedRunnable是一个Runnable的子类，主要是在线程运行过程中赋予线程一个新的名字，在runnable.run()方法结束时还原回原来的线程名字。而NamedRunnable.run（）方法核心过程就在这个execute（）方法中，而构造方法中的responseCallback就是我们在使用时扩展的callback，用于在连接有响应或者失败时执行我们自定义的动作。看这个execute（）方法，同样是使用getResponseWithInterceptorChain（）方法获取响应，然后根据相应条件（下一片博客进行解析）使用responsecallback的onFailure()&amp;onResponse()方法，那么这个execute（）方法是在哪个线程执行呢？那就看dispatcher.enqueue()方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">private int maxRequests = 64;</span><br><span class="line">private int maxRequestsPerHost = 5;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/** Ready async calls in the order they&apos;ll be run. */</span><br><span class="line">private final Deque&lt;AsyncCall&gt; readyAsyncCalls = new ArrayDeque&lt;&gt;();</span><br><span class="line"></span><br><span class="line">/** Running asynchronous calls. Includes canceled calls that haven&apos;t finished yet. */</span><br><span class="line">private final Deque&lt;AsyncCall&gt; runningAsyncCalls = new ArrayDeque&lt;&gt;();</span><br><span class="line"></span><br><span class="line">/** Running synchronous calls. Includes canceled calls that haven&apos;t finished yet. */</span><br><span class="line">private final Deque&lt;RealCall&gt; runningSyncCalls = new ArrayDeque&lt;&gt;();</span><br><span class="line">	</span><br><span class="line">synchronized void enqueue(AsyncCall call) &#123;</span><br><span class="line">  if (runningAsyncCalls.size() &lt; maxRequests &amp;&amp; runningCallsForHost(call) &lt; maxRequestsPerHost) &#123;</span><br><span class="line">    runningAsyncCalls.add(call);</span><br><span class="line">    executorService().execute(call);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    readyAsyncCalls.add(call);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  public synchronized ExecutorService executorService() &#123;</span><br><span class="line">  if (executorService == null) &#123;</span><br><span class="line">    executorService = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60, TimeUnit.SECONDS,</span><br><span class="line">        new SynchronousQueue&lt;Runnable&gt;(), Util.threadFactory(&quot;OkHttp Dispatcher&quot;, false));</span><br><span class="line">  &#125;</span><br><span class="line">  return executorService;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里列举了dispatcher中与enqueue（）方法相关的属性和方法，其中maxRequests代表着同时最多运行多少个请求，maxRequestsPerHost代表着同一个主机最多有多少个请求同时运行，runningAsyncCalls代表着运行着的异步请求列表，readyAsyncCalls代表着准备就绪（但未运行的请求）列表，这两个列表什么时候使用呢？在enqueue方法中进行讲解，runningSyncCalls代表同时运行着的同步请求列表。<br>enqueue（）方法中首先判断运行着的异步请求数量是否小于最大请求数量，并且是否小于每个主机名最多的请求数量，如果满足条件那么证明线程池可以接受新的任务，执行executorService().execute(AsyncCall)方法（这里AsyncCall其实是Runnable的子类），如果不满足条件，说明不能在这时候运行这个异步请求，所以就把它放到readyAsyncCalls队列中，等待条件满足时调用。<br>executorService（）方法就是用来获取线程池的方法，如果线程池存在直接返回，如果不存在，那么进行创建，最关键的是两个参数，0 &amp; Integer.MAX_VALUE：0代表着核心线程数为0，即表示如果没有任务的话，那么线程池中不会保留线程存在，这一点符合我们对性能的要求；Integer.MAX_VALUE表示线程池中最多有Integer.MAX_VALUE个线程，为什么取这么大，难道不会因为线程太多影响性能吗？不会的，这是因为在enqueue（）方法中我们也看到了，线程的数量完全是依靠maxRequestsPerHost和maxRequests控制，不会比这两个大。<br>到这里我们的异步请求已经执行过了（线程池执行的Runnable就是那个在RealCall中封装的AsyncCall对象，别忘了这是一个Runnable的子类），所以我们回到AsyncCall的execute（）方法中，看最后一点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">finally &#123;</span><br><span class="line">  client.dispatcher().finished(this);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在核心执行过程后，还是需要使用finished()方法，那么看看这次的finished（）方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/** Used by &#123;@code AsyncCall#run&#125; to signal completion. */</span><br><span class="line">void finished(AsyncCall call) &#123;</span><br><span class="line">  finished(runningAsyncCalls, call, true);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  private &lt;T&gt; void finished(Deque&lt;T&gt; calls, T call, boolean promoteCalls) &#123;</span><br><span class="line">  int runningCallsCount;</span><br><span class="line">  Runnable idleCallback;</span><br><span class="line">  synchronized (this) &#123;</span><br><span class="line">    if (!calls.remove(call)) throw new AssertionError(&quot;Call wasn&apos;t in-flight!&quot;);</span><br><span class="line">    if (promoteCalls) promoteCalls();</span><br><span class="line">    runningCallsCount = runningCallsCount();</span><br><span class="line">    idleCallback = this.idleCallback;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (runningCallsCount == 0 &amp;&amp; idleCallback != null) &#123;</span><br><span class="line">    idleCallback.run();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>和同步时有什么区别呢？没错就是传递的promoteCalls参数是true！<br>首先从运行的异步队列中移除这个请求，然后因为promoteCalls=true，所以会执行promoteCalls()方法，这个方法简单的说就是进行准备异步队列的入池（调入线程池）操作的，下面会详解。最后跟同步一样，重新计算运行的请求数量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">private void promoteCalls() &#123;</span><br><span class="line">  if (runningAsyncCalls.size() &gt;= maxRequests) return; // Already running max capacity.</span><br><span class="line">  if (readyAsyncCalls.isEmpty()) return; // No ready calls to promote.</span><br><span class="line"></span><br><span class="line">  for (Iterator&lt;AsyncCall&gt; i = readyAsyncCalls.iterator(); i.hasNext(); ) &#123;</span><br><span class="line">    AsyncCall call = i.next();</span><br><span class="line"></span><br><span class="line">    if (runningCallsForHost(call) &lt; maxRequestsPerHost) &#123;</span><br><span class="line">      i.remove();</span><br><span class="line">      runningAsyncCalls.add(call);</span><br><span class="line">      executorService().execute(call);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (runningAsyncCalls.size() &gt;= maxRequests) return; // Reached max capacity.</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法很关键，首先判断运行的异步请求数量是否超过maxRequests数量，如果超过了那么直接返回（因为maxRequests就是用来限制最大执行的请求数量的，不论如何都不能越过这根红线）。之后如果readyAsyncCalls没有元素的话也直接返回（证明没有准备好的请求让我们去异步执行）。然后遍历readyAsyncCalls元素，对于满足要求（还是maxRequestsPerHost &amp; maxRequests进行限制）的请求放入线程池汇中运行。<br>至此，我们除了拦截器链以外，我们完成了同步请求和异步请求的全过程。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>首先构造一个OkHttpClient实例，然后创建我们需要的Request对象，然后根据Request对象使用OkHttpClient创建我们的call（realCall），call就是我们的请求。<br>同步：<br>同步调用call.execute(),这个方法首先判断这个call有没有被执行过，然后使用dispatcher将这个call放到runningSyncCalls队列中，再使用getResponseWithInterceptorChain（）方法获取response（阻塞，获取不到响应会阻塞），之后调用dispatcher.finished（）方法，把runningSyncCalls中相应的call出队，之后execute（）返回response，我们根据response进行我们自己的操作。这整个过程都是在同一个线程中完成的。<br>异步：<br>异步使用call.enqueue(Callback),这个方法首先判断call有没有被执行过，然后将我们的callback封装为一个AsyncCall的Runnable对象，之后使用dispatcher.enqueue()方法，在这个方法中，首先判断是否满足（maxRequests和maxRequestsPerHost）约束，然后对满足约束的call放入runningAsyncCalls中，并在线程池中的工作线程运行，不满足约束的call放入readyAsyncCalls中，在运行的异步线程（AsyncCall.execute())执行完毕时，调用promoteCalls方法，将这些准备好的异步请求按照条件（maxRequests和maxRequestsPerHost）放入线程池中运行，如果所有异步请求都执行完毕，因为线程池的核心线程数为0，所以线程池中不再保有线程。</p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+        
+            <li class="previous">
+                <a href= "/2018/01/25/重走android（10）ListView-RecycleBin机制/" title= 重走android（10）ListView RecycleBin机制 >
+                    <span>Previous Post</span>
+                    <span>重走android（10）ListView RecycleBin机制</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:13721100276@163.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/sk600" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">Theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+        <span id="busuanzi_container_site_pv">VISITOR VOLUME: <span id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#OkHttp3使用"><span class="toc-number">1.</span> <span class="toc-text">OkHttp3使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OkHttp3-源码解析（1）"><span class="toc-number">2.</span> <span class="toc-text">OkHttp3 源码解析（1）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#OkHttpClient"><span class="toc-number">2.1.</span> <span class="toc-text">OkHttpClient</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Request"><span class="toc-number">2.2.</span> <span class="toc-text">Request</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RealCall"><span class="toc-number">2.3.</span> <span class="toc-text">RealCall</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#同步请求"><span class="toc-number">2.4.</span> <span class="toc-text">同步请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步请求"><span class="toc-number">2.5.</span> <span class="toc-text">异步请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">2.6.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top">&#xe639;</div>
+    <div class="sidebar">
+    <div class="sidebar-header sidebar-header-show-archive">
+        <div class="sidebar-category">
+            <span class="sidebar-archive-link"><span class="iconfont-archer">&#xe67d;</span>Archive</span>
+            <span class="sidebar-tags-link"><span class="iconfont-archer">&#xe610;</span>Tag</span>
+        </div>
+    </div>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-archive">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 21 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/30</span><a class="archive-post-title" href= "/2018/01/30/重走android（11）OkHttp3源码解析（上）/" >重走android（11）OkHttp3源码解析（上）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/25</span><a class="archive-post-title" href= "/2018/01/25/重走android（10）ListView-RecycleBin机制/" >重走android（10）ListView RecycleBin机制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/23</span><a class="archive-post-title" href= "/2018/01/23/重走android（9）View绘制流程/" >重走android（9）View绘制流程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2018/01/22/设计模式（2）工厂模式/" >设计模式（2）工厂模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2018/01/22/重走android（8）IntentService/" >重走android（8）IntentService</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2018/01/22/重走android（7）HandlerThread/" >重走android（7）HandlerThread</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span><a class="archive-post-title" href= "/2018/01/20/重走android（6）Handler-MessageQueue-Looper/" >重走android（6）Handler,MessageQueue,Looper</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（3）广播/" >重走android（3）广播</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（2）服务/" >重走android（2）服务</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/重走android（0）前言/" >重走android（0）前言</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/重走android（1）活动启动模式/" >重走android（1）活动启动模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/04</span><a class="archive-post-title" href= "/2018/01/04/String-intern-方法/" >String intern()方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/04</span><a class="archive-post-title" href= "/2018/01/04/java内存区域与内存溢出异常/" >java内存区域与内存溢出异常</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/03</span><a class="archive-post-title" href= "/2018/01/03/贝贝网实习面试（1）/" >贝贝网实习面试（1）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/03</span><a class="archive-post-title" href= "/2018/01/03/java-基础（1）/" >java 基础（1）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/03</span><a class="archive-post-title" href= "/2018/01/03/my-first-post/" >my first post</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name"><a href= "#">String</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">java</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">tip</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">基础</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">随想</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">android</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">activity</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">面试</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">工作</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">感想</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">源码</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
+    
+    </div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: false
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tag-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var jsInfo = {
+        root: '/'
+    }
+</script>
+    <!-- 不蒜子  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ统计  -->
+    
+    <div style="display: none">
+        <script src="https://s13.cnzz.com/z_stat.php?id=true&web_id=true" language="JavaScript"></script>
+        
+    </div>
+    </body>
+</html>
+
+
