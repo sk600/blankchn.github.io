@@ -247,17 +247,312 @@
 <p>这个方法很大，我截取了关键的部分。<br>首先构造一个streamAllocation，这个是对socket以及http协议和逻辑上的一些流的抽象的联系，这个主要会在ConnectInterceptor中讲到（这个streamAllocation会不断沿着chain一直传递）。<br>然后通过一个无限循环进行处理，关键的一行代码：<br><code>response = realChain.proceed(request, streamAllocation, null, null);</code><br>通过chain的proceed（）方法获取响应，刚刚我们知道了，这个chain其实是index为下一个拦截器的序号，所以，这里的意思就是调用下一个拦截器的intercept（）方法返回response（这也就是递归）。<br>下面通过followUpRequest（）方法得到一个Request，这个方法主要是根据不同的响应码（比如200、404、403之类的）构建重定向时的request，如果是200的话，这个request为null，其他的码大部分返回不为null。<br>根据这个码和forWebSocket属性可以知道这个response是不是可用的，如果可用直接返回（比如不是websocket并且200）response(这里的response就是我们最终拿到的response），如果需要重定向的话，那么就需要根据followUpCount数量判断是不是应该重定向如果重定向次数大于MAX_FOLLOW_UPS的话，那么就释放资源，抛出异常，如果没有大于的话，那么就不断循环进行重试。<br>最下面省略号省略的是根据各种情况释放资源。<br><a href="https://www.jianshu.com/p/03a75976a9a2" target="_blank" rel="noopener">@see</a></p>
 <h2 id="BridgeInterceptor"><a href="#BridgeInterceptor" class="headerlink" title="BridgeInterceptor"></a>BridgeInterceptor</h2><p>这个拦截器主要是对请求头进行转换（使用Request.Builder构建为Http中的头部格式），并对返回的response数据进行部分处理：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">@Override public Response intercept(Chain chain) throws IOException &#123;</span><br><span class="line">  Request userRequest = chain.request();</span><br><span class="line">  Request.Builder requestBuilder = userRequest.newBuilder();</span><br><span class="line"></span><br><span class="line">  RequestBody body = userRequest.body();</span><br><span class="line">      // If we add an &quot;Accept-Encoding: gzip&quot; header field we&apos;re responsible for also decompressing</span><br><span class="line">  // the transfer stream.</span><br><span class="line">  boolean transparentGzip = false;</span><br><span class="line">  </span><br><span class="line">  if (userRequest.header(&quot;Accept-Encoding&quot;) == null &amp;&amp; userRequest.header(&quot;Range&quot;) == null) &#123;</span><br><span class="line">    transparentGzip = true;</span><br><span class="line">    requestBuilder.header(&quot;Accept-Encoding&quot;, &quot;gzip&quot;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  List&lt;Cookie&gt; cookies = cookieJar.loadForRequest(userRequest.url());</span><br><span class="line">  if (!cookies.isEmpty()) &#123;</span><br><span class="line">    requestBuilder.header(&quot;Cookie&quot;, cookieHeader(cookies));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">  Response networkResponse = chain.proceed(requestBuilder.build());</span><br><span class="line"></span><br><span class="line">  HttpHeaders.receiveHeaders(cookieJar, userRequest.url(), networkResponse.headers());</span><br><span class="line"></span><br><span class="line">  Response.Builder responseBuilder = networkResponse.newBuilder()</span><br><span class="line">      .request(userRequest);</span><br><span class="line"></span><br><span class="line">  if (transparentGzip</span><br><span class="line">      &amp;&amp; &quot;gzip&quot;.equalsIgnoreCase(networkResponse.header(&quot;Content-Encoding&quot;))</span><br><span class="line">      &amp;&amp; HttpHeaders.hasBody(networkResponse)) &#123;</span><br><span class="line">    GzipSource responseBody = new GzipSource(networkResponse.body().source());</span><br><span class="line">    Headers strippedHeaders = networkResponse.headers().newBuilder()</span><br><span class="line">        .removeAll(&quot;Content-Encoding&quot;)</span><br><span class="line">        .removeAll(&quot;Content-Length&quot;)</span><br><span class="line">        .build();</span><br><span class="line">    responseBuilder.headers(strippedHeaders);</span><br><span class="line">    String contentType = networkResponse.header(&quot;Content-Type&quot;);</span><br><span class="line">    responseBuilder.body(new RealResponseBody(contentType, -1L, Okio.buffer(responseBody)));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return responseBuilder.build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>省略号前的部分为对request的body和header进行处理。重点是cookie和gzip，如果OkHttpClient设置过cookieJar的话，那么这里会将cookie信息取出并放入头部。<br>之后通过chain.proceed（）方法调用下一个拦截器，并获取response。</p>
+<p>省略号前的部分为对request的body和header进行处理。重点是cookie和gzip，如果OkHttpClient设置过cookieJar的话，那么这里会将cookie信息取出并放入头部。<br>之后通过chain.proceed（）方法调用下一个拦截器，并获取response。<br>将response中的cookie信息使用cookieJar进行处理（HttpHeaders.receiveHeaders(cookieJar, userRequest.url(), networkResponse.headers()),这个方法下面有源码），然后根据条件（服务器是否支持gzip、response是否有body）将responseBody交给Okio的GzipSource进行解压，然后重新构造一个reponse，并向上一个拦截器返回。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">OkHttpClient okHttpClient = new OkHttpClient.Builder()</span><br><span class="line">                .cookieJar(new CookieJar() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void saveFromResponse(HttpUrl url, List&lt;Cookie&gt; cookies) &#123;</span><br><span class="line">                        // 保存cookie通常使用SharedPreferences</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    @Override</span><br><span class="line">                    public List&lt;Cookie&gt; loadForRequest(HttpUrl url) &#123;</span><br><span class="line">                      // 从保存位置读取，注意此处不能为空，否则会导致空指针</span><br><span class="line">                        return new ArrayList&lt;&gt;();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">                .build();</span><br></pre></td></tr></table></figure>
-<pre><code>public static void receiveHeaders(CookieJar cookieJar, HttpUrl url, Headers headers) {
-  if (cookieJar == CookieJar.NO_COOKIES) return;
-
-  List&lt;Cookie&gt; cookies = Cookie.parseAll(url, headers);
-  if (cookies.isEmpty()) return;
-
-  cookieJar.saveFromResponse(url, cookies);
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">  public static void receiveHeaders(CookieJar cookieJar, HttpUrl url, Headers headers) &#123;</span><br><span class="line">    if (cookieJar == CookieJar.NO_COOKIES) return;</span><br><span class="line"></span><br><span class="line">    List&lt;Cookie&gt; cookies = Cookie.parseAll(url, headers);</span><br><span class="line">    if (cookies.isEmpty()) return;</span><br><span class="line"></span><br><span class="line">    cookieJar.saveFromResponse(url, cookies);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">```	</span><br><span class="line">这就是cookie的使用。</span><br><span class="line">[@see](https://www.jianshu.com/p/71c844d340d0)</span><br><span class="line"></span><br><span class="line">## CacheInterceptor</span><br><span class="line">这是缓存拦截器，这个拦截器就是为了根据一定的策略从缓存中读取数据。</span><br><span class="line">在讲解这个拦截器之前，首先看一下，Cache这个类的两个重要的方法：</span><br></pre></td></tr></table></figure>
+<p>  @Nullable CacheRequest put(Response response) {<br>    String requestMethod = response.request().method();</p>
+<pre><code>if (HttpMethod.invalidatesCache(response.request().method())) {
+  try {
+    remove(response.request());
+  } catch (IOException ignored) {
+    // The cache cannot be written.
+  }
+  return null;
 }
-</code></pre>
+if (!requestMethod.equals(&quot;GET&quot;)) {
+  // Don&apos;t cache non-GET responses. We&apos;re technically allowed to cache
+  // HEAD requests and some POST requests, but the complexity of doing
+  // so is high and the benefit is low.
+  return null;
+}
+
+if (HttpHeaders.hasVaryAll(response)) {
+  return null;
+}
+
+Entry entry = new Entry(response);
+DiskLruCache.Editor editor = null;
+try {
+  editor = cache.edit(key(response.request().url()));
+  if (editor == null) {
+    return null;
+  }
+  entry.writeTo(editor);
+  return new CacheRequestImpl(editor);
+} catch (IOException e) {
+  abortQuietly(editor);
+  return null;
+}
+</code></pre><p>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这个是进行缓存的方法，其中要注意的一点是如果这个请求不是get请求的话那么是不会缓存的。然后通过[DisLruCache](https://www.jianshu.com/p/833adadc9eb6)来进行缓存。通过获取它的editor，然后将request的url作为缓存的键值进行存储，并且返回一个CacheRequestImpl。</span><br></pre></td></tr></table></figure></p>
+<p>  @Nullable Response get(Request request) {<br>    String key = key(request.url());<br>    DiskLruCache.Snapshot snapshot;<br>    Entry entry;<br>    try {<br>      snapshot = cache.get(key);<br>      if (snapshot == null) {<br>        return null;<br>      }<br>    } catch (IOException e) {<br>      // Give up because the cache cannot be read.<br>      return null;<br>    }</p>
+<pre><code>try {
+  entry = new Entry(snapshot.getSource(ENTRY_METADATA));
+} catch (IOException e) {
+  Util.closeQuietly(snapshot);
+  return null;
+}
+
+Response response = entry.response(snapshot);
+
+if (!entry.matches(request, response)) {
+  Util.closeQuietly(response.body());
+  return null;
+}
+
+return response;
+</code></pre><p>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这个是获取缓存的方法，首先获取request的url，然后获取DiskLruCache的snapshot（快照，就是代表DiskLruCache在某一特定时刻某一URL的数据），然后根据快照创建一个response，并且判断这个response和request是否匹配：</span><br></pre></td></tr></table></figure></p>
+<pre><code>public boolean matches(Request request, Response response) {
+  return url.equals(request.url().toString())
+      &amp;&amp; requestMethod.equals(request.method())
+      &amp;&amp; HttpHeaders.varyMatches(response, varyHeaders, request);
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">这个就是匹配的方法，就是看一下header、请求方法、url是否相同。如果匹配，那么返回这个response，否则返回null。</span><br><span class="line"></span><br><span class="line">好了下面看CacheInterceptor：</span><br></pre></td></tr></table></figure>
+<p>  @Override public Response intercept(Chain chain) throws IOException {<br>    Response cacheCandidate = cache != null<br>        ? cache.get(chain.request())<br>        : null;</p>
+<pre><code>long now = System.currentTimeMillis();
+
+CacheStrategy strategy = new CacheStrategy.Factory(now, chain.request(), cacheCandidate).get();
+Request networkRequest = strategy.networkRequest;
+Response cacheResponse = strategy.cacheResponse;
+
+if (cache != null) {
+  cache.trackResponse(strategy);
+}
+
+if (cacheCandidate != null &amp;&amp; cacheResponse == null) {
+  closeQuietly(cacheCandidate.body()); // The cache candidate wasn&apos;t applicable. Close it.
+}
+
+// If we&apos;re forbidden from using the network and the cache is insufficient, fail.
+if (networkRequest == null &amp;&amp; cacheResponse == null) {
+  return new Response.Builder()
+      .request(chain.request())
+      .protocol(Protocol.HTTP_1_1)
+      .code(504)
+      .message(&quot;Unsatisfiable Request (only-if-cached)&quot;)
+      .body(Util.EMPTY_RESPONSE)
+      .sentRequestAtMillis(-1L)
+      .receivedResponseAtMillis(System.currentTimeMillis())
+      .build();
+}
+
+// If we don&apos;t need the network, we&apos;re done.
+if (networkRequest == null) {
+  return cacheResponse.newBuilder()
+      .cacheResponse(stripBody(cacheResponse))
+      .build();
+}
+
+Response networkResponse = null;
+try {
+  networkResponse = chain.proceed(networkRequest);
+} finally {
+  // If we&apos;re crashing on I/O or otherwise, don&apos;t leak the cache body.
+  if (networkResponse == null &amp;&amp; cacheCandidate != null) {
+    closeQuietly(cacheCandidate.body());
+  }
+}
+
+// If we have a cache response too, then we&apos;re doing a conditional get.
+if (cacheResponse != null) {
+  if (networkResponse.code() == HTTP_NOT_MODIFIED) {
+    Response response = cacheResponse.newBuilder()
+        .headers(combine(cacheResponse.headers(), networkResponse.headers()))
+        .sentRequestAtMillis(networkResponse.sentRequestAtMillis())
+        .receivedResponseAtMillis(networkResponse.receivedResponseAtMillis())
+        .cacheResponse(stripBody(cacheResponse))
+        .networkResponse(stripBody(networkResponse))
+        .build();
+    networkResponse.body().close();
+
+    // Update the cache after combining headers but before stripping the
+    // Content-Encoding header (as performed by initContentStream()).
+    cache.trackConditionalCacheHit();
+    cache.update(cacheResponse, response);
+    return response;
+  } else {
+    closeQuietly(cacheResponse.body());
+  }
+}
+
+Response response = networkResponse.newBuilder()
+    .cacheResponse(stripBody(cacheResponse))
+    .networkResponse(stripBody(networkResponse))
+    .build();
+
+if (cache != null) {
+  if (HttpHeaders.hasBody(response) &amp;&amp; CacheStrategy.isCacheable(response, networkRequest)) {
+    // Offer this request to the cache.
+    CacheRequest cacheRequest = cache.put(response);
+    return cacheWritingResponse(cacheRequest, response);
+  }
+
+  if (HttpMethod.invalidatesCache(networkRequest.method())) {
+    try {
+      cache.remove(networkRequest);
+    } catch (IOException ignored) {
+      // The cache cannot be written.
+    }
+  }
+}
+
+return response;
+</code></pre><p>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">首先根据cache是否为null获取相应的缓存的response（cacheCandidate，cache是InternalCache类，但是这个类的get和put方法全是靠Cache类的get和put实现的，在Cache类中，有个InternalCache的匿名类实例），然后根据当前的时间和缓存的response获取一个CacheStrategy，这个过程主要是在CacheStrategy中的Factory的get（）方法实现的，而get（）方法主要通过getCandidate（）方法实现的：</span><br></pre></td></tr></table></figure></p>
+<pre><code>/** Returns a strategy to use assuming the request can use the network. */
+private CacheStrategy getCandidate() {
+  // No cached response.
+  if (cacheResponse == null) {
+    return new CacheStrategy(request, null);
+  }
+
+  // Drop the cached response if it&apos;s missing a required handshake.
+  if (request.isHttps() &amp;&amp; cacheResponse.handshake() == null) {
+    return new CacheStrategy(request, null);
+  }
+
+  // If this response shouldn&apos;t have been stored, it should never be used
+  // as a response source. This check should be redundant as long as the
+  // persistence store is well-behaved and the rules are constant.
+  if (!isCacheable(cacheResponse, request)) {
+    return new CacheStrategy(request, null);
+  }
+
+  CacheControl requestCaching = request.cacheControl();
+  if (requestCaching.noCache() || hasConditions(request)) {
+    return new CacheStrategy(request, null);
+  }
+
+  CacheControl responseCaching = cacheResponse.cacheControl();
+  if (responseCaching.immutable()) {
+    return new CacheStrategy(null, cacheResponse);
+  }
+
+  long ageMillis = cacheResponseAge();
+  long freshMillis = computeFreshnessLifetime();
+
+  if (requestCaching.maxAgeSeconds() != -1) {
+    freshMillis = Math.min(freshMillis, SECONDS.toMillis(requestCaching.maxAgeSeconds()));
+  }
+
+  long minFreshMillis = 0;
+  if (requestCaching.minFreshSeconds() != -1) {
+    minFreshMillis = SECONDS.toMillis(requestCaching.minFreshSeconds());
+  }
+
+  long maxStaleMillis = 0;
+  if (!responseCaching.mustRevalidate() &amp;&amp; requestCaching.maxStaleSeconds() != -1) {
+    maxStaleMillis = SECONDS.toMillis(requestCaching.maxStaleSeconds());
+  }
+
+  if (!responseCaching.noCache() &amp;&amp; ageMillis + minFreshMillis &lt; freshMillis + maxStaleMillis) {
+    Response.Builder builder = cacheResponse.newBuilder();
+    if (ageMillis + minFreshMillis &gt;= freshMillis) {
+      builder.addHeader(&quot;Warning&quot;, &quot;110 HttpURLConnection \&quot;Response is stale\&quot;&quot;);
+    }
+    long oneDayMillis = 24 * 60 * 60 * 1000L;
+    if (ageMillis &gt; oneDayMillis &amp;&amp; isFreshnessLifetimeHeuristic()) {
+      builder.addHeader(&quot;Warning&quot;, &quot;113 HttpURLConnection \&quot;Heuristic expiration\&quot;&quot;);
+    }
+    return new CacheStrategy(null, builder.build());
+  }
+
+  // Find a condition to add to the request. If the condition is satisfied, the response body
+  // will not be transmitted.
+  String conditionName;
+  String conditionValue;
+  if (etag != null) {
+    conditionName = &quot;If-None-Match&quot;;
+    conditionValue = etag;
+  } else if (lastModified != null) {
+    conditionName = &quot;If-Modified-Since&quot;;
+    conditionValue = lastModifiedString;
+  } else if (servedDate != null) {
+    conditionName = &quot;If-Modified-Since&quot;;
+    conditionValue = servedDateString;
+  } else {
+    return new CacheStrategy(request, null); // No condition! Make a regular request.
+  }
+
+  Headers.Builder conditionalRequestHeaders = request.headers().newBuilder();
+  Internal.instance.addLenient(conditionalRequestHeaders, conditionName, conditionValue);
+
+  Request conditionalRequest = request.newBuilder()
+      .headers(conditionalRequestHeaders.build())
+      .build();
+  return new CacheStrategy(conditionalRequest, cacheResponse);
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">主要是根据一些条件返回CacheStrategy。</span><br><span class="line">如果获得strategy不为空，那么就进行缓存跟踪：</span><br></pre></td></tr></table></figure>
+<p>  synchronized void trackResponse(CacheStrategy cacheStrategy) {<br>    requestCount++;</p>
+<pre><code>if (cacheStrategy.networkRequest != null) {
+  // If this is a conditional request, we&apos;ll increment hitCount if/when it hits.
+  networkCount++;
+} else if (cacheStrategy.cacheResponse != null) {
+  // This response uses the cache and not the network. That&apos;s a cache hit.
+  hitCount++;
+}
+</code></pre><p>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">主要就是对缓存明珠旅和网络数量进行一些记录。</span><br><span class="line">之后会进行一系列判断是否使用缓存：</span><br><span class="line"></span><br><span class="line">* 如果缓存不能使用，那么进行清理</span><br></pre></td></tr></table></figure></p>
+<pre><code>if (cacheCandidate != null &amp;&amp; cacheResponse == null) {
+  closeQuietly(cacheCandidate.body()); // The cache candidate wasn&apos;t applicable. Close it.
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 如果没有缓存并且网络不能用那么构造一个504的response</span><br></pre></td></tr></table></figure>
+<pre><code>// If we&apos;re forbidden from using the network and the cache is insufficient, fail.
+if (networkRequest == null &amp;&amp; cacheResponse == null) {
+  return new Response.Builder()
+      .request(chain.request())
+      .protocol(Protocol.HTTP_1_1)
+      .code(504)
+      .message(&quot;Unsatisfiable Request (only-if-cached)&quot;)
+      .body(Util.EMPTY_RESPONSE)
+      .sentRequestAtMillis(-1L)
+      .receivedResponseAtMillis(System.currentTimeMillis())
+      .build();
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 如果只是网络不能使用，那么返回缓存的response</span><br></pre></td></tr></table></figure>
+<pre><code>// If we don&apos;t need the network, we&apos;re done.
+if (networkRequest == null) {
+  return cacheResponse.newBuilder()
+      .cacheResponse(stripBody(cacheResponse))
+      .build();
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">之后通过chain.proceed()方法获得下一个拦截器传递回来的response（这个response是网络的response）。</span><br><span class="line">获得了网络response，那么还会根据条件判断如何处理缓存response和网络response。</span><br><span class="line"></span><br><span class="line">* 如果返回码是HTTP_NOT_MODIFIED（304）的话，那么代表客户端缓存可以继续用，所以需要对缓存response和网络response进行合并、更新缓存并返回：</span><br></pre></td></tr></table></figure>
+<pre><code>// If we have a cache response too, then we&apos;re doing a conditional get.
+if (cacheResponse != null) {
+  if (networkResponse.code() == HTTP_NOT_MODIFIED) {
+    Response response = cacheResponse.newBuilder()
+        .headers(combine(cacheResponse.headers(), networkResponse.headers()))
+        .sentRequestAtMillis(networkResponse.sentRequestAtMillis())
+        .receivedResponseAtMillis(networkResponse.receivedResponseAtMillis())
+        .cacheResponse(stripBody(cacheResponse))
+        .networkResponse(stripBody(networkResponse))
+        .build();
+    networkResponse.body().close();
+
+    // Update the cache after combining headers but before stripping the
+    // Content-Encoding header (as performed by initContentStream()).
+    cache.trackConditionalCacheHit();
+    cache.update(cacheResponse, response);
+    return response;
+  } else {
+    closeQuietly(cacheResponse.body());
+  }
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* 上述条件都不符合，那么使用网络response，如果缓存不为空，那么按照条件（要有相应体，并且CacheStrategy允许缓存），将其缓存，并返回response，对于此时还未返回的response，根据其请求方法（不为get的不缓存）决定是否缓存：</span><br></pre></td></tr></table></figure>
+<pre><code>if (cache != null) {
+  if (HttpHeaders.hasBody(response) &amp;&amp; CacheStrategy.isCacheable(response, networkRequest)) {
+    // Offer this request to the cache.
+    CacheRequest cacheRequest = cache.put(response);
+    return cacheWritingResponse(cacheRequest, response);
+  }
+
+  if (HttpMethod.invalidatesCache(networkRequest.method())) {
+    try {
+      cache.remove(networkRequest);
+    } catch (IOException ignored) {
+      // The cache cannot be written.
+    }
+  }
+}
+</code></pre><p>```</p>
+
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
@@ -630,16 +925,6 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-archive"> Total : 22 </div>
     
     <div class="post-archive">
@@ -692,12 +977,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
         </li>
     
     
@@ -775,13 +1060,17 @@
     
         <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">android</a></span>
+        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">activity</a></span>
+        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">随想</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">android</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">activity</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">面试</a></span>
     
@@ -790,10 +1079,6 @@
         <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">感想</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">源码</a></span>
     
