@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title>
         
-        重走android（3）广播 · sk600&#39;s Studio
+        重走android（12）OkHttp3源码解析（下） · sk600&#39;s Studio
         
     </title>
     <link rel="icon" href= /assets/touxian.png>
@@ -93,7 +93,7 @@
                 <a href="/" >sk600&#39;s Studio.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">重走android（3）广播</a>
+                <a href="#" class="post-name">重走android（12）OkHttp3源码解析（下）</a>
             </div>
     </div>
     
@@ -114,7 +114,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            重走android（3）广播
+            重走android（12）OkHttp3源码解析（下）
             <!-- 404 -->
             
         </h1>
@@ -138,12 +138,14 @@
     
         <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
     
+        <a class="post-tag" href="javascript:void(0);" data-href = 源码>源码</a>
+    
 </div>
             
             <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
             <div class="post-intro-meta">
                 <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                <span class="post-intro-time">2018/01/17</span>
+                <span class="post-intro-time">2018/01/31</span>
                 <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                     <span class="iconfont-archer">&#xe604;</span>
                     <span id="busuanzi_value_page_pv"></span>
@@ -226,56 +228,45 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h1><p>广播作为android四大组件之一，应用非常广泛，主要通过intent这个“介质”来传递信息，可以完成多应用消息传递（即发送一个广播，多个应用程序可以接收到）。</p>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
-<li>用于同一个app中不同进程的不同组件之间通信。</li>
-</ul>
-<p>app可能同时存在有多个进程，比如定位进程、主进程等等，那么两个进程之间通信可以采用广播。</p>
-<ul>
-<li>用于不同app的组件之间的通信。</li>
-</ul>
-<h2 id="广播种类"><a href="#广播种类" class="headerlink" title="广播种类"></a>广播种类</h2><ul>
-<li>Normal Broadcast: Context.sendBroadcast.</li>
-</ul>
-<p>标准广播，这种广播是<strong>完全异步</strong>的，所有接受者几乎都是在同一时间接受到广播的，因此也是没有顺序的，所以广播是<strong>无法截断</strong>的</p>
-<ul>
-<li>Ordered Broadcast: Context.sendOrderedBroadcast.</li>
-</ul>
-<p>有序广播，这种广播时有顺序的，同一时间<strong>只有一个</strong>广播接受者接受到广播，并且只有当前接受者的逻辑之行完毕后才能向后传递，既然有先后顺序，所以这种广播是有优先级的，优先级高的接受者先接受广播，并且可以截断广播阻止先后传播。</p>
-<ul>
-<li>Local Broadcast: 只在app内传播。</li>
-</ul>
-<h2 id="Broadcast-Receiver"><a href="#Broadcast-Receiver" class="headerlink" title="Broadcast Receiver"></a>Broadcast Receiver</h2><h3 id="静态注册"><a href="#静态注册" class="headerlink" title="静态注册"></a>静态注册</h3><p>静态注册，即在manifest文件中进行注册，注册后，这个receiver一直运行，即使activity死掉、甚至进程死掉后，还是能够接收到广播，即使这样，静态注册不够灵活。</p>
-<h3 id="动态注册"><a href="#动态注册" class="headerlink" title="动态注册"></a>动态注册</h3><p>动态注册，即在使用时再注册，动态注册后，其生命周期与所在的activity一致，<strong>要注意，在activity的onDestroy方法中，使用unregisterReceiver方法</strong>。</p>
-<h2 id="广播内部实现机制"><a href="#广播内部实现机制" class="headerlink" title="广播内部实现机制"></a>广播内部实现机制</h2><ol>
-<li>自定义BroadcastReceiver复写onReceive()方法。</li>
-<li>通过Binder机制向AMS（<a href="http://blog.csdn.net/tfslovexizi/article/details/43968173" target="_blank" rel="noopener">Activity Manager Service</a>）进行注册。</li>
-<li>广播发送者也想AMS进行注册后，发送广播。</li>
-<li>AMS根据广播查找符合相应条件（IntentFilter／Permission等）的BroadcastReceiver，并将广播发送到对应的消息循环队列中。</li>
-<li>消息循环执行拿到此广播，回调BroadcastReceiver的onReceive（）方法。</li>
+        <h1 id="OkHttp3源码解析（二）"><a href="#OkHttp3源码解析（二）" class="headerlink" title="OkHttp3源码解析（二）"></a>OkHttp3源码解析（二）</h1><p>上一篇博客基本讲解了OkHttp的使用全过程，除了connectionPool和getResponseWithInterceptorChain()方法，今天主要讲讲这个Interceptor，拦截器。</p>
+<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>拦截器是OkHttp的核心组件，是网络传输的主要载体。主要是根据对request和response的不同过程的处理生成不同的拦截器，然后将拦截器组成一个拦截器链，通过拦截器链中拦截器的递归调用完成最终的发送request和获取response。<br>拦截器主要分为两种，一种是应用拦截器，一种是network拦截器，后者是用户提供的拦截器，这里不做研究，主要研究OkHttp内部的拦截器。<br>拦截器从执行顺序来讲主要有5个：</p>
+<ol>
+<li>RetryAndFollowUpInterceptor</li>
+<li>BridgeInterceptor</li>
+<li>CacheInterceptor</li>
+<li>ConnectInterceptor</li>
+<li>CallServerInterceptor</li>
 </ol>
-<h2 id="LocalBroadcastManager"><a href="#LocalBroadcastManager" class="headerlink" title="LocalBroadcastManager"></a>LocalBroadcastManager</h2><p>本地广播就是一种只在app内部传播消息的广播，比起全局广播，其传递消息的效率更高，安全性更好（不用担心内部数据泄漏等等），使用这种广播也无法接受到其他app对你发送的<strong>该</strong>广播，所以不会因为广播引起安全漏洞的问题。<br>LocalBroadcastManager之所以能够实现高效和app内部通信，主要是因为其消息传递使用了Handler，其发送消息主要是通过Handler的sendMessage，这样就不同于Binder机制，Handler效率比Binder快，而且只能用于app内部。<br>其主要靠两个HashMap（mReceivers和mActions）和一个ArrayList（mPendingBroadcasts）。这些在<a href="https://sk600.github.io/2018/01/17/%E9%87%8D%E8%B5%B0android%EF%BC%884%EF%BC%89LocalBroadcastManager%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" target="_blank" rel="noopener">源码解析</a>在这里。</p>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li>BroadcastReceiver的onReceive方法不能执行耗时操作，若执行时间过长，会报错。</li>
-<li>BroadcastReceiver是不能开启线程的。</li>
-</ul>
+<h2 id="getResponseWithInterceptorChain"><a href="#getResponseWithInterceptorChain" class="headerlink" title="getResponseWithInterceptorChain()"></a>getResponseWithInterceptorChain()</h2><p>这个方法是进行网络请求的核心方法，所有后面拦截器的都是在这个方法中添加的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Response getResponseWithInterceptorChain() throws IOException &#123;</span><br><span class="line">  // Build a full stack of interceptors.</span><br><span class="line">  List&lt;Interceptor&gt; interceptors = new ArrayList&lt;&gt;();</span><br><span class="line">  interceptors.addAll(client.interceptors());</span><br><span class="line">  interceptors.add(retryAndFollowUpInterceptor);</span><br><span class="line">  interceptors.add(new BridgeInterceptor(client.cookieJar()));</span><br><span class="line">  interceptors.add(new CacheInterceptor(client.internalCache()));</span><br><span class="line">  interceptors.add(new ConnectInterceptor(client));</span><br><span class="line">  if (!forWebSocket) &#123;</span><br><span class="line">    interceptors.addAll(client.networkInterceptors());</span><br><span class="line">  &#125;</span><br><span class="line">  interceptors.add(new CallServerInterceptor(forWebSocket));</span><br><span class="line"></span><br><span class="line">  Interceptor.Chain chain = new RealInterceptorChain(interceptors, null, null, null, 0,</span><br><span class="line">      originalRequest, this, eventListener, client.connectTimeoutMillis(),</span><br><span class="line">      client.readTimeoutMillis(), client.writeTimeoutMillis());</span><br><span class="line"></span><br><span class="line">  return chain.proceed(originalRequest);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，这个方法主要是添加了各个拦截器，之后创建了一个RealInterceptorChain，调用这个chain的proceed（）方法，那么我们看看这个proceed（）方法：<br><code>Response proceed(Request request) throws IOException;</code><br>这是Interceptor.Chain的接口的方法，实现在这里：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public Response proceed(Request request, StreamAllocation streamAllocation, HttpCodec httpCodec,</span><br><span class="line">    RealConnection connection) throws IOException &#123;</span><br><span class="line"> ...</span><br><span class="line">  </span><br><span class="line">  // Call the next interceptor in the chain.</span><br><span class="line">  RealInterceptorChain next = new RealInterceptorChain(interceptors, streamAllocation, httpCodec,</span><br><span class="line">      connection, index + 1, request, call, eventListener, connectTimeout, readTimeout,</span><br><span class="line">      writeTimeout);</span><br><span class="line">  Interceptor interceptor = interceptors.get(index);</span><br><span class="line">  Response response = interceptor.intercept(next);</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line">  </span><br><span class="line">  return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是这个方法的核心部分，就是构造了构造一个起始序号（index + 1）为下一个拦截器的拦截器链，然后获取当前序号（index）的拦截器，通过这个拦截器的intercep（Interceptor）方法来获取response，这个intercept（）方法是Interceptor接口的唯一抽象方法，所有的拦截器都扩展了这个接口，也就是所有核心的网络处理都在intercept（）方法中。<br>从这个方法中也可以看到，OkHttp的拦截器链有点像TCP／IP分层协议一样，每一个拦截器就是一层，每层完成自己的任务。而每层之间相互的递归调用就是通过那个index + 1 来构造一个realInterceptorChain，并且不断向下传递，index不断 + 1，直到最后一个拦截器，然后再向上返回，得到最终可用的response。</p>
+<h2 id="RetryAndFollowUpInterceptor"><a href="#RetryAndFollowUpInterceptor" class="headerlink" title="RetryAndFollowUpInterceptor"></a>RetryAndFollowUpInterceptor</h2><p>这个拦截器也就是重定向拦截器，是拦截器链中第一个拦截器，主要是完成请求的重定向相关问题，下面看看它的intercept（）方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">@Override public Response intercept(Chain chain) throws IOException &#123;</span><br><span class="line">  Request request = chain.request();</span><br><span class="line">  RealInterceptorChain realChain = (RealInterceptorChain) chain;</span><br><span class="line">  Call call = realChain.call();</span><br><span class="line">  EventListener eventListener = realChain.eventListener();</span><br><span class="line"></span><br><span class="line">  streamAllocation = new StreamAllocation(client.connectionPool(), createAddress(request.url()),</span><br><span class="line">      call, eventListener, callStackTrace);</span><br><span class="line"></span><br><span class="line">  int followUpCount = 0;</span><br><span class="line">  Response priorResponse = null;</span><br><span class="line">  while (true) &#123;</span><br><span class="line">    if (canceled) &#123;</span><br><span class="line">      streamAllocation.release();</span><br><span class="line">      throw new IOException(&quot;Canceled&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Response response;</span><br><span class="line">    boolean releaseConnection = true;</span><br><span class="line">    ...</span><br><span class="line">    response = realChain.proceed(request, streamAllocation, null, null);</span><br><span class="line">      </span><br><span class="line"></span><br><span class="line">    Request followUp = followUpRequest(response);</span><br><span class="line"></span><br><span class="line">    if (followUp == null) &#123;</span><br><span class="line">      if (!forWebSocket) &#123;</span><br><span class="line">        streamAllocation.release();</span><br><span class="line">      &#125;</span><br><span class="line">      return response;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    closeQuietly(response.body());</span><br><span class="line"></span><br><span class="line">    if (++followUpCount &gt; MAX_FOLLOW_UPS) &#123;</span><br><span class="line">      streamAllocation.release();</span><br><span class="line">      throw new ProtocolException(&quot;Too many follow-up requests: &quot; + followUpCount);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法很大，我截取了关键的部分。<br>首先构造一个streamAllocation，这个是对socket以及http协议和逻辑上的一些流的抽象的联系，这个主要会在ConnectInterceptor中讲到（这个streamAllocation会不断沿着chain一直传递）。<br>然后通过一个无限循环进行处理，关键的一行代码：<br><code>response = realChain.proceed(request, streamAllocation, null, null);</code><br>通过chain的proceed（）方法获取响应，刚刚我们知道了，这个chain其实是index为下一个拦截器的序号，所以，这里的意思就是调用下一个拦截器的intercept（）方法返回response（这也就是递归）。<br>下面通过followUpRequest（）方法得到一个Request，这个方法主要是根据不同的响应码（比如200、404、403之类的）构建重定向时的request，如果是200的话，这个request为null，其他的码大部分返回不为null。<br>根据这个码和forWebSocket属性可以知道这个response是不是可用的，如果可用直接返回（比如不是websocket并且200）response(这里的response就是我们最终拿到的response），如果需要重定向的话，那么就需要根据followUpCount数量判断是不是应该重定向如果重定向次数大于MAX_FOLLOW_UPS的话，那么就释放资源，抛出异常，如果没有大于的话，那么就不断循环进行重试。<br>最下面省略号省略的是根据各种情况释放资源。<br><a href="https://www.jianshu.com/p/03a75976a9a2" target="_blank" rel="noopener">@see</a></p>
+<h2 id="BridgeInterceptor"><a href="#BridgeInterceptor" class="headerlink" title="BridgeInterceptor"></a>BridgeInterceptor</h2><p>这个拦截器主要是对请求头进行转换（使用Request.Builder构建为Http中的头部格式），并对返回的response数据进行部分处理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">@Override public Response intercept(Chain chain) throws IOException &#123;</span><br><span class="line">  Request userRequest = chain.request();</span><br><span class="line">  Request.Builder requestBuilder = userRequest.newBuilder();</span><br><span class="line"></span><br><span class="line">  RequestBody body = userRequest.body();</span><br><span class="line">      // If we add an &quot;Accept-Encoding: gzip&quot; header field we&apos;re responsible for also decompressing</span><br><span class="line">  // the transfer stream.</span><br><span class="line">  boolean transparentGzip = false;</span><br><span class="line">  </span><br><span class="line">  if (userRequest.header(&quot;Accept-Encoding&quot;) == null &amp;&amp; userRequest.header(&quot;Range&quot;) == null) &#123;</span><br><span class="line">    transparentGzip = true;</span><br><span class="line">    requestBuilder.header(&quot;Accept-Encoding&quot;, &quot;gzip&quot;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  List&lt;Cookie&gt; cookies = cookieJar.loadForRequest(userRequest.url());</span><br><span class="line">  if (!cookies.isEmpty()) &#123;</span><br><span class="line">    requestBuilder.header(&quot;Cookie&quot;, cookieHeader(cookies));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">  Response networkResponse = chain.proceed(requestBuilder.build());</span><br><span class="line"></span><br><span class="line">  HttpHeaders.receiveHeaders(cookieJar, userRequest.url(), networkResponse.headers());</span><br><span class="line"></span><br><span class="line">  Response.Builder responseBuilder = networkResponse.newBuilder()</span><br><span class="line">      .request(userRequest);</span><br><span class="line"></span><br><span class="line">  if (transparentGzip</span><br><span class="line">      &amp;&amp; &quot;gzip&quot;.equalsIgnoreCase(networkResponse.header(&quot;Content-Encoding&quot;))</span><br><span class="line">      &amp;&amp; HttpHeaders.hasBody(networkResponse)) &#123;</span><br><span class="line">    GzipSource responseBody = new GzipSource(networkResponse.body().source());</span><br><span class="line">    Headers strippedHeaders = networkResponse.headers().newBuilder()</span><br><span class="line">        .removeAll(&quot;Content-Encoding&quot;)</span><br><span class="line">        .removeAll(&quot;Content-Length&quot;)</span><br><span class="line">        .build();</span><br><span class="line">    responseBuilder.headers(strippedHeaders);</span><br><span class="line">    String contentType = networkResponse.header(&quot;Content-Type&quot;);</span><br><span class="line">    responseBuilder.body(new RealResponseBody(contentType, -1L, Okio.buffer(responseBody)));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return responseBuilder.build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>省略号前的部分为对request的body和header进行处理。重点是cookie和gzip，如果OkHttpClient设置过cookieJar的话，那么这里会将cookie信息取出并放入头部。<br>之后通过chain.proceed（）方法调用下一个拦截器，并获取response。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">OkHttpClient okHttpClient = new OkHttpClient.Builder()</span><br><span class="line">                .cookieJar(new CookieJar() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void saveFromResponse(HttpUrl url, List&lt;Cookie&gt; cookies) &#123;</span><br><span class="line">                        // 保存cookie通常使用SharedPreferences</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    @Override</span><br><span class="line">                    public List&lt;Cookie&gt; loadForRequest(HttpUrl url) &#123;</span><br><span class="line">                      // 从保存位置读取，注意此处不能为空，否则会导致空指针</span><br><span class="line">                        return new ArrayList&lt;&gt;();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">                .build();</span><br></pre></td></tr></table></figure>
+<pre><code>public static void receiveHeaders(CookieJar cookieJar, HttpUrl url, Headers headers) {
+  if (cookieJar == CookieJar.NO_COOKIES) return;
 
+  List&lt;Cookie&gt; cookies = Cookie.parseAll(url, headers);
+  if (cookies.isEmpty()) return;
+
+  cookieJar.saveFromResponse(url, cookies);
+}
+</code></pre>
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
         
-            <li class="next">
-                <a href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" title= 重走android（4）LocalBroadcastManager源码解析 >
-                    <span>Next Post</span>
-                    <span>重走android（4）LocalBroadcastManager源码解析</span>
-                </a>
-            </li>
-        
         
             <li class="previous">
-                <a href= "/2018/01/17/重走android（2）服务/" title= 重走android（2）服务 >
+                <a href= "/2018/01/30/重走android（11）OkHttp3源码解析（上）/" title= 重走android（11）OkHttp3源码解析（上） >
                     <span>Previous Post</span>
-                    <span>重走android（2）服务</span>
+                    <span>重走android（11）OkHttp3源码解析（上）</span>
                 </a>
             </li>
         
@@ -345,7 +336,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#广播"><span class="toc-number">1.</span> <span class="toc-text">广播</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#应用场景"><span class="toc-number">1.1.</span> <span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#广播种类"><span class="toc-number">1.2.</span> <span class="toc-text">广播种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broadcast-Receiver"><span class="toc-number">1.3.</span> <span class="toc-text">Broadcast Receiver</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#静态注册"><span class="toc-number">1.3.1.</span> <span class="toc-text">静态注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态注册"><span class="toc-number">1.3.2.</span> <span class="toc-text">动态注册</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#广播内部实现机制"><span class="toc-number">1.4.</span> <span class="toc-text">广播内部实现机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LocalBroadcastManager"><span class="toc-number">1.5.</span> <span class="toc-text">LocalBroadcastManager</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">1.6.</span> <span class="toc-text">其他</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#OkHttp3源码解析（二）"><span class="toc-number">1.</span> <span class="toc-text">OkHttp3源码解析（二）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#拦截器"><span class="toc-number">1.1.</span> <span class="toc-text">拦截器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getResponseWithInterceptorChain"><span class="toc-number">1.2.</span> <span class="toc-text">getResponseWithInterceptorChain()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RetryAndFollowUpInterceptor"><span class="toc-number">1.3.</span> <span class="toc-text">RetryAndFollowUpInterceptor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BridgeInterceptor"><span class="toc-number">1.4.</span> <span class="toc-text">BridgeInterceptor</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
