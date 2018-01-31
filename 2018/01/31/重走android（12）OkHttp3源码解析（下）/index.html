@@ -249,7 +249,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">@Override public Response intercept(Chain chain) throws IOException &#123;</span><br><span class="line">  Request userRequest = chain.request();</span><br><span class="line">  Request.Builder requestBuilder = userRequest.newBuilder();</span><br><span class="line"></span><br><span class="line">  RequestBody body = userRequest.body();</span><br><span class="line">      // If we add an &quot;Accept-Encoding: gzip&quot; header field we&apos;re responsible for also decompressing</span><br><span class="line">  // the transfer stream.</span><br><span class="line">  boolean transparentGzip = false;</span><br><span class="line">  </span><br><span class="line">  if (userRequest.header(&quot;Accept-Encoding&quot;) == null &amp;&amp; userRequest.header(&quot;Range&quot;) == null) &#123;</span><br><span class="line">    transparentGzip = true;</span><br><span class="line">    requestBuilder.header(&quot;Accept-Encoding&quot;, &quot;gzip&quot;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  List&lt;Cookie&gt; cookies = cookieJar.loadForRequest(userRequest.url());</span><br><span class="line">  if (!cookies.isEmpty()) &#123;</span><br><span class="line">    requestBuilder.header(&quot;Cookie&quot;, cookieHeader(cookies));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">  Response networkResponse = chain.proceed(requestBuilder.build());</span><br><span class="line"></span><br><span class="line">  HttpHeaders.receiveHeaders(cookieJar, userRequest.url(), networkResponse.headers());</span><br><span class="line"></span><br><span class="line">  Response.Builder responseBuilder = networkResponse.newBuilder()</span><br><span class="line">      .request(userRequest);</span><br><span class="line"></span><br><span class="line">  if (transparentGzip</span><br><span class="line">      &amp;&amp; &quot;gzip&quot;.equalsIgnoreCase(networkResponse.header(&quot;Content-Encoding&quot;))</span><br><span class="line">      &amp;&amp; HttpHeaders.hasBody(networkResponse)) &#123;</span><br><span class="line">    GzipSource responseBody = new GzipSource(networkResponse.body().source());</span><br><span class="line">    Headers strippedHeaders = networkResponse.headers().newBuilder()</span><br><span class="line">        .removeAll(&quot;Content-Encoding&quot;)</span><br><span class="line">        .removeAll(&quot;Content-Length&quot;)</span><br><span class="line">        .build();</span><br><span class="line">    responseBuilder.headers(strippedHeaders);</span><br><span class="line">    String contentType = networkResponse.header(&quot;Content-Type&quot;);</span><br><span class="line">    responseBuilder.body(new RealResponseBody(contentType, -1L, Okio.buffer(responseBody)));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return responseBuilder.build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>省略号前的部分为对request的body和header进行处理。重点是cookie和gzip，如果OkHttpClient设置过cookieJar的话，那么这里会将cookie信息取出并放入头部。<br>之后通过chain.proceed（）方法调用下一个拦截器，并获取response。<br>将response中的cookie信息使用cookieJar进行处理（HttpHeaders.receiveHeaders(cookieJar, userRequest.url(), networkResponse.headers()),这个方法下面有源码），然后根据条件（服务器是否支持gzip、response是否有body）将responseBody交给Okio的GzipSource进行解压，然后重新构造一个reponse，并向上一个拦截器返回。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">OkHttpClient okHttpClient = new OkHttpClient.Builder()</span><br><span class="line">                .cookieJar(new CookieJar() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void saveFromResponse(HttpUrl url, List&lt;Cookie&gt; cookies) &#123;</span><br><span class="line">                        // 保存cookie通常使用SharedPreferences</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    @Override</span><br><span class="line">                    public List&lt;Cookie&gt; loadForRequest(HttpUrl url) &#123;</span><br><span class="line">                      // 从保存位置读取，注意此处不能为空，否则会导致空指针</span><br><span class="line">                        return new ArrayList&lt;&gt;();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">                .build();</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">  public static void receiveHeaders(CookieJar cookieJar, HttpUrl url, Headers headers) &#123;</span><br><span class="line">    if (cookieJar == CookieJar.NO_COOKIES) return;</span><br><span class="line"></span><br><span class="line">    List&lt;Cookie&gt; cookies = Cookie.parseAll(url, headers);</span><br><span class="line">    if (cookies.isEmpty()) return;</span><br><span class="line"></span><br><span class="line">    cookieJar.saveFromResponse(url, cookies);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">```	</span><br><span class="line">这就是cookie的使用。</span><br><span class="line">[@see](https://www.jianshu.com/p/71c844d340d0)</span><br><span class="line"></span><br><span class="line">## CacheInterceptor</span><br><span class="line">这是缓存拦截器，这个拦截器就是为了根据一定的策略从缓存中读取数据。</span><br><span class="line">在讲解这个拦截器之前，首先看一下，Cache这个类的两个重要的方法：</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">  public static void receiveHeaders(CookieJar cookieJar, HttpUrl url, Headers headers) &#123;</span><br><span class="line">    if (cookieJar == CookieJar.NO_COOKIES) return;</span><br><span class="line"></span><br><span class="line">    List&lt;Cookie&gt; cookies = Cookie.parseAll(url, headers);</span><br><span class="line">    if (cookies.isEmpty()) return;</span><br><span class="line"></span><br><span class="line">    cookieJar.saveFromResponse(url, cookies);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line">这就是cookie的使用。</span><br><span class="line">[@see](https://www.jianshu.com/p/71c844d340d0)</span><br><span class="line"></span><br><span class="line">## CacheInterceptor</span><br><span class="line">这是缓存拦截器，这个拦截器就是为了根据一定的策略从缓存中读取数据。</span><br><span class="line">在讲解这个拦截器之前，首先看一下，Cache这个类的两个重要的方法：</span><br></pre></td></tr></table></figure>
 <p>  @Nullable CacheRequest put(Response response) {<br>    String requestMethod = response.request().method();</p>
 <pre><code>if (HttpMethod.invalidatesCache(response.request().method())) {
   try {
@@ -925,6 +925,24 @@ if (cacheResponse != null) {
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-archive"> Total : 22 </div>
     
     <div class="post-archive">
@@ -982,12 +1000,12 @@ if (cacheResponse != null) {
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
         </li>
     
     
@@ -1002,12 +1020,12 @@ if (cacheResponse != null) {
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
         </li>
     
     
