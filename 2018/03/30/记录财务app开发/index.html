@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title>
         
-        sk600&#39;s Studio
+        记录财务app开发 · sk600&#39;s Studio
         
     </title>
     <link rel="icon" href= /assets/touxian.png>
@@ -79,6 +79,8 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
@@ -86,27 +88,73 @@
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
     
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >sk600&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">记录财务app开发</a>
+            </div>
+    </div>
+    
     <a class="home-link" href=/>sk600's Studio.</a>
 </header>
     <div class="wrapper">
         <div class="site-intro">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(http://oumn0o088.bkt.clouddn.com/post-bg.jpg)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
+            记录财务app开发
+            <!-- 404 -->
+            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 随想>随想</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 练习>练习</a>
+    
+</div>
+            
+            <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/03/30</span>
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe604;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">
+                        &#xe601;
+                    </span>
+                    <span class="bdsharebuttonbox">
+                        <a href="#" class="bds_more shareText" data-cmd="more">Share</a>
+                    </span>
+                </span>
+            </div>
         
     </div>
 </div>
@@ -174,42 +222,38 @@
             }
         </script>
         <div class="container container-unloaded">
-            <main class="main index-page">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>刚刚进入管院，老师、师兄&amp;师姐对我都不错，very nice，过几天要随老师去芜湖出差，估计要去很久，上次跟着去了一趟芜湖，发现记录需要报账的东西太麻烦了，东西太零碎了，大家都比较懒，只用脑袋记，最后也不知道花了多少，所以为了方便起见写个小app，记录一下这些账单，如果老师和师兄师姐们满意～那之后再写成微信小程序，更方便一些。</p>
+<h1 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h1><h2 id="服务端开发"><a href="#服务端开发" class="headerlink" title="服务端开发"></a>服务端开发</h2><p>后端还是比较简单的，直接上spring boot和mongodb，一天完成，功能很简单，就是上传记录、上传图片、分组、汇总，而且为了简单，token验证之类的什么都没弄，之后再编一个dockerfile就够了，<strong>方便为主方便为主方便为主</strong>。。。也就是说其实数据都是在裸奔的，不过反正也是个自己用的小东西，有谁知道呢。。。就这么干吧～时间节省下来研究机器学习，嗯，这是条好路子，我一定要深入了学，本科的时候就因为学习的深度不够，最后很吃亏，这次我一定要打好基础，奋斗吧～。</p>
+<h1 id="app"><a href="#app" class="headerlink" title="app"></a>app</h1><h2 id="app设计"><a href="#app设计" class="headerlink" title="app设计"></a>app设计</h2><p>app要设计的很简单，注册直接输手机号和密码。。。验证码还得接sdk太麻烦了，不搞了。创建分组的时候就输入一个组的标示码，这个随便起就行，其他想要加入分组的填写这个码就能加入。<br>记录的时候，要接入百度语音识别接口，直接获取识别出的文字然后填写价格，如果想要拍照片，直接把照片上传就可以了。<br>采用悬浮窗设计，点击悬浮窗弹出一个大一点的弹窗，大的弹窗直接允许输入语音、价格、上传，不允许拍照（主要是嫌麻烦）。。。另一种模式就是在非弹窗汇中（在activity），图片也可以弄了，嗯，就这样，越简单越好。<br>保活的话直接用一个粘性的notification好了，这个最简单。<br>估计app得写个一两天吧，主要是好久没写悬浮窗了。。。保活也只记得大概了，唉，真是老了记性不好了，反正以后也不走这条路，就当个工具用吧。</p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+        
+            <li class="previous">
+                <a href= "/2018/03/28/开启新的篇章/" title= 开启新的篇章 >
+                    <span>Previous Post</span>
+                    <span>开启新的篇章</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
     
+    <!--PC版-->
+
+    <!--PC版-->
+
+
     
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/16/设计模式（1）单例模式/" >
-                
-                    <span>设计模式（1）单例模式</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/16/设计模式（1）单例模式/" >
-                <div class="abstract-content">
-                    设计模式之单例模式在开发中有很多情况下需要使对象只保持一个，比如说一些配置文件、工具类、线程池等等，这些东西如果有多个可能导致结果不一致、资源浪费等等，所以就有了单例模式。
-单例模式总的特点就是构造方法私有，有一个私有静态实例，只能通过公共静态方法获得实例，但是根据实例的初始化时间分为饿汉模式和懒汉模式。
-饿汉模式1234567891011public class HungrySingleton &#123;	private static HungrySingleton instance = new HungrySingleton();	private HungrySingleton()...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 设计模式>设计模式</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/16</span>
-                </div>
-            </div>
-        </article>
-    
-    <!-- paginator  -->
-    
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -257,6 +301,13 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#服务端"><span class="toc-number">1.</span> <span class="toc-text">服务端</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#服务端开发"><span class="toc-number">1.1.</span> <span class="toc-text">服务端开发</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#app"><span class="toc-number">2.</span> <span class="toc-text">app</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#app设计"><span class="toc-number">2.1.</span> <span class="toc-text">app设计</span></a></li></ol></li></ol>
+    </div>
     
     <div class="back-top">&#xe639;</div>
     <div class="sidebar">
