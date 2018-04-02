@@ -227,6 +227,7 @@
         <p>刚刚进入管院，老师、师兄&amp;师姐对我都不错，very nice，过几天要随老师去芜湖出差，估计要去很久，上次跟着去了一趟芜湖，发现记录需要报账的东西太麻烦了，东西太零碎了，大家都比较懒，只用脑袋记，最后也不知道花了多少，所以为了方便起见写个小app，记录一下这些账单，如果老师和师兄师姐们满意～那之后再写成微信小程序，更方便一些。</p>
 <h1 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h1><h2 id="服务端开发"><a href="#服务端开发" class="headerlink" title="服务端开发"></a>服务端开发</h2><p>后端还是比较简单的，直接上spring boot和mongodb，一天完成，功能很简单，就是上传记录、上传图片、分组、汇总，而且为了简单，token验证之类的什么都没弄，之后再编一个dockerfile就够了，<strong>方便为主方便为主方便为主</strong>。。。也就是说其实数据都是在裸奔的，不过反正也是个自己用的小东西，有谁知道呢。。。就这么干吧～时间节省下来研究机器学习，嗯，这是条好路子，我一定要深入了学，本科的时候就因为学习的深度不够，最后很吃亏，这次我一定要打好基础，奋斗吧～。</p>
 <h1 id="app"><a href="#app" class="headerlink" title="app"></a>app</h1><h2 id="app设计"><a href="#app设计" class="headerlink" title="app设计"></a>app设计</h2><p>app要设计的很简单，注册直接输手机号和密码。。。验证码还得接sdk太麻烦了，不搞了。创建分组的时候就输入一个组的标示码，这个随便起就行，其他想要加入分组的填写这个码就能加入。<br>记录的时候，要接入百度语音识别接口，直接获取识别出的文字然后填写价格，如果想要拍照片，直接把照片上传就可以了。<br>采用悬浮窗设计，点击悬浮窗弹出一个大一点的弹窗，大的弹窗直接允许输入语音、价格、上传，不允许拍照（主要是嫌麻烦）。。。另一种模式就是在非弹窗汇中（在activity），图片也可以弄了，嗯，就这样，越简单越好。<br>保活的话直接用一个粘性的notification好了，这个最简单。<br>估计app得写个一两天吧，主要是好久没写悬浮窗了。。。保活也只记得大概了，唉，真是老了记性不好了，反正以后也不走这条路，就当个工具用吧。</p>
+<h2 id="app实施"><a href="#app实施" class="headerlink" title="app实施"></a>app实施</h2><p>mmp，简直了，为了以后写毕设方便，专门升级了AS3.0，结果。。。惨不忍睹，卡顿感十足，而且中英文之间的转换也不像以前那么流畅，最坑爹的就是其中的打包。。。打出来的是残缺的（虽然调试起来十分快速），找了半天原因，才发现是包不全。。。唉。不过也弄成了，不管了。</p>
 
     </article>
     <!-- 前后页  -->
@@ -306,7 +307,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#服务端"><span class="toc-number">1.</span> <span class="toc-text">服务端</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#服务端开发"><span class="toc-number">1.1.</span> <span class="toc-text">服务端开发</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#app"><span class="toc-number">2.</span> <span class="toc-text">app</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#app设计"><span class="toc-number">2.1.</span> <span class="toc-text">app设计</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#服务端"><span class="toc-number">1.</span> <span class="toc-text">服务端</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#服务端开发"><span class="toc-number">1.1.</span> <span class="toc-text">服务端开发</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#app"><span class="toc-number">2.</span> <span class="toc-text">app</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#app设计"><span class="toc-number">2.1.</span> <span class="toc-text">app设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#app实施"><span class="toc-number">2.2.</span> <span class="toc-text">app实施</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
@@ -320,18 +321,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -692,17 +681,17 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
         </li>
     
     
@@ -775,29 +764,29 @@
     
         <span class="sidebar-tag-name"><a href= "#">tip</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">android</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">activity</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">随想</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">考研</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">练习</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">android</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">activity</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">考研</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">感想</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">面试</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">工作</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">感想</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">源码</a></span>
     
