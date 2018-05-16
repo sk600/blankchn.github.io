@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title>
         
-        sk600&#39;s Studio
+        毕设云盘架构思路Eureka实现篇 · sk600&#39;s Studio
         
     </title>
     <link rel="icon" href= /assets/touxian.png>
@@ -79,6 +79,8 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
@@ -86,27 +88,75 @@
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
     
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >sk600&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">毕设云盘架构思路Eureka实现篇</a>
+            </div>
+    </div>
+    
     <a class="home-link" href=/>sk600's Studio.</a>
 </header>
     <div class="wrapper">
         <div class="site-intro">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(http://oumn0o088.bkt.clouddn.com/post-bg.jpg)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
+            毕设云盘架构思路Eureka实现篇
+            <!-- 404 -->
+            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 毕设>毕设</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 框架>框架</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 随想>随想</a>
+    
+</div>
+            
+            <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/05/16</span>
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe604;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">
+                        &#xe601;
+                    </span>
+                    <span class="bdsharebuttonbox">
+                        <a href="#" class="bds_more shareText" data-cmd="more">Share</a>
+                    </span>
+                </span>
+            </div>
         
     </div>
 </div>
@@ -174,194 +224,40 @@
             }
         </script>
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/04/String-intern-方法/" >
-                
-                    <span>String intern()方法</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/04/String-intern-方法/" >
-                <div class="abstract-content">
-                    参考文章
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="云盘思路"><a href="#云盘思路" class="headerlink" title="云盘思路"></a>云盘思路</h1><p>云盘的主要实现方法是将eureka和zuul整合在一起，但是由于所设计功能的缘故，不同的注册中心之间的注册信息不能共享，zuul的网关不仅实现转发和过滤，同时实现不同服务之间的多级授权，而且也想借这个机会好好研究一下spring的源码，所以准备手写一遍（<strong>当然是需要的部分啦</strong>）。</p>
+<h2 id="注册中心所需组件"><a href="#注册中心所需组件" class="headerlink" title="注册中心所需组件"></a>注册中心所需组件</h2><p>注册中心主要负责不同服务之间相互注册，同时完成好友推测功能和广播功能。</p>
+<h3 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h3><p>直接的好友的生成需要依赖于相互注册，注册时向对方服务发送指定的验证码，并附上自己对其的token，对方拿到验证码验证后返回token。接收注册方需要返回指定续约时间以及最大熔断续约周期（以个为单位，表示有几个续约时间）。</p>
+<h3 id="续约"><a href="#续约" class="headerlink" title="续约"></a>续约</h3><p>按照约定的续约时间进行续约，由直接好友发起方进行续约，若失败，睡眠一个续约周期重试，达到对方的最大熔断续约周期仍未成功，标记断线，放入队列中，待指定日期（由本服务指定geek.fuse.reconnect.time，单位天）。<br>可以自定义续约线程数量，另外有一个线程作为熔断后的重试线程，所有续约线程和重试线程全部作为守护线程。</p>
+<h3 id="注销"><a href="#注销" class="headerlink" title="注销"></a>注销</h3><p>当需要取消好友关系或者熔断后重试线程仍无法重连，则进行注销，对token进行注销，其他信息进行保留。</p>
 
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = String>String</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = tip>tip</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/04</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/04/java内存区域与内存溢出异常/" >
-                
-                    <span>java内存区域与内存溢出异常</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/04/java内存区域与内存溢出异常/" >
-                <div class="abstract-content">
-                    运行时数据区域程序计数器(Program Counter Register)可以当作是当前线程所执行的字节码的行号指示器，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令（分支、跳转、循环、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成）。java虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的，在任何一个确定的时刻，一个处理器（多核处理器来说是指一个内核）都只会执行一个线程中的指令。因此每个线程都需要一个程序计数器来保证线程切换后能够恢复到指定的位置，每个线程的独立用用各自的程序计数器（“线程私有”的内存）。对于java方法，计数器...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = jvm>jvm</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 《深入理解Java虚拟机》>《深入理解Java虚拟机》</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/04</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/03/贝贝网实习面试（1）/" >
-                
-                    <span>贝贝网实习面试（1）</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/03/贝贝网实习面试（1）/" >
-                <div class="abstract-content">
-                    贝贝网android面试一面（电面）由于找的是实习生，所以这次的面试不是很难，但是收获很大。
-第一问：项目经验由于大学中做过很多项目，所以简历中项目经验较足，面试官问我所有项目中自己最为熟悉的项目，面试官并没有详细询问运用的技术点，而是主要问我在其中所起到的作用，如何协调，技术方面带过了一句“客户端怎么又没有存储token之类的？”
-第二问：设计模式面试官问了刚刚项目中所运用的设计模式，又问了单例模式和适配器模式，单例模式我理解还是不深（以往都是自己在摸索，没有正式公司级项目经验，所以理解的有些歪了）。适配器模式用android中listview和recycleview用到的适配器举例，...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 面试>面试</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 工作>工作</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/03</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/03/java-基础（1）/" >
-                
-                    <span>java 基础（1）</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/03/java-基础（1）/" >
-                <div class="abstract-content">
-                    数据类型总结java是强类型语言，基本数据类型一共有8种
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+        
+            <li class="previous">
+                <a href= "/2018/03/30/记录财务app开发/" title= 记录财务app开发 >
+                    <span>Previous Post</span>
+                    <span>记录财务app开发</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
 
-整型——4种
-浮点型——2种
-字符类型——1种
-真值——1种整数4种整数
-int 4字节 -20亿～20亿
-short 2字节 
-byte 1字节 -128～127
-long 8字节 使用L做后缀（尽量不要使用l，因为与1很难区分）注意：java没有任何无符号的整型进制表示
-16进制使用0x或0X做前缀。eg：0xCAFE。
-8进制使用0做前缀（8进制容易混淆，尽量不要使用8进制常数）。eg：010——8。
-2进制使用0b或0B做前缀（java 7开始）。eg：0b1001——9。
-java7开始，可以为数字字面量加下划线（这些...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 基础>基础</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = java核心技术卷1（10版）>java核心技术卷1（10版）</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/03</span>
-                </div>
-            </div>
-        </article>
+<!-- City版安装代码已完成 -->
     
     
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/03/my-first-post/" >
-                
-                    <span>my first post</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/03/my-first-post/" >
-                <div class="abstract-content">
-                    呃～想不出什么标题
-markdown好久没有使用了，今天就当熟悉语法好了。
+    <!--PC版-->
 
-二级标题原来的博客在新浪博客Hello World
-
-这是用github page的第一次，呃，以后博客就迁到这里了。
+    <!--PC版-->
 
 
-
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 随想>随想</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/03</span>
-                </div>
-            </div>
-        </article>
-    
-    <!-- paginator  -->
-    
-    <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/page/2/">#PREV</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
-    
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -409,6 +305,13 @@ markdown好久没有使用了，今天就当熟悉语法好了。
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#云盘思路"><span class="toc-number">1.</span> <span class="toc-text">云盘思路</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注册中心所需组件"><span class="toc-number">1.1.</span> <span class="toc-text">注册中心所需组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#注册"><span class="toc-number">1.1.1.</span> <span class="toc-text">注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#续约"><span class="toc-number">1.1.2.</span> <span class="toc-text">续约</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注销"><span class="toc-number">1.1.3.</span> <span class="toc-text">注销</span></a></li></ol></li></ol></li></ol>
+    </div>
     
     <div class="back-top">&#xe639;</div>
     <div class="sidebar">
