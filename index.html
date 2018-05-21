@@ -192,6 +192,36 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/05/21/毕设感想（1）/" >
+                
+                    <span>毕设感想（1）</span>
+            </a>
+            <a class="content-show-full" href = "/2018/05/21/毕设感想（1）/" >
+                <div class="abstract-content">
+                    就让那缕清风徐过重新写一遍eureka和zuul真的是在玩人，当初为了装逼才想到这些，现在发现简直是找罪受，大公司写的果然很有技巧，最后很多部分果断放弃，按照我的思路来写，毕竟我写的是一个个人随意的项目，没有上架的质量、性能要求，所以要求不要太高，不过这也是很头疼。先开始写第一行的时候就说“一会儿一定要记得分模块，不能包垒包了”结果后面写的忘乎所以，直接就一个包叠一个包了，写到现在，才2000行代码，包的数量已经成为影响我自己写代码的重要因素了，而且没有划分模块或者说模块划分的粗糙，导致包之间相互重叠，耦合性太高了，我自己都已经看不下去了，可是毕设已经事件不多了，我最多到这星期结束就要把...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 随想>随想</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 毕设>毕设</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/05/21</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/05/16/毕设云盘架构思路Eureka实现篇/" >
                 
                     <span>毕设云盘架构思路Eureka实现篇</span>
@@ -208,11 +238,11 @@
                 
                 <div class= abstract-tags >
     
+        <a class="post-tag" href="javascript:void(0);" data-href = 随想>随想</a>
+    
         <a class="post-tag" href="javascript:void(0);" data-href = 毕设>毕设</a>
     
         <a class="post-tag" href="javascript:void(0);" data-href = 框架>框架</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 随想>随想</a>
     
 </div>
                 
@@ -462,41 +492,6 @@ measureblankwphryy###..blankwphryy###..
                     IntentService浅析IntentService其实就是Service，披上了HandlerThread外衣的Service。在之前的博客上我也写到，service是不能执行耗时操作的，原因就是service是在主线程的，执行耗时任务会严重影响UI绘制，严重的话可能导致ANR，当时也说过一个解决办法就是开一个子线程就好了，那么Android就为我们提供了一个解决方案，IntentService，它结合HandlerThread，将我们需要后台执行的任务防盗HandlerThread执行就好了，下面看一下我写的Demo：
 MyIntentService
 12345678910111...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 源码>源码</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/22</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/22/重走android（7）HandlerThread/" >
-                
-                    <span>重走android（7）HandlerThread</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/22/重走android（7）HandlerThread/" >
-                <div class="abstract-content">
-                    HandlerThread解析（源码）浅析HandlerThread其实是android针对于子线程接受其他线程消息基于Handler机制封装的一套框架，主要原理就是在HandlerThread里面有一个自身的Handler，然后依靠这个handler从其他线程发送消息，然后HandlerThread的Looper接受消息然后取出，再交给Handler处理就好了，其实就是把主线程的Handler那一套拿到子线程而已，下面看看我们举的例子：
-123456789101112131415161718192021222324252627282930313233343536373839404142...
                 </div>
             </a>
             <div class="abstract-post-meta">
@@ -964,8 +959,7 @@ MyIntentService
     
     
     
-    
-    <div class="total-archive"> Total : 25 </div>
+    <div class="total-archive"> Total : 26 </div>
     
     <div class="post-archive">
     
@@ -974,6 +968,11 @@ MyIntentService
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href= "/2018/05/21/毕设感想（1）/" >毕设感想（1）</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1037,12 +1036,12 @@ MyIntentService
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
         </li>
     
     
@@ -1057,12 +1056,12 @@ MyIntentService
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
         </li>
     
     
@@ -1105,43 +1104,43 @@ MyIntentService
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name"><a href= "#">String</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">java</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">tip</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">基础</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">毕设</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">框架</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">随想</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">activity</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">随想</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">String</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">tip</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">毕设</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">考研</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
+        <span class="sidebar-tag-name"><a href= "#">框架</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">练习</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">感想</a></span>
+        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">面试</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">工作</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">感想</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">源码</a></span>
     

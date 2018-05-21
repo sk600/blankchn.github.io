@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title>
         
-        sk600&#39;s Studio
+        毕设感想（1） · sk600&#39;s Studio
         
     </title>
     <link rel="icon" href= /assets/touxian.png>
@@ -79,6 +79,8 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
@@ -86,27 +88,73 @@
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
     
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >sk600&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">毕设感想（1）</a>
+            </div>
+    </div>
+    
     <a class="home-link" href=/>sk600's Studio.</a>
 </header>
     <div class="wrapper">
         <div class="site-intro">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(http://oumn0o088.bkt.clouddn.com/post-bg.jpg)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
+            毕设感想（1）
+            <!-- 404 -->
+            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 随想>随想</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 毕设>毕设</a>
+    
+</div>
+            
+            <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/05/21</span>
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe604;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">
+                        &#xe601;
+                    </span>
+                    <span class="bdsharebuttonbox">
+                        <a href="#" class="bds_more shareText" data-cmd="more">Share</a>
+                    </span>
+                </span>
+            </div>
         
     </div>
 </div>
@@ -174,44 +222,36 @@
             }
         </script>
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/05/16/毕设云盘架构思路Eureka实现篇/" >
-                
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="就让那缕清风徐过"><a href="#就让那缕清风徐过" class="headerlink" title="就让那缕清风徐过"></a>就让那缕清风徐过</h1><p>重新写一遍eureka和zuul真的是在玩人，当初为了装逼才想到这些，现在发现简直是找罪受，大公司写的果然很有技巧，最后很多部分果断放弃，按照我的思路来写，毕竟我写的是一个个人随意的项目，没有上架的质量、性能要求，所以要求不要太高，不过这也是很头疼。<br>先开始写第一行的时候就说“一会儿一定要记得分模块，不能包垒包了”结果后面写的忘乎所以，直接就一个包叠一个包了，写到现在，才2000行代码，包的数量已经成为影响我自己写代码的重要因素了，而且没有划分模块或者说模块划分的粗糙，导致包之间相互重叠，耦合性太高了，我自己都已经看不下去了，可是毕设已经事件不多了，我最多到这星期结束就要把所有相关的内容全部写完，所以就这么将就吧。唉，这次毕设注定是个悲剧，好在android写了两个框架还算亮眼，尤其是第二个编译时注解，我觉得在以后工作、学习中会经常用到，嗯，随想，想到啥说啥，就这样。</p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+        
+            <li class="previous">
+                <a href= "/2018/05/16/毕设云盘架构思路Eureka实现篇/" title= 毕设云盘架构思路Eureka实现篇 >
+                    <span>Previous Post</span>
                     <span>毕设云盘架构思路Eureka实现篇</span>
-            </a>
-            <a class="content-show-full" href = "/2018/05/16/毕设云盘架构思路Eureka实现篇/" >
-                <div class="abstract-content">
-                    云盘思路云盘的主要实现方法是将eureka和zuul整合在一起，但是由于所设计功能的缘故，不同的注册中心之间的注册信息不能共享，zuul的网关不仅实现转发和过滤，同时实现不同服务之间的多级授权，而且也想借这个机会好好研究一下spring的源码，所以准备手写一遍（当然是需要的部分啦）。
-注册中心所需组件注册中心主要负责不同服务之间相互注册，同时完成好友推测功能和广播功能。
-注册直接的好友的生成需要依赖于相互注册，注册时向对方服务发送指定的验证码，并附上自己对其的token，对方拿到验证码验证后返回token。接收注册方需要返回指定续约时间以及最大熔断续约周期（以个为单位，表示有几个续约时间...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 随想>随想</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 毕设>毕设</a>
+    <!--PC版-->
+
+    <!--PC版-->
+
+
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 框架>框架</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/05/16</span>
-                </div>
-            </div>
-        </article>
-    
-    <!-- paginator  -->
-    
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -259,6 +299,13 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#就让那缕清风徐过"><span class="toc-number">1.</span> <span class="toc-text">就让那缕清风徐过</span></a></li></ol>
+    </div>
     
     <div class="back-top">&#xe639;</div>
     <div class="sidebar">
