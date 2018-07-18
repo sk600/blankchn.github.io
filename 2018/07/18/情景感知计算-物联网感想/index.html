@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title>
         
-        sk600&#39;s Studio
+        情景感知计算-物联网感想 · sk600&#39;s Studio
         
     </title>
     <link rel="icon" href= /assets/touxian.png>
@@ -79,6 +79,8 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
@@ -86,27 +88,77 @@
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
     
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >sk600&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">情景感知计算-物联网感想</a>
+            </div>
+    </div>
+    
     <a class="home-link" href=/>sk600's Studio.</a>
 </header>
     <div class="wrapper">
         <div class="site-intro">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(http://oumn0o088.bkt.clouddn.com/post-bg.jpg)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
+            情景感知计算-物联网感想
+            <!-- 404 -->
+            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 感想>感想</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 论文>论文</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 物联网>物联网</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 情景感知计算>情景感知计算</a>
+    
+</div>
+            
+            <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/07/18</span>
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe604;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">
+                        &#xe601;
+                    </span>
+                    <span class="bdsharebuttonbox">
+                        <a href="#" class="bds_more shareText" data-cmd="more">Share</a>
+                    </span>
+                </span>
+            </div>
         
     </div>
 </div>
@@ -174,44 +226,46 @@
             }
         </script>
         <div class="container container-unloaded">
-            <main class="main index-page">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="Context-Aware-Computing-for-The-Internet-of-Things"><a href="#Context-Aware-Computing-for-The-Internet-of-Things" class="headerlink" title="Context Aware Computing for The Internet of Things"></a>Context Aware Computing for The Internet of Things</h2><h1 id="Section1"><a href="#Section1" class="headerlink" title="Section1"></a>Section1</h1><h1 id="Section2"><a href="#Section2" class="headerlink" title="Section2"></a>Section2</h1><h1 id="Section3-CONTEXT-AWARENESS-FUNDAMENTALS"><a href="#Section3-CONTEXT-AWARENESS-FUNDAMENTALS" class="headerlink" title="Section3 CONTEXT AWARENESS FUNDAMENTALS"></a>Section3 CONTEXT AWARENESS FUNDAMENTALS</h1><p>这部分主要介绍了一些在情景感知计算中常见的情景分类、建模等。</p>
+<ul>
+<li><p>建模：通过SN能够收集大量的数据，对其进行建模时分为三种，No application-level context model 、Implicit context model 、Explicit context model ，第一种是应用完成对情景获取、预处理、存储以及推理，第二种是使用一些库和框架来完成这些，第三种是应用和对情景的上述操作分离，这部分我认为思想的层层递进，是在完成模型和应用的不断解耦，我认为并不能说哪种最好，比如开发一个微型的项目，并且之后扩展要求很低，迭代需求很低，那么第一种方法比较合适，其周期和成本都非常低，反之如果项目要求高扩展、不断迭代，同时拥有完整的开发团队，那么第三种就是非常好的选择（而且SN网络是不断增长的，我认为第三种是一种趋势）。</p>
+</li>
+<li><p>Context分类：文中根据按照两个维度Conceptual Perspective &amp; Operational Perspective两个角度进行分类，Conceptual Perspective分为四种Location、Identify、Time、Activity，并且根据其数据的收集处理技术分为Primary Context &amp; Secondary Context，Primary就是直接能够收集到的，Secondary就是通过Primary Context获得的。通俗的讲Primary Context就是传感器直接获取的数据，比如GPS的经纬度，Secondary Context就是对传感器数据进行处理的数据，比如亮点之间的距离（通过GPS经纬度进行计算）。但其实数据的获取渠道有很多，比如我能够通过GPS算距离，也可以用激光测距仪测距离，这就是看不同的应用场景了，如果是挖隧道，那么用激光测距显然更为适合，这时候距离就是Primary Context，如果用其中一个点的GPS再和这个距离结合推断另一个点的GPS，那么另一个的GPS就是Secondary Context，这在我理解就是需求驱动。Primary Context &amp; Secondary Context同样对应的IoT架构层次的分布，Primary Context就是文中提到的几层架构层次的Sensor node， Secondary Context就是Computational Device。</p>
+</li>
+</ul>
+<p>下面列举几个不同的分类：<br> <img src="/images/屏幕快照 2018-07-18 上午11.11.06.png" alt="分类一"><br>这个分类显然将人和事物区分看待，第一项Where you are算是一个比较合理的类别，后面却分为周围的人和事物，如果场景的应用主体是事物的话（或者应用在无人场景中时）人这个分类该怎么办，分类过于粗糙而且不合理。<br><img src="/images/屏幕快照 2018-07-18 上午11.17.47.png" alt="分类二"><br>这个分类较上面一个合理了一些，但是会存在部分的莫能良可，变化缓慢的数据，什么叫变化缓慢？这个需要设计者来自身定义，可是不同的设计者（或者不同的应用）是不同的，这个如果需要不同框架或者不同的SN融合的时候怎么办？这样只能拿来原始数据从新处理或者数据根本不能用，这个扩展性和伸缩性很差。<br><img src="/images/屏幕快照 2018-07-18 上午11.22.36.png" alt="分类三"><br>这个分类已经与本文的比较接近了，但是相比于本文的细化分类，这个还是比较粗糙。</p>
+<ul>
+<li>其他：这部分提到了几个情景感知管理设计准则，Architecture layers and components （这个我认为同样是高内聚低耦合的思想，是层次化和模块化的思路）、Scalability and extensibility （这个我认为作者考虑了情景感知项目的不断延展，对以往做过的工作进行高复用，提高效率）、Application programming interface (API) 、Debugging mechanisms and tools 、Automatic context life cycle management （上下文自动生命周期管理通过外部传感器数据的动态变化而不断进行切换【类比android生命周期管理】，需要对数据进行现场保存和现场复现。根据数据进行适当的进化？eg：同样的场景，数据呈现变化的趋势，即数据变了，但是场景没变，上下文也要同样进化，但是怎么识别？是否场景会永久消失？场景是否会合并【只是从精确性而言】？）、context model in-dependency 、Extended, rich, and comprehensive modelling 、Multi-model reasoning 、Mobility support （这部分我不认同是通过version来控制，version代表的是一个延续，后面的版本应该做到的是对前面版本的斤两兼容，而不是通过版本来进行多种设备的支持，如果要做多种设备的支持要么底层首先就完成对多种设备api或者接口的抽象再统一进行上层构建【依然还是类比android，android那么多种手机均可以适配使用】，这样一次开发到处使用，也可以为不同设备设立单独的开发分支进行独立开发）、Share information (real-time and historic) 、Resource optimisation 、Monitoring and detect event。</li>
+</ul>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+        
+            <li class="previous">
+                <a href= "/2018/07/07/android-recyclerview超高headerview处理/" title= android recyclerview超高headerview处理 >
+                    <span>Previous Post</span>
+                    <span>android recyclerview超高headerview处理</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
     
+    <!--PC版-->
+
+    <!--PC版-->
+
+
     
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/03/贝贝网实习面试（1）/" >
-                
-                    <span>贝贝网实习面试（1）</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/03/贝贝网实习面试（1）/" >
-                <div class="abstract-content">
-                    贝贝网android面试一面（电面）由于找的是实习生，所以这次的面试不是很难，但是收获很大。
-第一问：项目经验由于大学中做过很多项目，所以简历中项目经验较足，面试官问我所有项目中自己最为熟悉的项目，面试官并没有详细询问运用的技术点，而是主要问我在其中所起到的作用，如何协调，技术方面带过了一句“客户端怎么又没有存储token之类的？”
-第二问：设计模式面试官问了刚刚项目中所运用的设计模式，又问了单例模式和适配器模式，单例模式我理解还是不深（以往都是自己在摸索，没有正式公司级项目经验，所以理解的有些歪了）。适配器模式用android中listview和recycleview用到的适配器举例，...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 面试>面试</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 工作>工作</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/03</span>
-                </div>
-            </div>
-        </article>
-    
-    <!-- paginator  -->
-    
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -259,6 +313,13 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Context-Aware-Computing-for-The-Internet-of-Things"><span class="toc-number">1.</span> <span class="toc-text">Context Aware Computing for The Internet of Things</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Section1"><span class="toc-number"></span> <span class="toc-text">Section1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Section2"><span class="toc-number"></span> <span class="toc-text">Section2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Section3-CONTEXT-AWARENESS-FUNDAMENTALS"><span class="toc-number"></span> <span class="toc-text">Section3 CONTEXT AWARENESS FUNDAMENTALS</span></a>
+    </div>
     
     <div class="back-top">&#xe639;</div>
     <div class="sidebar">
