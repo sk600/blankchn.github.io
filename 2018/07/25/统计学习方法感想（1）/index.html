@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title>
         
-        String intern()方法 · sk600&#39;s Studio
+        统计学习方法感想（1） · sk600&#39;s Studio
         
     </title>
     <link rel="icon" href= /assets/touxian.png>
@@ -93,7 +93,7 @@
                 <a href="/" >sk600&#39;s Studio.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">String intern()方法</a>
+                <a href="#" class="post-name">统计学习方法感想（1）</a>
             </div>
     </div>
     
@@ -114,7 +114,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            String intern()方法
+            统计学习方法感想（1）
             <!-- 404 -->
             
         </h1>
@@ -132,18 +132,18 @@
             
                 <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-href = tip>tip</a>
+        <a class="post-tag" href="javascript:void(0);" data-href = 机器学习>机器学习</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+        <a class="post-tag" href="javascript:void(0);" data-href = 统计学习方法>统计学习方法</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-href = String>String</a>
+        <a class="post-tag" href="javascript:void(0);" data-href = 感想>感想</a>
     
 </div>
             
             <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
             <div class="post-intro-meta">
                 <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                <span class="post-intro-time">2018/01/04</span>
+                <span class="post-intro-time">2018/07/25</span>
                 <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                     <span class="iconfont-archer">&#xe604;</span>
                     <span id="busuanzi_value_page_pv"></span>
@@ -226,24 +226,30 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p><a href="http://www.importnew.com/21836.html" target="_blank" rel="noopener">参考文章</a></p>
+        <h1 id="监督学习概述"><a href="#监督学习概述" class="headerlink" title="监督学习概述"></a>监督学习概述</h1><p><strong>对应《统计学习方法》为1——10页</strong><br>实验室今天大家突发奇想，大家一起交流每天看这本书的感想，然后互相交流，这样能够学习的更加深入。每天一个人负责讲一部分，剩下的人负责提问，今天我第一个讲，不幸准备补充分，石锤啊！！！所以之后我要好好学习，深入一点。</p>
+<h2 id="输入空间"><a href="#输入空间" class="headerlink" title="输入空间"></a>输入空间</h2><p>输入空间就是所有未处理数据所存在的空间，也就是收集到的数据的所有组合形式。</p>
+<h2 id="输出空间"><a href="#输出空间" class="headerlink" title="输出空间"></a>输出空间</h2><p>输出空间就是输出情况的所有组合形式。</p>
+<h2 id="特征空间"><a href="#特征空间" class="headerlink" title="特征空间"></a>特征空间</h2><p>输入空间的数据在进入模型进行运算前需要进行预处理，这个预处理后得到的数据的所有组合形式就是特征空间。</p>
+<h2 id="假设空间"><a href="#假设空间" class="headerlink" title="假设空间"></a>假设空间</h2><p>就是能够覆盖测试集的所有模型的集合。</p>
+<h2 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h2><h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><p>对于给定的数据集能够有很多种模型进行运算，但是不是每一种模型都能够很好的覆盖所有的测试数据，那么就需要对模型进行评判，到底哪个模型才是最好的模型。<br>这时候就引入了<strong>损失函数</strong>的概念，损失函数就是用来表示经过模型的预测值与真实值之间的误差的，它有很多种方法，并且也能够根据实际情况自己编写损失函数，它主要有这几个特点：</p>
+<ul>
+<li>损失函数必须要为非负值（比如真实值Y=2，预测值f（x）=1，那么Y-f(x)=1,如果真实值Y=1,预测值=2，那么Y-f(x)=-1，但是误差两者都为1，是一样的，所以需要为非负值）。</li>
+<li>输入空间的X必须是连续可导的（这样在降维、梯度下降等都需要优化）。</li>
+</ul>
+<h3 id="期望风险"><a href="#期望风险" class="headerlink" title="期望风险"></a>期望风险</h3><p>期望风险就是对损失函数求联合分布期望<br><img src="https://images2017.cnblogs.com/blog/1174145/201708/1174145-20170828143844593-63634644.png" alt="期望风险"><br>但是由于P(x,y)不可知（因为知道了P(x,y)也就知道了x与y之间的映射关系了，即模型），所以这个期望风险并不可用。</p>
+<h3 id="经验风险"><a href="#经验风险" class="headerlink" title="经验风险"></a>经验风险</h3><p>经验风险就是对与测试集数据的损失函数求平均值<br><img src="https://images2017.cnblogs.com/blog/1174145/201708/1174145-20170828141212577-1125011174.png" alt="经验风险"><br>当N越大（N表示测试集容量），则经验风险越与期望风险接近，也就是变成其无偏估计。</p>
+<h3 id="经验风险最小化"><a href="#经验风险最小化" class="headerlink" title="经验风险最小化"></a>经验风险最小化</h3><p>经验风险最小化就是求出模型的经验风险是最小的。<br><img src="/images/屏幕快照 2018-07-25 下午10.49.48.png" alt="经验风险最小化"></p>
+<h3 id="结构风险最小化"><a href="#结构风险最小化" class="headerlink" title="结构风险最小化"></a>结构风险最小化</h3><p>经验风险最小化的最大问题就是模型过于符合测试集数据出现过拟合现象，这时候模型会变得很复杂（模型越复杂——比如次数越来越高，则越可能跟实际情况不符），这时候为了降低模型复杂度对于评判标准的影响，出现了结构风险最小化的策略，也就是引入了惩罚项（也叫正则项）。<br><img src="/images/屏幕快照 2018-07-25 下午10.55.58.png" alt="结构风险最小化"><br>前面的是经验风险，后面的一项就是惩罚项，模型越复杂，则经验风险越低，惩罚项越高，反之亦然，这样通过引入惩罚项平衡了模型趋于测试数据的趋势。</p>
 
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
         
-            <li class="next">
-                <a href= "/2018/01/16/重走android（1）活动启动模式/" title= 重走android（1）活动启动模式 >
-                    <span>Next Post</span>
-                    <span>重走android（1）活动启动模式</span>
-                </a>
-            </li>
-        
         
             <li class="previous">
-                <a href= "/2018/01/04/java内存区域与内存溢出异常/" title= java内存区域与内存溢出异常 >
+                <a href= "/2018/07/18/情景感知计算-物联网感想/" title= 情景感知计算-物联网感想 >
                     <span>Previous Post</span>
-                    <span>java内存区域与内存溢出异常</span>
+                    <span>情景感知计算-物联网感想</span>
                 </a>
             </li>
         
@@ -313,7 +319,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#监督学习概述"><span class="toc-number">1.</span> <span class="toc-text">监督学习概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#输入空间"><span class="toc-number">1.1.</span> <span class="toc-text">输入空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输出空间"><span class="toc-number">1.2.</span> <span class="toc-text">输出空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特征空间"><span class="toc-number">1.3.</span> <span class="toc-text">特征空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#假设空间"><span class="toc-number">1.4.</span> <span class="toc-text">假设空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#策略"><span class="toc-number">1.5.</span> <span class="toc-text">策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#损失函数"><span class="toc-number">1.5.1.</span> <span class="toc-text">损失函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#期望风险"><span class="toc-number">1.5.2.</span> <span class="toc-text">期望风险</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#经验风险"><span class="toc-number">1.5.3.</span> <span class="toc-text">经验风险</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#经验风险最小化"><span class="toc-number">1.5.4.</span> <span class="toc-text">经验风险最小化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结构风险最小化"><span class="toc-number">1.5.5.</span> <span class="toc-text">结构风险最小化</span></a></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
