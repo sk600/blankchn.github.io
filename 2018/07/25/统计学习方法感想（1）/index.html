@@ -132,11 +132,11 @@
             
                 <div class= post-intro-tags >
     
+        <a class="post-tag" href="javascript:void(0);" data-href = 感想>感想</a>
+    
         <a class="post-tag" href="javascript:void(0);" data-href = 机器学习>机器学习</a>
     
         <a class="post-tag" href="javascript:void(0);" data-href = 统计学习方法>统计学习方法</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 感想>感想</a>
     
 </div>
             
@@ -236,8 +236,8 @@
 <li>损失函数必须要为非负值（比如真实值Y=2，预测值f（x）=1，那么Y-f(x)=1,如果真实值Y=1,预测值=2，那么Y-f(x)=-1，但是误差两者都为1，是一样的，所以需要为非负值）。</li>
 <li>输入空间的X必须是连续可导的（这样在降维、梯度下降等都需要优化）。</li>
 </ul>
-<h3 id="期望风险"><a href="#期望风险" class="headerlink" title="期望风险"></a>期望风险</h3><p>期望风险就是对损失函数求联合分布期望<br><img src="https://images2017.cnblogs.com/blog/1174145/201708/1174145-20170828143844593-63634644.png" alt="期望风险"><br>但是由于P(x,y)不可知（因为知道了P(x,y)也就知道了x与y之间的映射关系了，即模型），所以这个期望风险并不可用。</p>
-<h3 id="经验风险"><a href="#经验风险" class="headerlink" title="经验风险"></a>经验风险</h3><p>经验风险就是对与测试集数据的损失函数求平均值<br><img src="https://images2017.cnblogs.com/blog/1174145/201708/1174145-20170828141212577-1125011174.png" alt="经验风险"><br>当N越大（N表示测试集容量），则经验风险越与期望风险接近，也就是变成其无偏估计。</p>
+<h3 id="期望风险"><a href="#期望风险" class="headerlink" title="期望风险"></a>期望风险</h3><p>期望风险就是对损失函数求联合分布期望<br><img src="/images/屏幕快照 2018-07-25 下午11.00.43.png" alt="期望风险"><br>但是由于P(x,y)不可知（因为知道了P(x,y)也就知道了x与y之间的映射关系了，即模型），所以这个期望风险并不可用。</p>
+<h3 id="经验风险"><a href="#经验风险" class="headerlink" title="经验风险"></a>经验风险</h3><p>经验风险就是对与测试集数据的损失函数求平均值<br><img src="/images/屏幕快照 2018-07-25 下午11.01.33.png" alt="经验风险"><br>当N越大（N表示测试集容量），则经验风险越与期望风险接近，也就是变成其无偏估计。</p>
 <h3 id="经验风险最小化"><a href="#经验风险最小化" class="headerlink" title="经验风险最小化"></a>经验风险最小化</h3><p>经验风险最小化就是求出模型的经验风险是最小的。<br><img src="/images/屏幕快照 2018-07-25 下午10.49.48.png" alt="经验风险最小化"></p>
 <h3 id="结构风险最小化"><a href="#结构风险最小化" class="headerlink" title="结构风险最小化"></a>结构风险最小化</h3><p>经验风险最小化的最大问题就是模型过于符合测试集数据出现过拟合现象，这时候模型会变得很复杂（模型越复杂——比如次数越来越高，则越可能跟实际情况不符），这时候为了降低模型复杂度对于评判标准的影响，出现了结构风险最小化的策略，也就是引入了惩罚项（也叫正则项）。<br><img src="/images/屏幕快照 2018-07-25 下午10.55.58.png" alt="结构风险最小化"><br>前面的是经验风险，后面的一项就是惩罚项，模型越复杂，则经验风险越低，惩罚项越高，反之亦然，这样通过引入惩罚项平衡了模型趋于测试数据的趋势。</p>
 
@@ -333,6 +333,30 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -838,31 +862,27 @@
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name"><a href= "#">随想</a></span>
+        <span class="sidebar-tag-name"><a href= "#">String</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">android</a></span>
+        <span class="sidebar-tag-name"><a href= "#">java</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">tip</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">java</a></span>
+        <span class="sidebar-tag-name"><a href= "#">随想</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">基础</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">String</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">考研</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">activity</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">机器学习</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">统计学习方法</a></span>
+        <span class="sidebar-tag-name"><a href= "#">考研</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">感想</a></span>
     
@@ -876,15 +896,19 @@
     
         <span class="sidebar-tag-name"><a href= "#">框架</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
+        <span class="sidebar-tag-name"><a href= "#">机器学习</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">统计学习方法</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">练习</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
+        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">面试</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">工作</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">源码</a></span>
     
