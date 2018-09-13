@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title>
         
-        重走android（3）广播 · sk600&#39;s Studio
+        线性代数（2）矩阵消元 · sk600&#39;s Studio
         
     </title>
     <link rel="icon" href= /assets/touxian.png>
@@ -93,7 +93,7 @@
                 <a href="/" >sk600&#39;s Studio.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">重走android（3）广播</a>
+                <a href="#" class="post-name">线性代数（2）矩阵消元</a>
             </div>
     </div>
     
@@ -114,7 +114,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            重走android（3）广播
+            线性代数（2）矩阵消元
             <!-- 404 -->
             
         </h1>
@@ -132,18 +132,16 @@
             
                 <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
+        <a class="post-tag" href="javascript:void(0);" data-href = 线性代数>线性代数</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
+        <a class="post-tag" href="javascript:void(0);" data-href = 学习笔记>学习笔记</a>
     
 </div>
             
             <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
             <div class="post-intro-meta">
                 <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                <span class="post-intro-time">2018/01/17</span>
+                <span class="post-intro-time">2018/09/13</span>
                 <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                     <span class="iconfont-archer">&#xe604;</span>
                     <span id="busuanzi_value_page_pv"></span>
@@ -226,56 +224,18 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h1><p>广播作为android四大组件之一，应用非常广泛，主要通过intent这个“介质”来传递信息，可以完成多应用消息传递（即发送一个广播，多个应用程序可以接收到）。</p>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
-<li>用于同一个app中不同进程的不同组件之间通信。</li>
-</ul>
-<p>app可能同时存在有多个进程，比如定位进程、主进程等等，那么两个进程之间通信可以采用广播。</p>
-<ul>
-<li>用于不同app的组件之间的通信。</li>
-</ul>
-<h2 id="广播种类"><a href="#广播种类" class="headerlink" title="广播种类"></a>广播种类</h2><ul>
-<li>Normal Broadcast: Context.sendBroadcast.</li>
-</ul>
-<p>标准广播，这种广播是<strong>完全异步</strong>的，所有接受者几乎都是在同一时间接受到广播的，因此也是没有顺序的，所以广播是<strong>无法截断</strong>的</p>
-<ul>
-<li>Ordered Broadcast: Context.sendOrderedBroadcast.</li>
-</ul>
-<p>有序广播，这种广播时有顺序的，同一时间<strong>只有一个</strong>广播接受者接受到广播，并且只有当前接受者的逻辑之行完毕后才能向后传递，既然有先后顺序，所以这种广播是有优先级的，优先级高的接受者先接受广播，并且可以截断广播阻止先后传播。</p>
-<ul>
-<li>Local Broadcast: 只在app内传播。</li>
-</ul>
-<h2 id="Broadcast-Receiver"><a href="#Broadcast-Receiver" class="headerlink" title="Broadcast Receiver"></a>Broadcast Receiver</h2><h3 id="静态注册"><a href="#静态注册" class="headerlink" title="静态注册"></a>静态注册</h3><p>静态注册，即在manifest文件中进行注册，注册后，这个receiver一直运行，即使activity死掉、甚至进程死掉后，还是能够接收到广播，即使这样，静态注册不够灵活。</p>
-<h3 id="动态注册"><a href="#动态注册" class="headerlink" title="动态注册"></a>动态注册</h3><p>动态注册，即在使用时再注册，动态注册后，其生命周期与所在的activity一致，<strong>要注意，在activity的onDestroy方法中，使用unregisterReceiver方法</strong>。</p>
-<h2 id="广播内部实现机制"><a href="#广播内部实现机制" class="headerlink" title="广播内部实现机制"></a>广播内部实现机制</h2><ol>
-<li>自定义BroadcastReceiver复写onReceive()方法。</li>
-<li>通过Binder机制向AMS（<a href="http://blog.csdn.net/tfslovexizi/article/details/43968173" target="_blank" rel="noopener">Activity Manager Service</a>）进行注册。</li>
-<li>广播发送者也想AMS进行注册后，发送广播。</li>
-<li>AMS根据广播查找符合相应条件（IntentFilter／Permission等）的BroadcastReceiver，并将广播发送到对应的消息循环队列中。</li>
-<li>消息循环执行拿到此广播，回调BroadcastReceiver的onReceive（）方法。</li>
-</ol>
-<h2 id="LocalBroadcastManager"><a href="#LocalBroadcastManager" class="headerlink" title="LocalBroadcastManager"></a>LocalBroadcastManager</h2><p>本地广播就是一种只在app内部传播消息的广播，比起全局广播，其传递消息的效率更高，安全性更好（不用担心内部数据泄漏等等），使用这种广播也无法接受到其他app对你发送的<strong>该</strong>广播，所以不会因为广播引起安全漏洞的问题。<br>LocalBroadcastManager之所以能够实现高效和app内部通信，主要是因为其消息传递使用了Handler，其发送消息主要是通过Handler的sendMessage，这样就不同于Binder机制，Handler效率比Binder快，而且只能用于app内部。<br>其主要靠两个HashMap（mReceivers和mActions）和一个ArrayList（mPendingBroadcasts）。这些在<a href="https://sk600.github.io/2018/01/17/%E9%87%8D%E8%B5%B0android%EF%BC%884%EF%BC%89LocalBroadcastManager%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" target="_blank" rel="noopener">源码解析</a>在这里。</p>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li>BroadcastReceiver的onReceive方法不能执行耗时操作，若执行时间过长，会报错。</li>
-<li>BroadcastReceiver是不能开启线程的。</li>
-</ul>
-
+        <h1 id="矩阵消元"><a href="#矩阵消元" class="headerlink" title="矩阵消元"></a>矩阵消元</h1><p>学习<a href="https://www.bilibili.com/video/av15463995/?p=2" target="_blank" rel="noopener">麻省理工公开课 线性代数 第二课 矩阵消元</a>后的笔记，该课程还有<a href="http://web.mit.edu/18.06/www/" target="_blank" rel="noopener">丰富的代码和相关资料</a>，不用翻墙也能看.</p>
+<h2 id="高斯消元"><a href="#高斯消元" class="headerlink" title="高斯消元"></a>高斯消元</h2><p>多元线性方程组消元方式普通方法是依靠高斯消元方法，具体实现就是依赖通过方程组之间的互相加减运算消去未知参数，保证至少有一个方程只含有一个未知参数，这样回代方程组即可求解。<br>$ \sum_{i=0}^{n}i^2</p>
+<h2 id="矩阵消元-1"><a href="#矩阵消元-1" class="headerlink" title="矩阵消元"></a>矩阵消元</h2><h3 id="矩阵的行变换"><a href="#矩阵的行变换" class="headerlink" title="矩阵的行变换"></a>矩阵的行变换</h3><h3 id="初等矩阵消元过程"><a href="#初等矩阵消元过程" class="headerlink" title="初等矩阵消元过程"></a>初等矩阵消元过程</h3>
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
         
-            <li class="next">
-                <a href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" title= 重走android（4）LocalBroadcastManager源码解析 >
-                    <span>Next Post</span>
-                    <span>重走android（4）LocalBroadcastManager源码解析</span>
-                </a>
-            </li>
-        
         
             <li class="previous">
-                <a href= "/2018/01/17/重走android（2）服务/" title= 重走android（2）服务 >
+                <a href= "/2018/09/12/线性代数（1）方程组的解释/" title= 线性代数（1）方程组的解释 >
                     <span>Previous Post</span>
-                    <span>重走android（2）服务</span>
+                    <span>线性代数（1）方程组的解释</span>
                 </a>
             </li>
         
@@ -345,7 +305,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#广播"><span class="toc-number">1.</span> <span class="toc-text">广播</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#应用场景"><span class="toc-number">1.1.</span> <span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#广播种类"><span class="toc-number">1.2.</span> <span class="toc-text">广播种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broadcast-Receiver"><span class="toc-number">1.3.</span> <span class="toc-text">Broadcast Receiver</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#静态注册"><span class="toc-number">1.3.1.</span> <span class="toc-text">静态注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态注册"><span class="toc-number">1.3.2.</span> <span class="toc-text">动态注册</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#广播内部实现机制"><span class="toc-number">1.4.</span> <span class="toc-text">广播内部实现机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LocalBroadcastManager"><span class="toc-number">1.5.</span> <span class="toc-text">LocalBroadcastManager</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">1.6.</span> <span class="toc-text">其他</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#矩阵消元"><span class="toc-number">1.</span> <span class="toc-text">矩阵消元</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#高斯消元"><span class="toc-number">1.1.</span> <span class="toc-text">高斯消元</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#矩阵消元-1"><span class="toc-number">1.2.</span> <span class="toc-text">矩阵消元</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#矩阵的行变换"><span class="toc-number">1.2.1.</span> <span class="toc-text">矩阵的行变换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初等矩阵消元过程"><span class="toc-number">1.2.2.</span> <span class="toc-text">初等矩阵消元过程</span></a></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
