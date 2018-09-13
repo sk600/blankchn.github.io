@@ -260,7 +260,7 @@
   return null;
 }
 if (!requestMethod.equals(&quot;GET&quot;)) {
-  // Don&apos;t cache non-GET responses. We&apos;re technically allowed to cache
+  // Don&#39;t cache non-GET responses. We&#39;re technically allowed to cache
   // HEAD requests and some POST requests, but the complexity of doing
   // so is high and the benefit is low.
   return null;
@@ -319,10 +319,10 @@ if (cache != null) {
 }
 
 if (cacheCandidate != null &amp;&amp; cacheResponse == null) {
-  closeQuietly(cacheCandidate.body()); // The cache candidate wasn&apos;t applicable. Close it.
+  closeQuietly(cacheCandidate.body()); // The cache candidate wasn&#39;t applicable. Close it.
 }
 
-// If we&apos;re forbidden from using the network and the cache is insufficient, fail.
+// If we&#39;re forbidden from using the network and the cache is insufficient, fail.
 if (networkRequest == null &amp;&amp; cacheResponse == null) {
   return new Response.Builder()
       .request(chain.request())
@@ -335,7 +335,7 @@ if (networkRequest == null &amp;&amp; cacheResponse == null) {
       .build();
 }
 
-// If we don&apos;t need the network, we&apos;re done.
+// If we don&#39;t need the network, we&#39;re done.
 if (networkRequest == null) {
   return cacheResponse.newBuilder()
       .cacheResponse(stripBody(cacheResponse))
@@ -346,13 +346,13 @@ Response networkResponse = null;
 try {
   networkResponse = chain.proceed(networkRequest);
 } finally {
-  // If we&apos;re crashing on I/O or otherwise, don&apos;t leak the cache body.
+  // If we&#39;re crashing on I/O or otherwise, don&#39;t leak the cache body.
   if (networkResponse == null &amp;&amp; cacheCandidate != null) {
     closeQuietly(cacheCandidate.body());
   }
 }
 
-// If we have a cache response too, then we&apos;re doing a conditional get.
+// If we have a cache response too, then we&#39;re doing a conditional get.
 if (cacheResponse != null) {
   if (networkResponse.code() == HTTP_NOT_MODIFIED) {
     Response response = cacheResponse.newBuilder()
@@ -404,12 +404,12 @@ private CacheStrategy getCandidate() {
     return new CacheStrategy(request, null);
   }
 
-  // Drop the cached response if it&apos;s missing a required handshake.
+  // Drop the cached response if it&#39;s missing a required handshake.
   if (request.isHttps() &amp;&amp; cacheResponse.handshake() == null) {
     return new CacheStrategy(request, null);
   }
 
-  // If this response shouldn&apos;t have been stored, it should never be used
+  // If this response shouldn&#39;t have been stored, it should never be used
   // as a response source. This check should be redundant as long as the
   // persistence store is well-behaved and the rules are constant.
   if (!isCacheable(cacheResponse, request)) {
@@ -483,18 +483,18 @@ private CacheStrategy getCandidate() {
 </code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">主要是根据一些条件返回CacheStrategy。</span><br><span class="line">如果获得strategy不为空，那么就进行缓存跟踪：</span><br></pre></td></tr></table></figure>
 <p>  synchronized void trackResponse(CacheStrategy cacheStrategy) {<br>    requestCount++;</p>
 <pre><code>if (cacheStrategy.networkRequest != null) {
-  // If this is a conditional request, we&apos;ll increment hitCount if/when it hits.
+  // If this is a conditional request, we&#39;ll increment hitCount if/when it hits.
   networkCount++;
 } else if (cacheStrategy.cacheResponse != null) {
-  // This response uses the cache and not the network. That&apos;s a cache hit.
+  // This response uses the cache and not the network. That&#39;s a cache hit.
   hitCount++;
 }
 </code></pre><p>  }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">主要就是对缓存明珠旅和网络数量进行一些记录。</span><br><span class="line">之后会进行一系列判断是否使用缓存：</span><br><span class="line"></span><br><span class="line">* 如果缓存不能使用，那么进行清理</span><br></pre></td></tr></table></figure></p>
 <pre><code>if (cacheCandidate != null &amp;&amp; cacheResponse == null) {
-  closeQuietly(cacheCandidate.body()); // The cache candidate wasn&apos;t applicable. Close it.
+  closeQuietly(cacheCandidate.body()); // The cache candidate wasn&#39;t applicable. Close it.
 }
 </code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 如果没有缓存并且网络不能用那么构造一个504的response</span><br></pre></td></tr></table></figure>
-<pre><code>// If we&apos;re forbidden from using the network and the cache is insufficient, fail.
+<pre><code>// If we&#39;re forbidden from using the network and the cache is insufficient, fail.
 if (networkRequest == null &amp;&amp; cacheResponse == null) {
   return new Response.Builder()
       .request(chain.request())
@@ -507,14 +507,14 @@ if (networkRequest == null &amp;&amp; cacheResponse == null) {
       .build();
 }
 </code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 如果只是网络不能使用，那么返回缓存的response</span><br></pre></td></tr></table></figure>
-<pre><code>// If we don&apos;t need the network, we&apos;re done.
+<pre><code>// If we don&#39;t need the network, we&#39;re done.
 if (networkRequest == null) {
   return cacheResponse.newBuilder()
       .cacheResponse(stripBody(cacheResponse))
       .build();
 }
 </code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">之后通过chain.proceed()方法获得下一个拦截器传递回来的response（这个response是网络的response）。</span><br><span class="line">获得了网络response，那么还会根据条件判断如何处理缓存response和网络response。</span><br><span class="line"></span><br><span class="line">* 如果返回码是HTTP_NOT_MODIFIED（304）的话，那么代表客户端缓存可以继续用，所以需要对缓存response和网络response进行合并、更新缓存并返回：</span><br></pre></td></tr></table></figure>
-<pre><code>// If we have a cache response too, then we&apos;re doing a conditional get.
+<pre><code>// If we have a cache response too, then we&#39;re doing a conditional get.
 if (cacheResponse != null) {
   if (networkResponse.code() == HTTP_NOT_MODIFIED) {
     Response response = cacheResponse.newBuilder()
@@ -1350,8 +1350,25 @@ jsonContent:
     <div style="display: none">
         <script src="https://s13.cnzz.com/z_stat.php?id=true&web_id=true" language="JavaScript"></script>
         
-    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-    </body>
+    </div>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
 </html>
 
 

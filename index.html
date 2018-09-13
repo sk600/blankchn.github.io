@@ -198,15 +198,16 @@
             </a>
             <a class="content-show-full" href = "/2018/09/13/线性代数（2）矩阵消元/" >
                 <div class="abstract-content">
-                    formula1: $$n==x$$
-formula2: $$n!=x$$
-formula3: $$ (m==y)$$
-formula4: $$[m!=y]$$
-formula5: $$ (k==z) $$
+                    formula1: n==x
+formula2: n!=x
+formula3: (m==y)
+formula4: [m!=y]
+formula5: (k==z)
 formula6: $[k!=z] $
-$$ \sum_{i=0}^{n}i^2 $$$$\begin{cases}a_1x+b_1y+c_1z=d_1\a_2x+b_2y+c_2z=d_2\a_3x+b_3y+c_3z=d_3\\end{cases}$$
-矩阵消元学习麻省理工公开课 线性代数 第二课 矩阵消元后的笔记，该课程还有丰富的代码和相关资料，不用翻墙也能看.
-高斯消元多元线...
+\sum_{i=0}^{n}i^2\begin{cases}
+a_1x+b_1y+c_1z=d_1\\a_2x+b_2y+c_2z=d_2\\a_3x+b_3y+c_3z=d_3\\
+\end{cases}矩阵消元学习麻省理工公开课 线性代数 第二课 矩阵消元后的笔记，该课程还有丰富的代码和相关资料，不用翻墙也能看.
+高斯消元多元线性方程组消元方式普通方法是依靠高斯消元方法，具体实现就是依...
                 </div>
             </a>
             <div class="abstract-post-meta">
@@ -1350,8 +1351,25 @@ jsonContent:
     <div style="display: none">
         <script src="https://s13.cnzz.com/z_stat.php?id=true&web_id=true" language="JavaScript"></script>
         
-    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-    </body>
+    </div>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
 </html>
 
 

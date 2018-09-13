@@ -235,8 +235,8 @@
 <ol>
 <li>总的来说学东西要学的深，公司喜欢T型人才。</li>
 <li>要注重java基础知识（可以对照java核心技术）——主要在笔试，面试可能不是很多。</li>
-<li>要注重android技术。<pre><code>* 看android源码（View、handler、looper）。
-* 看框架源码（可以先关注eventbus、butterknife、arouter），对待框架源码要了解脉络，只用关心原理和流程，具体实现不用在意。
+<li>要注重android技术。<pre><code> * 看android源码（View、handler、looper）。
+ * 看框架源码（可以先关注eventbus、butterknife、arouter），对待框架源码要了解脉络，只用关心原理和流程，具体实现不用在意。
 </code></pre></li>
 <li>算法要刷，但是不会作为必要项（算法是加分项，但是在android方面不是很重要）。</li>
 <li>jvm要了解。</li>
@@ -1040,8 +1040,25 @@ jsonContent:
     <div style="display: none">
         <script src="https://s13.cnzz.com/z_stat.php?id=true&web_id=true" language="JavaScript"></script>
         
-    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-    </body>
+    </div>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
 </html>
 
 
