@@ -285,7 +285,59 @@ x + 2y + z = 2
 {a_2}&{b_2}&{c_2}\\
 {a_3}&{b_3}&{c_3}
 \end{bmatrix}}\end{bmatrix}</script><p>这样子很清楚的说明，左边矩阵第一行代表的就是一种对右边矩阵行向量的线性组合，第二行、第三行也类似，结果矩阵代表的第一行代表第一种线性组合方式的结果（左边矩阵第一行所对应的线性组合方式）。<br>但是这里要说明，这个变换左边矩阵必须是非奇异的，因为如果是奇异阵，代表方程组中至少有一个方程是可以用另一个或另几个方程一起表示，这种方程在进行行变换的时候会被全部换算成0，这样子少了一个或几个方程，也代表着方程组可能无法求出解（或者有无穷多解）。<br>其实列变换也是类似的，只不过对应线性组合方式的矩阵放在矩阵的右边而已。</p>
-<h3 id="初等矩阵消元过程"><a href="#初等矩阵消元过程" class="headerlink" title="初等矩阵消元过程"></a>初等矩阵消元过程</h3>
+<h3 id="初等矩阵消元过程"><a href="#初等矩阵消元过程" class="headerlink" title="初等矩阵消元过程"></a>初等矩阵消元过程</h3><p>依着高斯消元的思路，对于同一个方程组：</p>
+<script type="math/tex; mode=display">\begin{cases}
+x + 2y + z = 2
+\\3x + 8y + z = 12
+\\4y + z = 2
+\end{cases}</script><p>我们将其转换为一个矩阵</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+{1}&{2}&{1}\\
+{3}&{8}&{1}\\
+{0}&{4}&{1}
+\end{bmatrix}
+\\
+\begin{bmatrix}
+{1}&{2}&{1}&{2}\\
+{3}&{8}&{1}&{12}\\
+{0}&{4}&{1}&{2}
+\end{bmatrix}</script><p>上面为系数矩阵，下面为增广矩阵，就是加了一列$\begin{bmatrix}{2}&amp;{12}&amp;{2}\end{bmatrix}^{T}$。<br>我们的目的是消元求解，那么依据高斯的思路</p>
+<ol>
+<li>第二行乘3减第一行，得到新的第二行。</li>
+</ol>
+<script type="math/tex; mode=display">
+\underbrace{\begin{bmatrix}
+{1}&{0}&{0}\\
+{-3}&{1}&{0}\\
+{0}&{0}&{1}
+\end{bmatrix}}_{E_{21}}
+*\begin{bmatrix}
+{1}&{2}&{1}\\
+{3}&{8}&{1}\\
+{0}&{4}&{1}
+\end{bmatrix}</script><ol>
+<li>第三行*2减新的第二行。<script type="math/tex; mode=display">
+\underbrace{\begin{bmatrix}
+{1}&{0}&{0}\\
+{0}&{1}&{0}\\
+{0}&{-1}&{2}
+\end{bmatrix}}_{E_{32}}
+*\begin{bmatrix}
+{1}&{2}&{1}\\
+{0}&{2}&{-2}\\
+{0}&{0}&{5}
+\end{bmatrix}\\</script>合并一下就是：<script type="math/tex; mode=display">
+\underbrace{\begin{bmatrix}
+{E_{21}*E_{32}}
+\end{bmatrix}}_{E_c}
+*\begin{bmatrix}
+{1}&{2}&{1}\\
+{3}&{8}&{1}\\
+{0}&{4}&{1}
+\end{bmatrix}</script>这个${E_c}$就是我们需要求解过程中需要的矩阵，用它对右边的矩阵进行行变换，进而求出结果.</li>
+</ol>
+
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
@@ -378,6 +430,22 @@ x + 2y + z = 2
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
