@@ -275,6 +275,26 @@ J(\theta) = \frac{1}{2m} \sum_{i=1}^m [y^i - h(x^i)]^2</script><blockquote>
 <p>$\alpha$是学习率，也就是“步长”。</p>
 </blockquote>
 <p>当得到初始$\theta$后，计算$J(\theta)$，然后发现没有达到很优的地步（一般是规定迭代次数），然后根据上述的公式计算新的$\theta$值，规定一个迭代次数（也就是要更新$\theta$的次数），当达到这个次数后停止计算，所得的$h(x) = \theta^T  X$就是所得的线性回归模型。</p>
+<h2 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h2><h3 id="逻辑回归基本概念"><a href="#逻辑回归基本概念" class="headerlink" title="逻辑回归基本概念"></a>逻辑回归基本概念</h3><p>逻辑回归的主要目的是进行分类，通过根据训练数据集，训练出以下一个模型：</p>
+<script type="math/tex; mode=display">
+h(x) = \frac{1} {1 + e^{-\theta^T X}}</script><p>$h(x)$的图像如下图所示：<br><img src="/images/屏幕快照 2018-09-18 上午9.05.41.png" alt="h(x)"><br>可以看到这个图像$h(x)$是介于0~1，当$x&gt;=0$时，$h(x)&gt;=0.5$,$x&lt;0$时，$h(x) &lt;0.5$。</p>
+<blockquote>
+<p>因为要解决的问题是分类，这个函数首先介于0与1之间，不会出现无穷大和无穷小，所以很好界定分类界限。其次，这个函数是递增的，只要$\theta^T X &gt;=0，h(x)&gt;=0.5$。</p>
+</blockquote>
+<h3 id="逻辑回归算法逻辑"><a href="#逻辑回归算法逻辑" class="headerlink" title="逻辑回归算法逻辑"></a>逻辑回归算法逻辑</h3><p>同线性回归一样，逻辑回归的准确性，一样依赖着$\theta$，所以逻辑回归的主要任务是寻找$\theta$，同样，首先会对$\theta$赋予一个初始值：</p>
+<script type="math/tex; mode=display">
+\theta = 
+\begin{bmatrix}
+0\\
+0\\
+...\\
+0\\
+\end{bmatrix}</script><p>然后设定其代价函数：</p>
+<script type="math/tex; mode=display">
+J(\theta) = \frac{1}{2m} \sum_{i=1}^m [y^i - h(x^i)]^2\\
+notice:\quad h(x) = \frac{1} {1 + e^{-\theta^T X}}</script><blockquote>
+<p>这里讲一下我的理解，因为在逻辑回归中$h(x)$已经不是线性函数的$h(x)$，并且标签$y$是属于${0,1}$，所以我们的摩的就是让标签为1的训练数据的$h(x)$尽量靠近1（即，$\theta^T X$尽量大），让标签为0的训练数据的$h(x)$尽量靠近0（即，$\theta^T X$尽量小），同时要保证总体的误差要小。所以，虽然$h(x)$得到的数据不一定是0，1两个数，但是其与0，1之间的差越小，越表示其为负、正样本的可能性越高，并且这个差是为了保证总体误差小的一种代价.</p>
+</blockquote>
 
     </article>
     <!-- 前后页  -->
@@ -354,7 +374,7 @@ J(\theta) = \frac{1}{2m} \sum_{i=1}^m [y^i - h(x^i)]^2</script><blockquote>
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#逻辑回归与线性回归"><span class="toc-number">1.</span> <span class="toc-text">逻辑回归与线性回归</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#线性回归"><span class="toc-number">1.1.</span> <span class="toc-text">线性回归</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线性回归基本概念"><span class="toc-number">1.1.1.</span> <span class="toc-text">线性回归基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线性回归算法逻辑"><span class="toc-number">1.1.2.</span> <span class="toc-text">线性回归算法逻辑</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#逻辑回归与线性回归"><span class="toc-number">1.</span> <span class="toc-text">逻辑回归与线性回归</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#线性回归"><span class="toc-number">1.1.</span> <span class="toc-text">线性回归</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线性回归基本概念"><span class="toc-number">1.1.1.</span> <span class="toc-text">线性回归基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线性回归算法逻辑"><span class="toc-number">1.1.2.</span> <span class="toc-text">线性回归算法逻辑</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#逻辑回归"><span class="toc-number">1.2.</span> <span class="toc-text">逻辑回归</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#逻辑回归基本概念"><span class="toc-number">1.2.1.</span> <span class="toc-text">逻辑回归基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#逻辑回归算法逻辑"><span class="toc-number">1.2.2.</span> <span class="toc-text">逻辑回归算法逻辑</span></a></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
@@ -368,22 +388,6 @@ J(\theta) = \frac{1}{2m} \sum_{i=1}^m [y^i - h(x^i)]^2</script><blockquote>
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -924,12 +928,12 @@ J(\theta) = \frac{1}{2m} \sum_{i=1}^m [y^i - h(x^i)]^2</script><blockquote>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
         </li>
     
     
@@ -1007,23 +1011,19 @@ J(\theta) = \frac{1}{2m} \sum_{i=1}^m [y^i - h(x^i)]^2</script><blockquote>
     
         <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">随想</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">android</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">机器学习</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">学习笔记</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">activity</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">毕设</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">线性代数</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">感想</a></span>
     
@@ -1033,9 +1033,13 @@ J(\theta) = \frac{1}{2m} \sum_{i=1}^m [y^i - h(x^i)]^2</script><blockquote>
     
         <span class="sidebar-tag-name"><a href= "#">情景感知计算</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">考研</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">毕设</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">框架</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">考研</a></span>
+        <span class="sidebar-tag-name"><a href= "#">线性代数</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">统计学习方法</a></span>
     
@@ -1045,11 +1049,11 @@ J(\theta) = \frac{1}{2m} \sum_{i=1}^m [y^i - h(x^i)]^2</script><blockquote>
     
         <span class="sidebar-tag-name"><a href= "#">工作</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">源码</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
