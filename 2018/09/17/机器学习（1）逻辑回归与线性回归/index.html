@@ -295,6 +295,11 @@ J(\theta) = \frac{1}{2m} \sum_{i=1}^m [y^i - h(x^i)]^2\\
 notice:\quad h(x) = \frac{1} {1 + e^{-\theta^T X}}</script><blockquote>
 <p>这里讲一下我的理解，因为在逻辑回归中$h(x)$已经不是线性函数的$h(x)$，并且标签$y$是属于${0,1}$，所以我们的摩的就是让标签为1的训练数据的$h(x)$尽量靠近1（即，$\theta^T X$尽量大），让标签为0的训练数据的$h(x)$尽量靠近0（即，$\theta^T X$尽量小），同时要保证总体的误差要小。所以，虽然$h(x)$得到的数据不一定是0，1两个数，但是其与0，1之间的差越小，越表示其为负、正样本的可能性越高，并且这个差是为了保证总体误差小的一种代价.</p>
 </blockquote>
+<p>之后与线性回归一样，根据梯度求出其下降方向更新$\theta$值：</p>
+<script type="math/tex; mode=display">
+\frac{\partial J(\theta)}{\partial \theta_j} \quad = 
+\frac{1}{m} \sum_{i=1}^n [y^i - h(x^i)] x^i \\
+\theta_j = \theta_j - \alpha \frac{\partial J(\theta)}{\partial \theta_j} \quad j = 1,2,...,n</script><p>$\alpha$是学习率，同样设计一个<strong>迭代次数</strong>进行迭代求解。</p>
 
     </article>
     <!-- 前后页  -->
@@ -388,6 +393,32 @@ notice:\quad h(x) = \frac{1} {1 + e^{-\theta^T X}}</script><blockquote>
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -928,17 +959,17 @@ notice:\quad h(x) = \frac{1} {1 + e^{-\theta^T X}}</script><blockquote>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
         </li>
     
     
@@ -953,12 +984,12 @@ notice:\quad h(x) = \frac{1} {1 + e^{-\theta^T X}}</script><blockquote>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
         </li>
     
     
@@ -1001,15 +1032,15 @@ notice:\quad h(x) = \frac{1} {1 + e^{-\theta^T X}}</script><blockquote>
         <div class="sidebar-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name"><a href= "#">String</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">java</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">tip</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">基础</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">String</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">tip</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">随想</a></span>
     
@@ -1023,8 +1054,6 @@ notice:\quad h(x) = \frac{1} {1 + e^{-\theta^T X}}</script><blockquote>
     
         <span class="sidebar-tag-name"><a href= "#">学习笔记</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">activity</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">感想</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">论文</a></span>
@@ -1033,27 +1062,29 @@ notice:\quad h(x) = \frac{1} {1 + e^{-\theta^T X}}</script><blockquote>
     
         <span class="sidebar-tag-name"><a href= "#">情景感知计算</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">考研</a></span>
+        <span class="sidebar-tag-name"><a href= "#">activity</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">毕设</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">框架</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">线性代数</a></span>
+        <span class="sidebar-tag-name"><a href= "#">考研</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">统计学习方法</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">练习</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">面试</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">工作</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">源码</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">面试</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">工作</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">线性代数</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
