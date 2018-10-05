@@ -192,6 +192,40 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/05/16/毕设云盘架构思路Eureka实现篇/" >
+                
+                    <span>毕设云盘架构思路Eureka实现篇</span>
+            </a>
+            <a class="content-show-full" href = "/2018/05/16/毕设云盘架构思路Eureka实现篇/" >
+                <div class="abstract-content">
+                    云盘思路云盘的主要实现方法是将eureka和zuul整合在一起，但是由于所设计功能的缘故，不同的注册中心之间的注册信息不能共享，zuul的网关不仅实现转发和过滤，同时实现不同服务之间的多级授权，而且也想借这个机会好好研究一下spring的源码，所以准备手写一遍（当然是需要的部分啦）。
+注册中心所需组件注册中心主要负责不同服务之间相互注册，同时完成好友推测功能和广播功能。
+注册直接的好友的生成需要依赖于相互注册，注册时向对方服务发送指定的验证码，并附上自己对其的token，对方拿到验证码验证后返回token。接收注册方需要返回指定续约时间以及最大熔断续约周期（以个为单位，表示有几个续约时间...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 随想>随想</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 毕设>毕设</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 框架>框架</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/05/16</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/03/30/记录财务app开发/" >
                 
                     <span>记录财务app开发</span>
@@ -483,40 +517,6 @@ MyIntentService
                 <!-- date  -->
                 <div class="abstract-date">
                     <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/22</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/20/重走android（6）Handler-MessageQueue-Looper/" >
-                
-                    <span>重走android（6）Handler,MessageQueue,Looper</span>
-            </a>
-            <a class="content-show-full" href = "/2018/01/20/重走android（6）Handler-MessageQueue-Looper/" >
-                <div class="abstract-content">
-                    Handler MessageQueue Looper 解析（源码）浅析android的Handler不用说，这是一个实现线程间通信的关键。最常使用的场景就是android中只允许主线程进行UI更新，也就是说其他线程不能操作UI，再往深了说，其实就是android的View不是线程安全的（用子线程更新UI会报CalledFromWrongThreadException异常，通常后面还要跟一句话Only the original thread that created a view hierarchy can touch its views.），但是耗时的操作我们不能在主线程做，不仅会影响...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = java>java</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 重走android>重走android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 源码>源码</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/01/20</span>
                 </div>
             </div>
         </article>
@@ -1113,12 +1113,7 @@ MyIntentService
     
     
     
-    
-    
-    
-    
-    
-    <div class="total-archive"> Total : 34 </div>
+    <div class="total-archive"> Total : 35 </div>
     
     <div class="post-archive">
     
@@ -1127,6 +1122,11 @@ MyIntentService
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/05</span><a class="archive-post-title" href= "/2018/10/05/机器学习（3）神经网络初探/" >机器学习（3）神经网络初探</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1230,12 +1230,12 @@ MyIntentService
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
         </li>
     
     
@@ -1309,31 +1309,23 @@ MyIntentService
     
         <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">String</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">tip</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">随想</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">android</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">tip</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">感想</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">论文</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">物联网</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">情景感知计算</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">String</a></span>
+        <span class="sidebar-tag-name"><a href= "#">考研</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">机器学习</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">学习笔记</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">考研</a></span>
+        <span class="sidebar-tag-name"><a href= "#">android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">activity</a></span>
     
@@ -1341,21 +1333,29 @@ MyIntentService
     
         <span class="sidebar-tag-name"><a href= "#">框架</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">线性代数</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">统计学习方法</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">线性代数</a></span>
+        <span class="sidebar-tag-name"><a href= "#">感想</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">练习</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">面试</a></span>
+        <span class="sidebar-tag-name"><a href= "#">论文</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">工作</a></span>
+        <span class="sidebar-tag-name"><a href= "#">物联网</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">情景感知计算</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">源码</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
+        <span class="sidebar-tag-name"><a href= "#">面试</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">工作</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">

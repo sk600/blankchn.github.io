@@ -179,6 +179,41 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/10/05/机器学习（3）神经网络初探/" >
+                
+                    <span>机器学习（3）神经网络初探</span>
+            </a>
+            <a class="content-show-full" href = "/2018/10/05/机器学习（3）神经网络初探/" >
+                <div class="abstract-content">
+                    
+bilibili课程地址,coursera地址。
+
+神经网络初探不像逻辑回归那样只有一层$\theta$的映射，神经网络把模型的计算输出划分为多层，从输入层到隐藏层（可能有多层隐藏层），最后到最后的输出层。每一层包含多个计算端点（神经元），每一个计算端点只负责一个逻辑回归的计算，后面层的计算单元将前面层计算单元的输出当作输入，层层递进，最终达到最后的输出端点。每一个输出端点作为一个分类，通过输出类似$\begin{bmatrix}{0}\{0}\{1}\{0}\{0} \end{bmatrix}$的向量表示类别判断结果（示例表示该输入的最终结果是第三类）。
+神经网络的算法逻辑
+如上图所...
+                </div>
+            </a>
+            <div class="abstract-post-meta">
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 机器学习>机器学习</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 学习笔记>学习笔记</a>
+    
+</div>
+                
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/10/05</span>
+                </div>
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/09/18/机器学习（2）线性回归与逻辑回归的实现与思考/" >
                 
                     <span>机器学习（2）线性回归与逻辑回归的实现与思考</span>
@@ -358,9 +393,9 @@ S折交叉验证：随机将数据集分为S份互不相交的大小相同的子
                 
                 <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 感想>感想</a>
-    
         <a class="post-tag" href="javascript:void(0);" data-href = 统计学习方法>统计学习方法</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 感想>感想</a>
     
 </div>
                 
@@ -393,11 +428,11 @@ S折交叉验证：随机将数据集分为S份互不相交的大小相同的子
                 
                 <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 感想>感想</a>
-    
         <a class="post-tag" href="javascript:void(0);" data-href = 机器学习>机器学习</a>
     
         <a class="post-tag" href="javascript:void(0);" data-href = 统计学习方法>统计学习方法</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 感想>感想</a>
     
 </div>
                 
@@ -463,11 +498,11 @@ S折交叉验证：随机将数据集分为S份互不相交的大小相同的子
                 
                 <div class= abstract-tags >
     
+        <a class="post-tag" href="javascript:void(0);" data-href = tip>tip</a>
+    
         <a class="post-tag" href="javascript:void(0);" data-href = 随想>随想</a>
     
         <a class="post-tag" href="javascript:void(0);" data-href = android>android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = tip>tip</a>
     
 </div>
                 
@@ -504,40 +539,6 @@ S折交叉验证：随机将数据集分为S份互不相交的大小相同的子
                 <!-- date  -->
                 <div class="abstract-date">
                     <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/05/21</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/05/16/毕设云盘架构思路Eureka实现篇/" >
-                
-                    <span>毕设云盘架构思路Eureka实现篇</span>
-            </a>
-            <a class="content-show-full" href = "/2018/05/16/毕设云盘架构思路Eureka实现篇/" >
-                <div class="abstract-content">
-                    云盘思路云盘的主要实现方法是将eureka和zuul整合在一起，但是由于所设计功能的缘故，不同的注册中心之间的注册信息不能共享，zuul的网关不仅实现转发和过滤，同时实现不同服务之间的多级授权，而且也想借这个机会好好研究一下spring的源码，所以准备手写一遍（当然是需要的部分啦）。
-注册中心所需组件注册中心主要负责不同服务之间相互注册，同时完成好友推测功能和广播功能。
-注册直接的好友的生成需要依赖于相互注册，注册时向对方服务发送指定的验证码，并附上自己对其的token，对方拿到验证码验证后返回token。接收注册方需要返回指定续约时间以及最大熔断续约周期（以个为单位，表示有几个续约时间...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 随想>随想</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 毕设>毕设</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 框架>框架</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/05/16</span>
                 </div>
             </div>
         </article>
@@ -1076,12 +1077,7 @@ S折交叉验证：随机将数据集分为S份互不相交的大小相同的子
     
     
     
-    
-    
-    
-    
-    
-    <div class="total-archive"> Total : 34 </div>
+    <div class="total-archive"> Total : 35 </div>
     
     <div class="post-archive">
     
@@ -1090,6 +1086,11 @@ S折交叉验证：随机将数据集分为S份互不相交的大小相同的子
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/05</span><a class="archive-post-title" href= "/2018/10/05/机器学习（3）神经网络初探/" >机器学习（3）神经网络初探</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1193,12 +1194,12 @@ S折交叉验证：随机将数据集分为S份互不相交的大小相同的子
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
         </li>
     
     
@@ -1272,31 +1273,23 @@ S折交叉验证：随机将数据集分为S份互不相交的大小相同的子
     
         <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">String</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">tip</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">随想</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">android</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">tip</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">感想</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">论文</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">物联网</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">情景感知计算</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">String</a></span>
+        <span class="sidebar-tag-name"><a href= "#">考研</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">机器学习</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">学习笔记</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">考研</a></span>
+        <span class="sidebar-tag-name"><a href= "#">android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">activity</a></span>
     
@@ -1304,21 +1297,29 @@ S折交叉验证：随机将数据集分为S份互不相交的大小相同的子
     
         <span class="sidebar-tag-name"><a href= "#">框架</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">线性代数</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">统计学习方法</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">线性代数</a></span>
+        <span class="sidebar-tag-name"><a href= "#">感想</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">练习</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">面试</a></span>
+        <span class="sidebar-tag-name"><a href= "#">论文</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">工作</a></span>
+        <span class="sidebar-tag-name"><a href= "#">物联网</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">情景感知计算</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">源码</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
+        <span class="sidebar-tag-name"><a href= "#">面试</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">工作</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">

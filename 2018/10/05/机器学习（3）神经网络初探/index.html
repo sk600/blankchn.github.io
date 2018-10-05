@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title>
         
-        sk600&#39;s Studio
+        机器学习（3）神经网络初探 · sk600&#39;s Studio
         
     </title>
     <link rel="icon" href= /assets/touxian.png>
@@ -74,17 +74,28 @@
         })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
         ga('create', 'true', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
     
 </head>
 
     
+        <body class="post-body">
     
-<header class="header">
+    
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >sk600&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">机器学习（3）神经网络初探</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>sk600's Studio.</a>
 </header>
@@ -92,21 +103,58 @@
         <div class="site-intro">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(http://oumn0o088.bkt.clouddn.com/post-bg.jpg)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
+            机器学习（3）神经网络初探
+            <!-- 404 -->
+            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 机器学习>机器学习</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 学习笔记>学习笔记</a>
+    
+</div>
+            
+            <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/10/05</span>
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe604;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">
+                        &#xe601;
+                    </span>
+                    <span class="bdsharebuttonbox">
+                        <a href="#" class="bds_more shareText" data-cmd="more">Share</a>
+                    </span>
+                </span>
+            </div>
         
     </div>
 </div>
@@ -174,204 +222,42 @@
             }
         </script>
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/10/05/机器学习（3）神经网络初探/" >
-                
-                    <span>机器学习（3）神经网络初探</span>
-            </a>
-            <a class="content-show-full" href = "/2018/10/05/机器学习（3）神经网络初探/" >
-                <div class="abstract-content">
-                    
-bilibili课程地址,coursera地址。
+            <main class="main post-page">
+    <article class="article-entry">
+        <blockquote>
+<p><a href="https://www.bilibili.com/video/av9912938" target="_blank" rel="noopener">bilibili课程地址</a>,<a href="https://www.coursera.org/learn/machine-learning/home/welcome" target="_blank" rel="noopener">coursera地址</a>。</p>
+</blockquote>
+<h1 id="神经网络初探"><a href="#神经网络初探" class="headerlink" title="神经网络初探"></a>神经网络初探</h1><p>不像逻辑回归那样只有一层$\theta$的映射，神经网络把模型的计算输出划分为多层，从输入层到隐藏层（可能有多层隐藏层），最后到最后的输出层。每一层包含多个计算端点（神经元），每一个计算端点只负责一个逻辑回归的计算，后面层的计算单元将前面层计算单元的输出当作输入，层层递进，最终达到最后的输出端点。每一个输出端点作为一个分类，通过输出类似$\begin{bmatrix}{0}\{0}\{1}\{0}\{0} \end{bmatrix}$的向量表示类别判断结果（示例表示该输入的最终结果是第三类）。</p>
+<h2 id="神经网络的算法逻辑"><a href="#神经网络的算法逻辑" class="headerlink" title="神经网络的算法逻辑"></a>神经网络的算法逻辑</h2><p><img src="/images/20170710194516007.png" alt="神经网络图片"></p>
+<p>如上图所示，这是一个最简单的神经网络，只有三层，其中$$</p>
+<h3 id="第一步-前向传播"><a href="#第一步-前向传播" class="headerlink" title="第一步 前向传播"></a>第一步 前向传播</h3><p>​    </p>
 
-神经网络初探不像逻辑回归那样只有一层$\theta$的映射，神经网络把模型的计算输出划分为多层，从输入层到隐藏层（可能有多层隐藏层），最后到最后的输出层。每一层包含多个计算端点（神经元），每一个计算端点只负责一个逻辑回归的计算，后面层的计算单元将前面层计算单元的输出当作输入，层层递进，最终达到最后的输出端点。每一个输出端点作为一个分类，通过输出类似$\begin{bmatrix}{0}\{0}\{1}\{0}\{0} \end{bmatrix}$的向量表示类别判断结果（示例表示该输入的最终结果是第三类）。
-神经网络的算法逻辑
-如上图所...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 机器学习>机器学习</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 学习笔记>学习笔记</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/10/05</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/09/18/机器学习（2）线性回归与逻辑回归的实现与思考/" >
-                
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+        
+            <li class="previous">
+                <a href= "/2018/09/18/机器学习（2）线性回归与逻辑回归的实现与思考/" title= 机器学习（2）线性回归与逻辑回归的实现与思考 >
+                    <span>Previous Post</span>
                     <span>机器学习（2）线性回归与逻辑回归的实现与思考</span>
-            </a>
-            <a class="content-show-full" href = "/2018/09/18/机器学习（2）线性回归与逻辑回归的实现与思考/" >
-                <div class="abstract-content">
-                    
-bilibili课程地址,coursera地址。
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
 
-线性回归线性回归实现这部分主要是脱离吴恩达《机器学习》的代码，自己实现一遍，使用的也是Octave。
-主要逻辑如下：12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849% 做一些准备工作clear;close all;clc;subplot(1,2,1);data = load(&apos;./ex1data1.txt&apos;);X = [ones(length(data),1),data(:,1)];y ...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 机器学习>机器学习</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 学习笔记>学习笔记</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/09/18</span>
-                </div>
-            </div>
-        </article>
+<!-- City版安装代码已完成 -->
     
     
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/09/17/机器学习（1）逻辑回归与线性回归/" >
-                
-                    <span>机器学习（1）逻辑回归与线性回归</span>
-            </a>
-            <a class="content-show-full" href = "/2018/09/17/机器学习（1）逻辑回归与线性回归/" >
-                <div class="abstract-content">
-                    逻辑回归与线性回归这是根据吴恩达《机器学习》课程写的一些感想。
+    <!--PC版-->
 
-bilibili课程地址,coursera地址。
+    <!--PC版-->
 
-线性回归线性回归基本概念线性回归的主要目的是进行预测，其根据以往的数据和标签，训练一个模型:
 
-h(x) = \theta_1 x_1+\theta_2 x_2+···+\theta_n x_n其矩阵形式为：
-
-h(x) = \theta^T X\\
-\theta = 
-\begin{bmatrix}
-{\theta_1}\\
-{\theta_2}\\
-···\\
-{\theta_n}\\
-\end{bmatrix}\\
-X = 
-\begin{bmatrix}
-{x_1...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 机器学习>机器学习</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 学习笔记>学习笔记</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/09/17</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/09/13/线性代数（2）矩阵消元/" >
-                
-                    <span>线性代数（2）矩阵消元</span>
-            </a>
-            <a class="content-show-full" href = "/2018/09/13/线性代数（2）矩阵消元/" >
-                <div class="abstract-content">
-                    矩阵消元学习麻省理工公开课 线性代数 第二课 矩阵消元后的笔记，该课程还有丰富的代码和相关资料，不用翻墙也能看.
-高斯消元多元线性方程组消元方式普通方法是依靠高斯消元方法，具体实现就是依赖通过方程组之间的互相加减运算消去未知参数，保证至少有一个方程只含有一个未知参数，这样回代方程组即可求解。
-\begin{cases}
-x + 2y + z = 2
-\\3x + 8y + z = 12
-\\4y + z = 2
-\end{cases}消去x
-
-\begin{cases}
-x + 2y + z = 2
-\\2y - 2z = 6
-\\4y + z = 2
-\end{cases}消去y
-
-\...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 学习笔记>学习笔记</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 线性代数>线性代数</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/09/13</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/09/12/线性代数（1）方程组的解释/" >
-                
-                    <span>线性代数（1）方程组的解释</span>
-            </a>
-            <a class="content-show-full" href = "/2018/09/12/线性代数（1）方程组的解释/" >
-                <div class="abstract-content">
-                    方程组的解释学习麻省理工公开课 线性代数 第一课 方程组的几何解释后的笔记，该课程还有丰富的代码和相关资料，不用翻墙也能看.
-行图像和列图像行图像行图像是指矩阵的一行作为单位，这时候一行的元素如果有两个就代表一条直线，如果有3个就代表一个平面（可以把这个转化成方程，二元方程是在平面内求解，一个二元方程代表一条直线，三元方程是在三维空间中求解，一个三元方程代表一个平面），其解就是直线（二元）或者平面（三元）的交点（如果有交点的情况下).
-列图像列图像指的是方程参数的一列作为一个向量，方程等号右边的向量就是左边参数向量的线性组合.
-图片展示由图像可知，行图像还是依据方程的几何性质求交点，而列...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 学习笔记>学习笔记</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-href = 线性代数>线性代数</a>
-    
-</div>
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/09/12</span>
-                </div>
-            </div>
-        </article>
-    
-    <!-- paginator  -->
-    
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -419,6 +305,13 @@ x + 2y + z = 2
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#神经网络初探"><span class="toc-number">1.</span> <span class="toc-text">神经网络初探</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#神经网络的算法逻辑"><span class="toc-number">1.1.</span> <span class="toc-text">神经网络的算法逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一步-前向传播"><span class="toc-number">1.1.1.</span> <span class="toc-text">第一步 前向传播</span></a></li></ol></li></ol></li></ol>
+    </div>
     
     <div class="back-top">&#xe639;</div>
     <div class="sidebar">
@@ -1205,7 +1098,7 @@ jsonContent:
     });
 </script>
 <!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 </body>
 </html>
