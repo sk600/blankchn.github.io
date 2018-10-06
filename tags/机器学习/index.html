@@ -188,8 +188,9 @@
                     
 bilibili课程地址,coursera地址。
 
-神经网络初探不像逻辑回归那样只有一层$\theta$的映射，神经网络把模型的计算输出划分为多层，从输入层到隐藏层（可能有多层隐藏层），最后到最后的输出层。每一层包含多个计算端点（神经元），每一个计算端点只负责一个逻辑回归的计算，后面层的计算单元将前面层计算单元的输出当作输入，层层递进，最终达到最后的输出端点。每一个输出端点作为一个分类，通过输出类似$\begin{bmatrix}{0} \ {0} \ {1} \ {0} \ {0} \end{bmatrix}$的向量表示类别判断结果（示例表示该输入的最终结果是第三类）。
-神经网络的算...
+神经网络初探不像逻辑回归那样只有一层$\theta$的映射，神经网络把模型的计算输出划分为多层，从输入层到隐藏层（可能有多层隐藏层），最后到最后的输出层。每一层包含多个计算端点（神经元），每一个计算端点只负责一个逻辑回归的计算，后面层的计算单元将前面层计算单元的输出当作输入，层层递进，最终达到最后的输出端点。每一个输出端点作为一个分类，通过输出类似$\begin{bmatrix}{0}\{0}\{1}\{0}\{0}\end{bmatrix}$的向量表示类别判断结果（示例表示该输入的最终结果是第三类）。
+神经网络的算法逻辑
+如上图所示...
                 </div>
             </a>
             <div class="abstract-post-meta">
@@ -314,9 +315,9 @@ X =
                 
                 <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-href = 感想>感想</a>
-    
         <a class="post-tag" href="javascript:void(0);" data-href = 机器学习>机器学习</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-href = 感想>感想</a>
     
         <a class="post-tag" href="javascript:void(0);" data-href = 统计学习方法>统计学习方法</a>
     
@@ -390,44 +391,6 @@ X =
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1004,7 +967,7 @@ X =
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
         </li>
     
     
@@ -1014,7 +977,7 @@ X =
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
         </li>
     
     
@@ -1029,12 +992,12 @@ X =
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
         </li>
     
     
@@ -1087,17 +1050,21 @@ X =
     
         <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">随想</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">android</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">activity</a></span>
+        <span class="sidebar-tag-name"><a href= "#">随想</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">考研</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">android</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">activity</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">机器学习</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">学习笔记</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">感想</a></span>
     
@@ -1107,27 +1074,23 @@ X =
     
         <span class="sidebar-tag-name"><a href= "#">情景感知计算</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">机器学习</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">学习笔记</a></span>
+        <span class="sidebar-tag-name"><a href= "#">线性代数</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">毕设</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">框架</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">线性代数</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">统计学习方法</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">练习</a></span>
+        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
+        <span class="sidebar-tag-name"><a href= "#">练习</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">面试</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">工作</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
+        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">源码</a></span>
     
@@ -1177,24 +1140,7 @@ jsonContent:
         <script src="https://s13.cnzz.com/z_stat.php?id=true&web_id=true" language="JavaScript"></script>
         
     </div>
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
-</body>
+    </body>
 </html>
 
 
