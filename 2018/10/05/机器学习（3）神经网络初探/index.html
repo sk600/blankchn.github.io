@@ -227,7 +227,7 @@
         <blockquote>
 <p><a href="https://www.bilibili.com/video/av9912938" target="_blank" rel="noopener">bilibili课程地址</a>,<a href="https://www.coursera.org/learn/machine-learning/home/welcome" target="_blank" rel="noopener">coursera地址</a>。</p>
 </blockquote>
-<h1 id="神经网络初探"><a href="#神经网络初探" class="headerlink" title="神经网络初探"></a>神经网络初探</h1><p>不像逻辑回归那样只有一层$\theta$的映射，神经网络把模型的计算输出划分为多层，从输入层到隐藏层（可能有多层隐藏层），最后到最后的输出层。每一层包含多个计算端点（神经元），每一个计算端点只负责一个逻辑回归的计算，后面层的计算单元将前面层计算单元的输出当作输入，层层递进，最终达到最后的输出端点。每一个输出端点作为一个分类，通过输出类似$\begin{bmatrix}{0}\{0}\{1}\{0}\{0}\end{bmatrix}$的向量表示类别判断结果（示例表示该输入的最终结果是第三类）。</p>
+<h1 id="神经网络初探"><a href="#神经网络初探" class="headerlink" title="神经网络初探"></a>神经网络初探</h1><p>不像逻辑回归那样只有一层$\theta$的映射，神经网络把模型的计算输出划分为多层，从输入层到隐藏层（可能有多层隐藏层），最后到最后的输出层。每一层包含多个计算端点（神经元），每一个计算端点只负责一个逻辑回归的计算，后面层的计算单元将前面层计算单元的输出当作输入，层层递进，最终达到最后的输出端点。每一个输出端点作为一个分类，通过输出类似$\begin{bmatrix}{0}\{0}\{1}\{0}\{0} \end{bmatrix}$的向量表示类别判断结果（示例表示该输入的最终结果是第三类）。</p>
 <h2 id="神经网络的算法逻辑"><a href="#神经网络的算法逻辑" class="headerlink" title="神经网络的算法逻辑"></a>神经网络的算法逻辑</h2><p><img src="/images/image-20181006140355743.png" alt="image-20181006140355743"></p>
 <p>如上图所示，这是一个最简单的神经网络，只有三层，其中$x_1^{(i)},x_2^{(i)}$为输入（第一层），中间两层表示隐藏层，最后一个表示输出层,中间的每一个$\theta$ 是每一层向下一层传递时的权重，比如 $w_1,w_2$ 就是 $i_1,i_2$ 向 $h_1$传递的权重，1是偏置项。</p>
 <h3 id="第一步-前向传播"><a href="#第一步-前向传播" class="headerlink" title="第一步 前向传播"></a>第一步 前向传播</h3><p>针对于每一个输入输出 ${x^(i),y^(i)}$    都有 $x^{(i)} = \begin{bmatrix} {x_1^{(i)}}\{x_2^{(i)}} \end{bmatrix} $ ，还要加一个+1的偏置项（就像逻辑回归中一样），第二层，也就是隐藏层第一层 的输入用 $z^{(2)}$  （对于隐藏层和输出层来说2表示的是第二层，z表示输入） ，$z^{(2)} = \begin{bmatrix} {z_1^{(2)}}\{z_2^{(2)}} \end{bmatrix}$ ，$z_i^{(k)}$ 表示第k层的第i个神经元的输入，第三层同理。</p>
@@ -333,6 +333,24 @@ a_i^k 表示第k层的第i个神经元的输出</script><p>相当于在每一个
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -939,7 +957,7 @@ a_i^k 表示第k层的第i个神经元的输出</script><p>相当于在每一个
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
         </li>
     
     
@@ -949,7 +967,7 @@ a_i^k 表示第k层的第i个神经元的输出</script><p>相当于在每一个
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
         </li>
     
     
@@ -1018,13 +1036,13 @@ a_i^k 表示第k层的第i个神经元的输出</script><p>相当于在每一个
     
         <span class="sidebar-tag-name"><a href= "#">tip</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">随想</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">android</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">基础</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">随想</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
     
@@ -1058,11 +1076,11 @@ a_i^k 表示第k层的第i个神经元的输出</script><p>相当于在每一个
     
         <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">面试</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">工作</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">源码</a></span>
     
