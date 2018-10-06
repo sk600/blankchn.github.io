@@ -227,11 +227,19 @@
         <blockquote>
 <p><a href="https://www.bilibili.com/video/av9912938" target="_blank" rel="noopener">bilibili课程地址</a>,<a href="https://www.coursera.org/learn/machine-learning/home/welcome" target="_blank" rel="noopener">coursera地址</a>。</p>
 </blockquote>
-<h1 id="神经网络初探"><a href="#神经网络初探" class="headerlink" title="神经网络初探"></a>神经网络初探</h1><p>不像逻辑回归那样只有一层$\theta$的映射，神经网络把模型的计算输出划分为多层，从输入层到隐藏层（可能有多层隐藏层），最后到最后的输出层。每一层包含多个计算端点（神经元），每一个计算端点只负责一个逻辑回归的计算，后面层的计算单元将前面层计算单元的输出当作输入，层层递进，最终达到最后的输出端点。每一个输出端点作为一个分类，通过输出类似$\begin{bmatrix}{0}\{0}\{1}\{0}\{0}\end{bmatrix}$的向量表示类别判断结果（示例表示该输入的最终结果是第三类）。<img src="/images/屏幕快照 2018-10-06 下午1.31.41.png" alt="屏幕快照 2018-10-06 下午1.31.41"></p>
-<h2 id="神经网络的算法逻辑"><a href="#神经网络的算法逻辑" class="headerlink" title="神经网络的算法逻辑"></a>神经网络的算法逻辑</h2><p><img src="/images/20170710194516007.png" alt="神经网络图片"></p>
-<p>如上图所示，这是一个最简单的神经网络，只有三层，其中$$</p>
-<h3 id="第一步-前向传播"><a href="#第一步-前向传播" class="headerlink" title="第一步 前向传播"></a>第一步 前向传播</h3><p><img src="/images/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-10-05%20%E4%B8%8A%E5%8D%8811.40.38.png" alt="屏幕快照 2018-10-05 上午11.40.38"></p>
-<p>​    </p>
+<h1 id="神经网络初探"><a href="#神经网络初探" class="headerlink" title="神经网络初探"></a>神经网络初探</h1><p>不像逻辑回归那样只有一层$\theta$的映射，神经网络把模型的计算输出划分为多层，从输入层到隐藏层（可能有多层隐藏层），最后到最后的输出层。每一层包含多个计算端点（神经元），每一个计算端点只负责一个逻辑回归的计算，后面层的计算单元将前面层计算单元的输出当作输入，层层递进，最终达到最后的输出端点。每一个输出端点作为一个分类，通过输出类似$\begin{bmatrix}{0}\{0}\{1}\{0}\{0}\end{bmatrix}$的向量表示类别判断结果（示例表示该输入的最终结果是第三类）。</p>
+<h2 id="神经网络的算法逻辑"><a href="#神经网络的算法逻辑" class="headerlink" title="神经网络的算法逻辑"></a>神经网络的算法逻辑</h2><p><img src="../images/image-20181006140355743.png" alt="image-20181006140355743"></p>
+<p>如上图所示，这是一个最简单的神经网络，只有三层，其中$x_1^{(i)},x_2^{(i)}$为输入（第一层），中间两层表示隐藏层，最后一个表示输出层,中间的每一个$\theta$ 是每一层向下一层传递时的权重，比如 $w_1,w_2$ 就是 $i_1,i_2$ 向 $h_1$传递的权重，1是偏置项。</p>
+<h3 id="第一步-前向传播"><a href="#第一步-前向传播" class="headerlink" title="第一步 前向传播"></a>第一步 前向传播</h3><p>针对于每一个输入输出 ${x^(i),y^(i)}$    都有 $x^{(i)} = \begin{bmatrix} {x_1^{(i)}}\{x_2^{(i)}} \end{bmatrix} $ ，还要加一个+1的偏置项（就像逻辑回归中一样），第二层，也就是隐藏层第一层 的输入用 $z^{(2)}$  （对于隐藏层和输出层来说2表示的是第二层，z表示输入） ，$z^{(2)} = \begin{bmatrix} {z_1^{(2)}}\{z_2^{(2)}} \end{bmatrix}$ ，$z_i^{(k)}$ 表示第k层的第i个神经元的输入，第三层同理。</p>
+<p>$z_i^{(k)}$的计算如下所示：</p>
+<script type="math/tex; mode=display">
+z_1^{(2)} = \theta_{01}*1+\theta_{11} x_1^{(i)} + \theta_{12} x_2^{(i)}\\
+\theta_{ij} 表示前一层的第j个神经元向下一层的第i个神经元传递时的权重</script><p> 每一个神经元里面也需要进行计算，计算方法与逻辑回归的 $h_{\theta}(z)$一样：</p>
+<script type="math/tex; mode=display">
+a_1^{(2)} = \frac {1}{1+e^{-z_1^{(2)}}}\\
+a_i^k 表示第k层的第i个神经元的输出</script><p>相当于在每一个神经元里面做一次逻辑回归的迭代（当然这里还没有修改参数）。$z_2^{(2)}$也是同样的计算规则，接着同第二层的偏置项（+1）再向第三层进行传递，计算方法一样，这样就计算出了 $a^{(3)}$ （第三层的输出）， 再用 $a^{(3)}$计算出 $z^{(4)},a^{(4)}$ , $a^{(4)}$ 就是这个神经网络的输出了，当然这里的输出神经元只有一个，如果有多个就输出成向量的形式。</p>
+<h3 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h3><p>机器学习最神奇的就是通过对数据集的计算以及结果的对比能够自动调整参数，进而达到自动优化模型的结果，神经网络也是一样的，它的调整参数的方法就是通过反向传播进行。</p>
+<p>通过正向传播的</p>
 
     </article>
     <!-- 前后页  -->
@@ -311,7 +319,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#神经网络初探"><span class="toc-number">1.</span> <span class="toc-text">神经网络初探</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#神经网络的算法逻辑"><span class="toc-number">1.1.</span> <span class="toc-text">神经网络的算法逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一步-前向传播"><span class="toc-number">1.1.1.</span> <span class="toc-text">第一步 前向传播</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#神经网络初探"><span class="toc-number">1.</span> <span class="toc-text">神经网络初探</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#神经网络的算法逻辑"><span class="toc-number">1.1.</span> <span class="toc-text">神经网络的算法逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一步-前向传播"><span class="toc-number">1.1.1.</span> <span class="toc-text">第一步 前向传播</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反向传播"><span class="toc-number">1.1.2.</span> <span class="toc-text">反向传播</span></a></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
@@ -325,36 +333,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -939,17 +917,17 @@
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
         </li>
     
     
@@ -964,12 +942,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
         </li>
     
     
@@ -1018,17 +996,19 @@
     
         <span class="sidebar-tag-name"><a href= "#">tip</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">基础</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">随想</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">android</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">基础</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">jvm</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">考研</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">activity</a></span>
     
@@ -1039,8 +1019,6 @@
         <span class="sidebar-tag-name"><a href= "#">物联网</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">情景感知计算</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">考研</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">机器学习</a></span>
     
