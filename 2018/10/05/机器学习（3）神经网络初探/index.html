@@ -228,18 +228,61 @@
 <p><a href="https://www.bilibili.com/video/av9912938" target="_blank" rel="noopener">bilibili课程地址</a>,<a href="https://www.coursera.org/learn/machine-learning/home/welcome" target="_blank" rel="noopener">coursera地址</a>。</p>
 </blockquote>
 <h1 id="神经网络初探"><a href="#神经网络初探" class="headerlink" title="神经网络初探"></a>神经网络初探</h1><p>不像逻辑回归那样只有一层$\theta$的映射，神经网络把模型的计算输出划分为多层，从输入层到隐藏层（可能有多层隐藏层），最后到最后的输出层。每一层包含多个计算端点（神经元），每一个计算端点只负责一个逻辑回归的计算，后面层的计算单元将前面层计算单元的输出当作输入，层层递进，最终达到最后的输出端点。每一个输出端点作为一个分类，通过输出类似$\begin{bmatrix} {0}\ {0}\ {1}\ {0}\ {0}\ \end{bmatrix}$的向量表示类别判断结果（示例表示该输入的最终结果是第三类）。</p>
+<p><img src="/image-20181006153511577.png" alt="image-20181006153511577"></p>
 <h2 id="神经网络的算法逻辑"><a href="#神经网络的算法逻辑" class="headerlink" title="神经网络的算法逻辑"></a>神经网络的算法逻辑</h2><p><img src="/images/image-20181006140355743.png" alt="image-20181006140355743"></p>
 <p>如上图所示，这是一个最简单的神经网络，只有三层，其中$x_1^{(i)},x_2^{(i)}$为输入（第一层），中间两层表示隐藏层，最后一个表示输出层,中间的每一个$\theta$ 是每一层向下一层传递时的权重，比如 $w_1,w_2$ 就是 $i_1,i_2$ 向 $h_1$传递的权重，1是偏置项。</p>
-<h3 id="第一步-前向传播"><a href="#第一步-前向传播" class="headerlink" title="第一步 前向传播"></a>第一步 前向传播</h3><p>针对于每一个输入输出 ${x^(i),y^(i)}$    都有 $x^{(i)} = \begin{bmatrix} {x_1^{(i)}}\ {x_2^{(i)}}\ \end{bmatrix} $ ，还要加一个+1的偏置项（就像逻辑回归中一样），第二层，也就是隐藏层第一层 的输入用 $z^{(2)}$  （对于隐藏层和输出层来说2表示的是第二层，z表示输入） ，$z^{(2)} = \begin{bmatrix} {z_1^{(2)}}\ {z_2^{(2)}}\ \end{bmatrix}$ ，$z_i^{(k)}$ 表示第k层的第i个神经元的输入，第三层同理。</p>
+<h3 id="第一步-前向传播"><a href="#第一步-前向传播" class="headerlink" title="第一步 前向传播"></a>第一步 前向传播</h3><p>针对于每一个输入输出 ${x^(i),y^(i)}$    都有 $x^{(i)} = \begin{bmatrix} {x_1^{(i)}}\ {x_2^{(i)}}\ \end{bmatrix} $ ，还要加一个+1的偏置项（就像逻辑回归中一样），第二层，也就是隐藏层第一层 的输入用 $z^{(2)}$  （对于隐藏层和输出层来说2表示的是第二层，z表示输入） ，$z^{(2)} = \begin{bmatrix} {z_1^{(2)}}\ {z_2^{(2)}}\ \end{bmatrix}$ ，$z_i^{(l)}$ 表示第l层的第i个神经元的输入，第三层同理。</p>
 <p>$z_i^{(k)}$的计算如下所示：</p>
 <script type="math/tex; mode=display">
 z_1^{(2)} = \theta_{01}*1+\theta_{11} x_1^{(i)} + \theta_{12} x_2^{(i)}\\
 \theta_{ij} 表示前一层的第j个神经元向下一层的第i个神经元传递时的权重</script><p> 每一个神经元里面也需要进行计算，计算方法与逻辑回归的 $h_{\theta}(z)$一样：</p>
 <script type="math/tex; mode=display">
 a_1^{(2)} = \frac {1}{1+e^{-z_1^{(2)}}}\\
-a_i^k 表示第k层的第i个神经元的输出</script><p>相当于在每一个神经元里面做一次逻辑回归的迭代（当然这里还没有修改参数）。$z_2^{(2)}$也是同样的计算规则，接着同第二层的偏置项（+1）再向第三层进行传递，计算方法一样，这样就计算出了 $a^{(3)}$ （第三层的输出）， 再用 $a^{(3)}$计算出 $z^{(4)},a^{(4)}$ , $a^{(4)}$ 就是这个神经网络的输出了，当然这里的输出神经元只有一个，如果有多个就输出成向量的形式。</p>
+a_i^l 表示第l层的第i个神经元的输出</script><p>相当于在每一个神经元里面做一次逻辑回归的迭代（当然这里还没有修改参数）。$z_2^{(2)}$也是同样的计算规则，接着同第二层的偏置项（+1）再向第三层进行传递，计算方法一样，这样就计算出了 $a^{(3)}$ （第三层的输出）， 再用 $a^{(3)}$计算出 $z^{(4)},a^{(4)}$ , $a^{(4)}$ 就是这个神经网络的输出了，当然这里的输出神经元只有一个，如果有多个就输出成向量的形式。</p>
+<p>正向传播中的流程主要是这样的:</p>
+<div id="flowchart-0" class="flow-chart"></div>
+
+
+
 <h3 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h3><p>机器学习最神奇的就是通过对数据集的计算以及结果的对比能够自动调整参数，进而达到自动优化模型的结果，神经网络也是一样的，它的调整参数的方法就是通过反向传播进行。</p>
-<p>通过正向传播的</p>
+<p>通过上述正向传播过程，可以发现唯一能够调整的过程就是通过上一层的 $a^{(l-1)}$ 计算 $a^{(l)}$  中的 $\theta$ ，所以反向传播中的主要目的就是调整 $\theta$ 。</p>
+<p>因为 $\theta$ 的误差主要会传递到 $z,a$ 继而传递到最后的输出，而这也是唯一能够直接找到误差所在的地方，所以正向传播的结果就是反向传播的起点，这也是反向传播的名字意义（我自己这么理解的）。</p>
+<p>代价函数如下：</p>
+<script type="math/tex; mode=display">
+J(\theta) = -\frac{1}{m}(\sum_{i=1}^{m} \sum_{k=1}^{k} y_k^{(i)}log(h_{\theta}(x^{(i)}))_k +(1-y_k^{(i)})log(1-h_{\theta}(x^{(i)}))_k) + \sum_{l=1}^{L-1} \sum_{i=1}^{s_{k+1}}\sum_{j=1}^{s_k}{\theta_{ij}^{(l)}}^2\\
+y_k^{(i)} 表示对于第i个训练数据的第k个输出单元输出结果\\
+m表示训练集的数量\\
+ \sum_{l=1}^{L-1} \sum_{i=1}^{s_{k+1}}\sum_{j=1}^{s_k}{\theta_{ij}^{(l)}}^2 这是一个正则项，防止过拟合</script><p> $\frac {\partial J(\theta)}{\partial \theta<em>{ij}^{(k)}} $ 就是每一个 $\theta</em>{ij}^{(k)}$</p>
+<p>对于输出层的误差非常好找：</p>
+<script type="math/tex; mode=display">
+\delta^{(4)} = a^{(4)} - y^{(i)} \\
+\delta^{(k)}表示第k层（相对于z^{(k)}的误差）</script><p>对于隐藏层的误差，公式如下：</p>
+<script type="math/tex; mode=display">
+\delta^{(l)} = \theta^{(k)}\delta^{(l+1)}g^{'}(z^{(l)})\\
+\theta^{(l)} 表示第k层神经元向第k+1层神经元传递时的权重\\
+g^{'}(x) = g(x)(1-g(x)) \quad\quad g(x) = \frac {1}{1+e^{-x}}</script><p>后面会推到这个 $\delta^{(l)}$ ，接下来就是找到这个 $\delta^{(l)}$ 与 $\theta^{(l-1)}$ 的关系：</p>
+<script type="math/tex; mode=display">
+\frac {\partial {J({\theta})}}{\partial {\theta_{ij}^{(l)}}} = a_j^{(l)}\delta_i^{l+1}\\</script><p>因为在对训练集中m组数据训练完成以后才要进行反向传播，并且每一组数据所得到的 $\frac {\partial J(\theta)} {\partial \theta_{ij}^{(l)}}$ 都是不一样的（即，每一组数据是有自己特征的，模型并不能够对每一组数据产生一样的误差，如果产生的一样的误差的话，那误差就可以直接改掉，那模型不就是完全契合数据了 ——过拟合，<strong>这是我的理解</strong>），所以需要求一个平均的影响（平均在机器学习中用的非常普遍，感觉只要涉及到不一致，那么就会求和平均来求平衡，我觉得理解平均的含义是非常重要的多，总感觉现在对于平均的理解还很肤浅，之后要看一看，这样理解起来就能更加深刻一些了），这个求和的变量就用 $\Delta$ 表示：</p>
+<script type="math/tex; mode=display">
+\Delta_{ij}^{(l)} = \Delta_{ij}^{(l)} + a_j^{(l)}\delta_i^{l+1}\\
+\Delta_{ij}^{(l)}表示对于m组训练数据针对于\theta_{ij}^{(l)}的误差影响总和，这里不是误差总和，因为\Delta是偏导数\\</script><p> 有了影响总和，那么就可以对计算$\frac {\partial J(\theta)} {\partial \theta_{ij}^{(l)}}$ 了，用 $D$ 表示：</p>
+<script type="math/tex; mode=display">
+D_{ij}^{(l)} = \frac {1} {m} \Delta_{ij}^{(l)} +\lambda \theta_{ij}^{(l)}\quad j\not=0\\
+D_{ij}^{(l)} = \frac {1} {m} \Delta_{ij}^{(l)} \quad j=0</script><p>在 $j\not= 0$ 时 ，多了一项 $\lambda \theta<em>{ij}^{(l)}$ 这是对应 $J(\theta)$ 的正则项对于 $\theta</em>{ij}^{l}$ 的求导，至于为什么在 $j=0$ 的情况下不接入这个，这是因为 $j=0$ 对应的 $\theta<em>{ij}^{(l)}$ 是偏置项，偏置项在逻辑回归和线性回归中也是不进行正则化计算的（具体原因还不太理解，但是我试了一下，同样的迭代次数，准确性反而下降了），接下来就是对 $\theta</em>{ij}^{(l)}$ 进行调整了:</p>
+<script type="math/tex; mode=display">
+\theta_{ij}^{(l)} = \theta_{ij}^{l} + \alpha D_{ij}^{(l)}\\
+\alpha 表示学习率</script><p> <strong>补充推导</strong>:</p>
+<p><script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">st=>start: 开始
+e=>end: 结束
+input=>inputoutput: 输入X
+output=>inputoutput: 输出向量
+calZ=>operation: 计算Z(通过theta)
+calA=>operation: 计算A
+sub=>subroutine: 进入下一层
+judge=>condition: 是否为输出层
+st->input->calZ->calA->judge
+judge(yes)->output->end
+judge(no)->sub->calZ</textarea><textarea id="flowchart-0-options" style="display: none">"flowchart"</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script></p>
 
     </article>
     <!-- 前后页  -->
@@ -333,6 +376,36 @@ a_i^k 表示第k层的第i个神经元的输出</script><p>相当于在每一个
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -907,7 +980,7 @@ a_i^k 表示第k层的第i个神经元的输出</script><p>相当于在每一个
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
         </li>
     
     
@@ -917,7 +990,7 @@ a_i^k 表示第k层的第i个神经元的输出</script><p>相当于在每一个
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
         </li>
     
     
@@ -932,12 +1005,12 @@ a_i^k 表示第k层的第i个神经元的输出</script><p>相当于在每一个
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
         </li>
     
     
@@ -1002,6 +1075,10 @@ a_i^k 表示第k层的第i个神经元的输出</script><p>相当于在每一个
     
         <span class="sidebar-tag-name"><a href= "#">考研</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">机器学习</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">学习笔记</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">感想</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">论文</a></span>
@@ -1009,10 +1086,6 @@ a_i^k 表示第k层的第i个神经元的输出</script><p>相当于在每一个
         <span class="sidebar-tag-name"><a href= "#">物联网</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">情景感知计算</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">机器学习</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">学习笔记</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">毕设</a></span>
     
