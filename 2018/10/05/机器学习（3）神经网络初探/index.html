@@ -267,11 +267,18 @@ g^{'}(x) = g(x)(1-g(x)) \quad\quad g(x) = \frac {1}{1+e^{-x}}</script><p>后面�
 \Delta_{ij}^{(l)} = \Delta_{ij}^{(l)} + a_j^{(l)}\delta_i^{l+1}\\
 \Delta_{ij}^{(l)}表示对于m组训练数据针对于\theta_{ij}^{(l)}的误差影响总和，这里不是误差总和，因为\Delta是偏导数\\</script><p> 有了影响总和，那么就可以对计算$\frac {\partial J(\theta)} {\partial \theta_{ij}^{(l)}}$ 了，用 $D$ 表示：</p>
 <script type="math/tex; mode=display">
-D_{ij}^{(l)} = \frac {1} {m} \Delta_{ij}^{(l)} +\lambda \theta_{ij}^{(l)}\quad j\not=0\\
-D_{ij}^{(l)} = \frac {1} {m} \Delta_{ij}^{(l)} \quad j=0</script><p>在 $j\not= 0$ 时 ，多了一项 $\lambda \theta<em>{ij}^{(l)}$ 这是对应 $J(\theta)$ 的正则项对于 $\theta</em>{ij}^{l}$ 的求导，至于为什么在 $j=0$ 的情况下不接入这个，这是因为 $j=0$ 对应的 $\theta<em>{ij}^{(l)}$ 是偏置项，偏置项在逻辑回归和线性回归中也是不进行正则化计算的（具体原因还不太理解，但是我试了一下，同样的迭代次数，准确性反而下降了），接下来就是对 $\theta</em>{ij}^{(l)}$ 进行调整了:</p>
+D_{ij}^{(l)} = \frac {1} {m} \Delta_{ij}^{(l)} +  \underbrace{\lambda \theta_{ij}^{(l)}}_{\lambda \theta_{ij}^{(l)}  这是对应 J(\theta) 的正则项对于 \theta_{ij}^{(l)}的求导。} \quad j\not=0\\
+D_{ij}^{(l)} = \frac {1} {m} \Delta_{ij}^{(l)} \quad j=0\\</script><p>为什么在j=0的情况下不接入这个，这是因为j=0对应的是偏置项，偏置项在逻辑回归和线性回归中也是不进行正则化计算的（具体原因还不太理解，但是我试了一下，同样的迭代次数，准确性反而下降了），接下来就是对  $ \theta_{ij}^{(l)} $ 进行调整了:</p>
 <script type="math/tex; mode=display">
 \theta_{ij}^{(l)} = \theta_{ij}^{l} + \alpha D_{ij}^{(l)}\\
-\alpha 表示学习率</script><p> <strong>补充推导</strong>:</p>
+\alpha 表示学习率</script><p><strong>附加推导</strong></p>
+<ul>
+<li>对于隐藏层 $\delta_{ij}^{(l)}$的推导：</li>
+</ul>
+<script type="math/tex; mode=display">
+</script><ul>
+<li>对于 $\Delta_{ij}^{(l)}$ 的推导：</li>
+</ul>
 <p><script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">st=>start: 开始
 e=>end: 结束
 input=>inputoutput: 输入X
@@ -376,24 +383,6 @@ judge(no)->sub->calZ</textarea><textarea id="flowchart-0-options" style="display
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -954,17 +943,17 @@ judge(no)->sub->calZ</textarea><textarea id="flowchart-0-options" style="display
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（4）LocalBroadcastManager源码解析/" >重走android（4）LocalBroadcastManager源码解析</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
         </li>
     
     
@@ -979,12 +968,12 @@ judge(no)->sub->calZ</textarea><textarea id="flowchart-0-options" style="display
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
         </li>
     
     
@@ -1069,13 +1058,13 @@ judge(no)->sub->calZ</textarea><textarea id="flowchart-0-options" style="display
     
         <span class="sidebar-tag-name"><a href= "#">统计学习方法</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">练习</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">面试</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">工作</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
     
