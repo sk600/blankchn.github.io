@@ -328,7 +328,7 @@ a_2^{(2)} = 1·\theta_{20}^{(1)} + x_1 \theta_{21}^{(1)} + x_2 \theta_{22}^{(1)}
 (2) 求{\Delta_{10}^{(1)}}_{temp} =  \frac {J(\theta_{10}^{(1)},\theta_{11}^{(1)}+\epsilon,...)-J(\theta_{10}^{(1)},\theta_{11}^{(1)}-\epsilon,...)} {2 \epsilon}\\
 (3) 与原神经网络的\Delta_{11}^{(1)}进行比较，若误差非常小，则表示通过检验</script><p>梯度检验主要检测的是每一个参数是否沿着 $\frac {\partial J(\theta)} {\partial \theta}$ 梯度方向下降，保证朝着最优方向运动。 </p>
 <p>但是梯度检验因为需要单独运行一次神经网络，所以不能每次迭代进行一次检验，只是在写完神经网络算法后运行一次迭代，然后通过梯度检验检验是否正确，如果正确则关闭梯度检验正式运行。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>神经网络是对于逻辑回归的一种扩展，只是这种扩展将原本一次性的计算推广到多层交叉计算，这样每一个神经元可能代表某种特殊的含义（相当于分解为多种变量），每一层的变量代表着一种层次的特征的抽象，然后不断递进向下一层抽象，抽象到输出层就表示这一层的特征已经满足分类所需了，如果准确率不高，增加层数准确率明显提升， 表明之前的特征还不能满足分类所需，还需要再进行抽象。当然这是我自己的理解，自我觉得神经网络算法是一个非常神奇并且挖掘潜力非常高的算法。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>神经网络是对于逻辑回归的一种扩展，只是这种扩展将原本一次性的计算推广到多层交叉计算，这样每一个神经元可能代表某种特殊的含义（相当于分解为多种变量），每一层的变量代表着一种层次的特征的抽象，然后不断递进向下一层抽象，抽象到输出层就表示这一层的特征已经满足分类所需了，如果准确率不高，增加层数准确率明显提升， 表明之前的特征还不能满足分类所需，还需要再进行抽象。当然这是我自己的理解，自我觉得神经网络算法是一个非常神奇并且挖掘潜力非常高的算法。  </p>
 <p>神经网络算法的大致流程如下：</p>
 <div id="flowchart-2" class="flow-chart"></div>
 
@@ -914,32 +914,6 @@ needStop(no)->input</textarea><textarea id="flowchart-2-options" style="display:
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-archive"> Total : 35 </div>
     
     <div class="post-archive">
@@ -1062,12 +1036,12 @@ needStop(no)->input</textarea><textarea id="flowchart-2-options" style="display:
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
         </li>
     
     
@@ -1136,6 +1110,10 @@ needStop(no)->input</textarea><textarea id="flowchart-2-options" style="display:
     
         <span class="sidebar-tag-name"><a href= "#">tip</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">随想</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">android</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">基础</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
@@ -1144,15 +1122,7 @@ needStop(no)->input</textarea><textarea id="flowchart-2-options" style="display:
     
         <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">随想</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">android</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">activity</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">机器学习</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">学习笔记</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">考研</a></span>
     
@@ -1164,25 +1134,29 @@ needStop(no)->input</textarea><textarea id="flowchart-2-options" style="display:
     
         <span class="sidebar-tag-name"><a href= "#">情景感知计算</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">线性代数</a></span>
+        <span class="sidebar-tag-name"><a href= "#">机器学习</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">学习笔记</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">毕设</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">框架</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">统计学习方法</a></span>
+        <span class="sidebar-tag-name"><a href= "#">线性代数</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
+        <span class="sidebar-tag-name"><a href= "#">统计学习方法</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">练习</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">源码</a></span>
+        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">面试</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">工作</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
+        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">源码</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
