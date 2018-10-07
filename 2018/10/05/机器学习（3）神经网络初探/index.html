@@ -242,17 +242,15 @@ a_i^l 表示第l层的第i个神经元的输出</script><p>相当于在每一个
 <p>正向传播中的流程主要是这样的:</p>
 <div id="flowchart-0" class="flow-chart"></div>
 
-
-
-<h3 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h3><p>机器学习最神奇的就是通过对数据集的计算以及结果的对比能够自动调整参数，进而达到自动优化模型的结果，神经网络也是一样的，它的调整参数的方法就是通过反向传播进行。</p>
+<h3 id="第二步反向传播"><a href="#第二步反向传播" class="headerlink" title="第二步反向传播"></a>第二步反向传播</h3><p>机器学习最神奇的就是通过对数据集的计算以及结果的对比能够自动调整参数，进而达到自动优化模型的结果，神经网络也是一样的，它的调整参数的方法就是通过反向传播进行。</p>
 <p>通过上述正向传播过程，可以发现唯一能够调整的过程就是通过上一层的 $a^{(l-1)}$ 计算 $a^{(l)}$  中的 $\theta$ ，所以反向传播中的主要目的就是调整 $\theta$ 。</p>
 <p>因为 $\theta$ 的误差主要会传递到 $z,a$ 继而传递到最后的输出，而这也是唯一能够直接找到误差所在的地方，所以正向传播的结果就是反向传播的起点，这也是反向传播的名字意义（我自己这么理解的）。</p>
 <p>代价函数如下：</p>
 <script type="math/tex; mode=display">
-J(\theta) = -\frac{1}{m}(\sum_{i=1}^{m} \sum_{k=1}^{k} y_k^{(i)}log(h_{\theta}(x^{(i)}))_k +(1-y_k^{(i)})log(1-h_{\theta}(x^{(i)}))_k) + \sum_{l=1}^{L-1} \sum_{i=1}^{s_{k+1}}\sum_{j=1}^{s_k}{\theta_{ij}^{(l)}}^2\\
+J(\theta) = -\frac{1}{m}(\sum_{i=1}^{m} \sum_{k=1}^{k} y_k^{(i)}log(h_{\theta}(x^{(i)}))_k +(1-y_k^{(i)})log(1-h_{\theta}(x^{(i)}))_k) + \sum_{l=1}^{L-1} \sum_{i=1}^{s_{l+1}}\sum_{j=1}^{s_l}{\theta_{ij}^{(l)}}^2\\
 y_k^{(i)} 表示对于第i个训练数据的第k个输出单元输出结果\\
 m表示训练集的数量\\
- \sum_{l=1}^{L-1} \sum_{i=1}^{s_{k+1}}\sum_{j=1}^{s_k}{\theta_{ij}^{(l)}}^2 这是一个正则项，防止过拟合</script><p> $\frac {\partial J(\theta)}{\partial \theta<em>{ij}^{(k)}} $ 就是每一个 $\theta</em>{ij}^{(k)}$</p>
+ \sum_{l=1}^{L-1} \sum_{i=1}^{s_{l+1}}\sum_{j=1}^{s_l}{\theta_{ij}^{(l)}}^2 这是一个正则项，防止过拟合</script><p> $\frac {\partial J(\theta)}{\partial \theta<em>{ij}^{(k)}} $ 就是每一个 $\theta</em>{ij}^{(k)}$</p>
 <p>对于输出层的误差非常好找：</p>
 <script type="math/tex; mode=display">
 \delta^{(4)} = a^{(4)} - y^{(i)} \\
@@ -264,21 +262,76 @@ g^{'}(x) = g(x)(1-g(x)) \quad\quad g(x) = \frac {1}{1+e^{-x}}</script><p>后面�
 <script type="math/tex; mode=display">
 \frac {\partial {J({\theta})}}{\partial {\theta_{ij}^{(l)}}} = a_j^{(l)}\delta_i^{l+1}\\</script><p>因为在对训练集中m组数据训练完成以后才要进行反向传播，并且每一组数据所得到的 $\frac {\partial J(\theta)} {\partial \theta_{ij}^{(l)}}$ 都是不一样的（即，每一组数据是有自己特征的，模型并不能够对每一组数据产生一样的误差，如果产生的一样的误差的话，那误差就可以直接改掉，那模型不就是完全契合数据了 ——过拟合，<strong>这是我的理解</strong>），所以需要求一个平均的影响（平均在机器学习中用的非常普遍，感觉只要涉及到不一致，那么就会求和平均来求平衡，我觉得理解平均的含义是非常重要的多，总感觉现在对于平均的理解还很肤浅，之后要看一看，这样理解起来就能更加深刻一些了），这个求和的变量就用 $\Delta$ 表示：</p>
 <script type="math/tex; mode=display">
-\Delta_{ij}^{(l)} = \Delta_{ij}^{(l)} + a_j^{(l)}\delta_i^{l+1}\\
+\Delta_{ij}^{(l)} = \Delta_{ij}^{(l)} + a_j^{(l)}\delta_i^{(l+1)}\\
 \Delta_{ij}^{(l)}表示对于m组训练数据针对于\theta_{ij}^{(l)}的误差影响总和，这里不是误差总和，因为\Delta是偏导数\\</script><p> 有了影响总和，那么就可以对计算$\frac {\partial J(\theta)} {\partial \theta_{ij}^{(l)}}$ 了，用 $D$ 表示：</p>
 <script type="math/tex; mode=display">
 D_{ij}^{(l)} = \frac {1} {m} \Delta_{ij}^{(l)} +  \underbrace{\lambda \theta_{ij}^{(l)}}_{\lambda \theta_{ij}^{(l)}  这是对应 J(\theta) 的正则项对于 \theta_{ij}^{(l)}的求导。} \quad j\not=0\\
 D_{ij}^{(l)} = \frac {1} {m} \Delta_{ij}^{(l)} \quad j=0\\</script><p>为什么在j=0的情况下不接入这个，这是因为j=0对应的是偏置项，偏置项在逻辑回归和线性回归中也是不进行正则化计算的（具体原因还不太理解，但是我试了一下，同样的迭代次数，准确性反而下降了），接下来就是对  $ \theta_{ij}^{(l)} $ 进行调整了:</p>
 <script type="math/tex; mode=display">
 \theta_{ij}^{(l)} = \theta_{ij}^{l} + \alpha D_{ij}^{(l)}\\
-\alpha 表示学习率</script><p><strong>附加推导</strong></p>
+\alpha 表示学习率</script><p>反向传播流程如下：</p>
+<div id="flowchart-1" class="flow-chart"></div>
+
+<p><strong>附加推导</strong></p>
 <ul>
-<li>对于隐藏层 $\delta_{ij}^{(l)}$的推导：</li>
+<li>对于隐藏层 $\delta_{i}^{(l)}$的推导：</li>
 </ul>
 <script type="math/tex; mode=display">
-</script><ul>
-<li>对于 $\Delta_{ij}^{(l)}$ 的推导：</li>
+证明：\delta_i^{(l)} = {\theta_i^{(l)}}^T \delta^{(l+1)}g^{'}(z^{(l)}) \quad (\delta_i^{(l)}=\frac {\partial J(\theta)} {\partial z_i^{(l)}} \quad 表示第l层第i个神经元对于整体代价误差的影响） \\
+\because \delta_i^{(l)} = \frac {\partial J(\theta)} {\partial a_i^{(l)}} \frac {\partial a_i^{(l)}} {\partial z_i^{(l)}}\\
+且 \because a_i^{(l)} = g(z_i^{(l)})\\
+\therefore \frac {\partial a_i^{(l)}} {\partial z_i^{(l)}} = g^{'}(z_i^{(l)})\\
+\because \frac {\partial J(\theta)} {\partial a_i^{(l)}} = \sum_{j=1}^{s_{l+1}} \frac {\partial J(\theta)} {\partial z_j^{(l+1)}} \frac {\partial z_j^{(l+1)}} {\partial a_i^{(l)}} \quad (1) \quad s_{l+1}表示第l+1层神经元的数量\\
+又\because a_i^{(l)} \theta_{ji}^{(l)} = z_j^{(l+1)}\\
+\frac {\partial J(\theta)} {\partial z_j^{(l+1)}} = \delta_j^{(l+1)}\\
+\therefore (1)式=\sum_{j=1}^{s_{l+1}} \frac {\partial J(\theta)} {\partial z_j^{(l+1)}} \theta_{ji}^{(l)}\\
+=\sum_{j=1}^{s_{l+1}} \delta_j^{(l+1)} \theta_{ji}^{(l+1)}\\
+={\theta_i^{(l)}}^T \delta^{(l+1)}\\
+注意：\theta_i^{(l)} 表示第l层神经元对于第l+1层所有神经元的权重向量\\
+\delta^{(l+1)} = \begin{bmatrix} {\delta_1^{(l+1)}}\\ {\delta_2^{(l+1)}}\\ {...}\\ {\delta_{s_{l+1}}^{(l+1)}} \end{bmatrix}\\
+证得：\delta_i^{(l)} = {\theta_i^{(l)}}^T \delta^{(l+1)}g^{'}(z^{(l)})\\</script><ul>
+<li>对于 $\Delta_{ij}^{(l)}$ 的推导：<script type="math/tex; mode=display">
+证明:\Delta_{ij}^{(l)} = \sum_{k=1}^{m} a_j^{(l)} \delta_{i}^{(l+1)} \quad \\
+(注意：原式为\Delta_{ij}^{(l)} = \Delta_{ij}^{(l)} + a_j^{(l)} \delta_{i}^{(l+1)}，\\
+这其实是一种计算机式的表达方式，就是对每一个测试数据的\Delta_{ij}^{(l)}进行累加，也就是上述的样子，\\
+所以这里也就是证明对于每一个测试数据的\Delta_{ij}^{(l)} = a_j^{(l)} \delta_{i}^{(l+1)})\\
+\Delta_{ij}^{(l)} = \frac {\partial J(\theta)} {\partial z_i^{(l+1)}} \frac {\partial z_i^{(l+1)}} {\partial \theta_{ij}^{(l)}}\\
+\because \frac {\partial J(\theta)} {\partial z_i^{(l+1)}} = \delta_i^{(l+1)}\\
+\because a_j^{(l)} \theta_{ij}^{(l)} = z_i^{(l+1)}\\
+\therefore \frac {\partial z_i^{(l+1)}} {\partial \theta_{ij}^{(l)}} = a_j^{(l)}\\
+证得：\Delta_{ij}^{(l)} = a_j^{(l)} \delta_{i}^{(l+1)}\\</script></li>
 </ul>
+<h3 id="随机初始化"><a href="#随机初始化" class="headerlink" title="随机初始化"></a>随机初始化</h3><p>之前已经将神经网络的计算过程已经初步介绍了一遍，但是中间还会遇到一些细节的问题导致模型的失败，对于 $\theta$ 的初始化设置就是其中之一。</p>
+<p><img src="/images/image-20181008001627966.png" alt="image-20181008001627966"> </p>
+<p>这里用视频中的一张截图来说明初始化的问题，看红线和青色的线，如果一开始设置的值都是一样的：</p>
+<script type="math/tex; mode=display">
+设上面青色的线为\theta_{11}^{(2)}，下面青色的线为\theta_{12}^{(2)}，输出神经层神经元的输入、输出分别为z_1^{(3)}、a_1^{(3)}\\
+那么\frac {\partial J(\theta)} {\partial \theta_{11}^{(2)}} = \frac {\partial J(\theta)} {\partial z_1^{(3)}} \frac {\partial z_1^{(3)}} {\partial \theta_{11}^{(2)}}\\
+=\delta_1^{(3)} a_1^{(2)}\quad (即 \Delta_{11}^{(2)})\\
+且\Delta_{12}^{(3)} = \delta_1^{(3)} a_2^{(2)}\\
+又\because a_1^{(2)} = 1·\theta_{10}^{(1)} + x_1 \theta_{11}^{(1)} + x_2 \theta_{12}^{(1)}\\
+a_2^{(2)} = 1·\theta_{20}^{(1)} + x_1 \theta_{21}^{(1)} + x_2 \theta_{22}^{(1)}\\
+又\because \theta 都相同\\
+\therefore a_1^{(2)} = a_2^{(2)}\\
+\therefore \Delta_{12}^{(2)} = \Delta_{11}^{(2)}\\
+既然同一层的\Delta都相同，那么对于同一层\theta的修改相同，所以每一层的\theta都将永远保持不变</script><p>通过上述证明，$\theta$ 需要在初始化的时候进行一定的变化 （$\theta $ 一样，这样每一个神经元就不能有不同的作用，产出都一样那还要这么多神经元干什么，每一层保留一个将它的运行结果直接乘以数量不就好了 ，这是我的理解) ，以下提供了一种方法：</p>
+<script type="math/tex; mode=display">
+将\theta 初始化为[-\epsilon,\epsilon]的随机数就好了,具体做法如下：\\
+(1) 生成一个随机的矩阵（每个值都在[0,1]之间)，矩阵的尺寸依照神经网络需\theta 而言（矩阵每一个位置都对应一个\theta.) \\
+(2) 对于每一个值乘以2倍的\epsilon.（这时候的值\in [0,2\epsilon]）\\
+(3) 再减去\epsilon.(这时候的值\in [-\epsilon,\epsilon])</script><h3 id="梯度检验"><a href="#梯度检验" class="headerlink" title="梯度检验"></a>梯度检验</h3><p>仔细观察神经网络，其实每一个神经元都是在做逻辑回归罢了，但是这个逻辑回归是一个传递性的，那么很可能在编写代码的时候一个小错误也随着传递影响到了全局（有时候即使错了，代价还是在递减的，但是达不到最优），所以需要一种检验方法——梯度检验。</p>
+<p><img src="/images/image-20181008005532124.png" alt="image-20181008005532124"></p>
+<p>梯度检验就是对每一个参数的 $\Delta$ 进行估计，如果估计值与神经网络的一样（误差非常小），那么就证明神经网络算法正确：</p>
+<script type="math/tex; mode=display">
+梯度检验就是针对每一个\theta 根据J(\theta)的值直接求一个近似\Delta ，然后进行比较,具体做法如下(以\theta_{11}^{(1)} 为例：\\
+(1) 选取一个\epsilon ,使用同样的神经网络（参数一致）进行一次迭代 ，计算J(\theta_{10}^{(1)},\theta_{11}^{(1)}+\epsilon,...)，J(\theta_{10}^{(1)},\theta_{11}^{(1)}-\epsilon,...)\\
+(2) 求{\Delta_{10}^{(1)}}_{temp} =  \frac {J(\theta_{10}^{(1)},\theta_{11}^{(1)}+\epsilon,...)-J(\theta_{10}^{(1)},\theta_{11}^{(1)}-\epsilon,...)} {2 \epsilon}\\
+(3) 与原神经网络的\Delta_{11}^{(1)}进行比较，若误差非常小，则表示通过检验</script><p>梯度检验主要检测的是每一个参数是否沿着 $\frac {\partial J(\theta)} {\partial \theta}$ 梯度方向下降，保证朝着最优方向运动。 </p>
+<p>但是梯度检验因为需要单独运行一次神经网络，所以不能每次迭代进行一次检验，只是在写完神经网络算法后运行一次迭代，然后通过梯度检验检验是否正确，如果正确则关闭梯度检验正式运行。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>神经网络是对于逻辑回归的一种扩展，只是这种扩展将原本一次性的计算推广到多层交叉计算，这样每一个神经元可能代表某种特殊的含义（相当于分解为多种变量），每一层的变量代表着一种层次的特征的抽象，然后不断递进向下一层抽象，抽象到输出层就表示这一层的特征已经满足分类所需了，如果准确率不高，增加层数准确率明显提升， 表明之前的特征还不能满足分类所需，还需要再进行抽象。当然这是我自己的理解，自我觉得神经网络算法是一个非常神奇并且挖掘潜力非常高的算法。</p>
+<p>神经网络算法的大致流程如下：</p>
+<div id="flowchart-2" class="flow-chart"></div>
+
 <p><script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">st=>start: 开始
 e=>end: 结束
 input=>inputoutput: 输入X
@@ -289,7 +342,32 @@ sub=>subroutine: 进入下一层
 judge=>condition: 是否为输出层
 st->input->calZ->calA->judge
 judge(yes)->output->end
-judge(no)->sub->calZ</textarea><textarea id="flowchart-0-options" style="display: none">"flowchart"</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script></p>
+judge(no)->sub->calZ</textarea><textarea id="flowchart-0-options" style="display: none">"flowchart"</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script><textarea id="flowchart-1-code" style="display: none">st=>start: 开始
+e=>end: 结束
+calJ=>operation: 计算J(theta)
+caldel=>operation: 计算delta
+calDel=>operation: 计算Delta
+updatetheta=>operation: 更新theta
+st->calJ->caldel->calDel->updatetheta</textarea><textarea id="flowchart-1-options" style="display: none">"flowchart"</textarea><script>  var code = document.getElementById("flowchart-1-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-1-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-1", options);</script><textarea id="flowchart-2-code" style="display: none">st=>start: 开始
+e=>end: 结束
+input=>inputoutput: 输入一组数据
+output=>inputoutput: 输出分类结果
+randomInit=>operation: 随机初始化
+fp=>operation: 前向传播
+bp=>operation: 反向传播
+needChange=>condition: 梯度检验
+change=>subroutine: 修改算法
+calJ=>operation: 计算J(theta)
+needJudge=>condition: 是否第一次运行
+closeChange=>subroutine: 关闭梯度检验
+needStop=>condition: 是否达到迭代次数
+st->randomInit->input->needJudge
+needJudge(yes)->needChange
+needChange(no)->change->randomInit
+needChange(yes)->closeChange->fp
+needJudge(no)->fp->output->calJ->bp->needStop
+needStop(yes)->e
+needStop(no)->input</textarea><textarea id="flowchart-2-options" style="display: none">"flowchart"</textarea><script>  var code = document.getElementById("flowchart-2-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-2-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-2", options);</script></p>
 
     </article>
     <!-- 前后页  -->
@@ -369,7 +447,7 @@ judge(no)->sub->calZ</textarea><textarea id="flowchart-0-options" style="display
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#神经网络初探"><span class="toc-number">1.</span> <span class="toc-text">神经网络初探</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#神经网络的算法逻辑"><span class="toc-number">1.1.</span> <span class="toc-text">神经网络的算法逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一步-前向传播"><span class="toc-number">1.1.1.</span> <span class="toc-text">第一步 前向传播</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反向传播"><span class="toc-number">1.1.2.</span> <span class="toc-text">反向传播</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#神经网络初探"><span class="toc-number">1.</span> <span class="toc-text">神经网络初探</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#神经网络的算法逻辑"><span class="toc-number">1.1.</span> <span class="toc-text">神经网络的算法逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一步-前向传播"><span class="toc-number">1.1.1.</span> <span class="toc-text">第一步 前向传播</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二步反向传播"><span class="toc-number">1.1.2.</span> <span class="toc-text">第二步反向传播</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#随机初始化"><span class="toc-number">1.1.3.</span> <span class="toc-text">随机初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#梯度检验"><span class="toc-number">1.1.4.</span> <span class="toc-text">梯度检验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">1.1.5.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
@@ -383,6 +461,42 @@ judge(no)->sub->calZ</textarea><textarea id="flowchart-0-options" style="display
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -948,12 +1062,12 @@ judge(no)->sub->calZ</textarea><textarea id="flowchart-0-options" style="display
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
         </li>
     
     
@@ -968,12 +1082,12 @@ judge(no)->sub->calZ</textarea><textarea id="flowchart-0-options" style="display
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
         </li>
     
     
@@ -1022,10 +1136,6 @@ judge(no)->sub->calZ</textarea><textarea id="flowchart-0-options" style="display
     
         <span class="sidebar-tag-name"><a href= "#">tip</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">随想</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">android</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">基础</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">java核心技术卷1（10版）</a></span>
@@ -1034,7 +1144,15 @@ judge(no)->sub->calZ</textarea><textarea id="flowchart-0-options" style="display
     
         <span class="sidebar-tag-name"><a href= "#">《深入理解Java虚拟机》</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">随想</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">android</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">activity</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">机器学习</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">学习笔记</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">考研</a></span>
     
@@ -1046,29 +1164,25 @@ judge(no)->sub->calZ</textarea><textarea id="flowchart-0-options" style="display
     
         <span class="sidebar-tag-name"><a href= "#">情景感知计算</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">机器学习</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">学习笔记</a></span>
+        <span class="sidebar-tag-name"><a href= "#">线性代数</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">毕设</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">框架</a></span>
     
-        <span class="sidebar-tag-name"><a href= "#">线性代数</a></span>
-    
         <span class="sidebar-tag-name"><a href= "#">统计学习方法</a></span>
     
+        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
+    
         <span class="sidebar-tag-name"><a href= "#">练习</a></span>
+    
+        <span class="sidebar-tag-name"><a href= "#">源码</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">面试</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">工作</a></span>
     
         <span class="sidebar-tag-name"><a href= "#">设计模式</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">重走android</a></span>
-    
-        <span class="sidebar-tag-name"><a href= "#">源码</a></span>
     
     </div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
