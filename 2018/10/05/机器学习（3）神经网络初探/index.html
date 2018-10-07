@@ -240,7 +240,11 @@ z_1^{(2)} = \theta_{01}*1+\theta_{11} x_1^{(i)} + \theta_{12} x_2^{(i)}\\
 a_1^{(2)} = \frac {1}{1+e^{-z_1^{(2)}}}\\
 a_i^l 表示第l层的第i个神经元的输出</script><p>相当于在每一个神经元里面做一次逻辑回归的迭代（当然这里还没有修改参数）。$z_2^{(2)}$也是同样的计算规则，接着同第二层的偏置项（+1）再向第三层进行传递，计算方法一样，这样就计算出了 $a^{(3)}$ （第三层的输出）， 再用 $a^{(3)}$计算出 $z^{(4)},a^{(4)}$ , $a^{(4)}$ 就是这个神经网络的输出了，当然这里的输出神经元只有一个，如果有多个就输出成向量的形式。</p>
 <p>正向传播中的流程主要是这样的:</p>
+<center>
+
 <div id="flowchart-0" class="flow-chart"></div>
+
+</center>
 
 <h3 id="第二步反向传播"><a href="#第二步反向传播" class="headerlink" title="第二步反向传播"></a>第二步反向传播</h3><p>机器学习最神奇的就是通过对数据集的计算以及结果的对比能够自动调整参数，进而达到自动优化模型的结果，神经网络也是一样的，它的调整参数的方法就是通过反向传播进行。</p>
 <p>通过上述正向传播过程，可以发现唯一能够调整的过程就是通过上一层的 $a^{(l-1)}$ 计算 $a^{(l)}$  中的 $\theta$ ，所以反向传播中的主要目的就是调整 $\theta$ 。</p>
@@ -270,7 +274,11 @@ D_{ij}^{(l)} = \frac {1} {m} \Delta_{ij}^{(l)} \quad j=0\\</script><p>为什么�
 <script type="math/tex; mode=display">
 \theta_{ij}^{(l)} = \theta_{ij}^{l} + \alpha D_{ij}^{(l)}\\
 \alpha 表示学习率</script><p>反向传播流程如下：</p>
+<center>
+
 <div id="flowchart-1" class="flow-chart"></div>
+
+</center>
 
 <p><strong>附加推导</strong></p>
 <ul>
@@ -330,9 +338,11 @@ a_2^{(2)} = 1·\theta_{20}^{(1)} + x_1 \theta_{21}^{(1)} + x_2 \theta_{22}^{(1)}
 <p>但是梯度检验因为需要单独运行一次神经网络，所以不能每次迭代进行一次检验，只是在写完神经网络算法后运行一次迭代，然后通过梯度检验检验是否正确，如果正确则关闭梯度检验正式运行。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>神经网络是对于逻辑回归的一种扩展，只是这种扩展将原本一次性的计算推广到多层交叉计算，这样每一个神经元可能代表某种特殊的含义（相当于分解为多种变量），每一层的变量代表着一种层次的特征的抽象，然后不断递进向下一层抽象，抽象到输出层就表示这一层的特征已经满足分类所需了，如果准确率不高，增加层数准确率明显提升， 表明之前的特征还不能满足分类所需，还需要再进行抽象。当然这是我自己的理解，自我觉得神经网络算法是一个非常神奇并且挖掘潜力非常高的算法。  </p>
 <p>神经网络算法的大致流程如下：</p>
+<center>
+
 <div id="flowchart-2" class="flow-chart"></div>
 
-<p><script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">st=>start: 开始
+<p>&lt;/center&gt;<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">st=>start: 开始
 e=>end: 结束
 input=>inputoutput: 输入X
 output=>inputoutput: 输出向量
@@ -368,7 +378,7 @@ needChange(yes)->closeChange->fp
 needJudge(no)->fp->output->calJ->bp->needStop
 needStop(yes)->e
 needStop(no)->input</textarea><textarea id="flowchart-2-options" style="display: none">"flowchart"</textarea><script>  var code = document.getElementById("flowchart-2-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-2-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-2", options);</script></p>
-
+</center>
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
@@ -461,6 +471,36 @@ needStop(no)->input</textarea><textarea id="flowchart-2-options" style="display:
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-archive">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -1036,12 +1076,12 @@ needStop(no)->input</textarea><textarea id="flowchart-2-options" style="display:
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/ConnectionManager理解/" >ConnectionManager理解</a>
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/重走android（5）广播实践/" >重走android（5）广播实践</a>
         </li>
     
     
@@ -1056,12 +1096,12 @@ needStop(no)->input</textarea><textarea id="flowchart-2-options" style="display:
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/启动activity随想/" >启动activity随想</a>
+            <span class="archive-post-date">01/16</span><a class="archive-post-title" href= "/2018/01/16/设计模式（1）单例模式/" >设计模式（1）单例模式</a>
         </li>
     
     
